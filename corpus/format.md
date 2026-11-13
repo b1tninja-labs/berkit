@@ -1,4 +1,4 @@
-# Conformance corpus format, `corpus_format` 1
+# Conformance corpus format, `corpus_format` 1 (revision 1.1, see CHANGES.md)
 
 Plain JSON, UTF-8, no BOM. One file holds `{"corpus_format": "1", "cases": [ ... ]}`. Validate with
 `case.schema.json` (JSON Schema 2020-12). Sample: `sample-cases.json` (28 cases; all hex checked
@@ -13,12 +13,13 @@ patterns with a hand script, not run a full JSON Schema validator (none installe
 | `id` | Stable, unique, never reused: `<source>.<clause>.<slug>`, e.g. `x690.8.19.oid-2-999-3`. |
 | `title` | Free text. |
 | `op` | `decode`, `encode`, or `roundtrip`. |
-| `type` | `null` for an untyped structural decode. Else a universal type name (`BOOLEAN`, `OBJECT IDENTIFIER`, `GeneralizedTime`, ...) or `<doc>:<clause>:<Name>` for a type the standard defines, e.g. `x690:A.1:PersonnelRecord`. Type definitions are not copied into the corpus (they are the standard's text); the implementation of a typed runner writes them from the cited clause. |
+| `type` | `null` for an untyped structural decode. Else a universal type name (`BOOLEAN`, `OBJECT IDENTIFIER`, `GeneralizedTime`, ...) or `<doc>:<clause>:<Name>` for a type the standard defines, e.g. `x690:A.1:PersonnelRecord`, or `corpus:<Name>` for a small schema type that this corpus defines itself in `types.md` (revision 1.1). Type definitions are not copied into the corpus (they are the standard's text); the implementation of a typed runner writes them from the cited clause. |
 | `input` | Exactly one of `hex` (lowercase, even length, no spaces), `tree` (a node, below), `typed` (`{type, value}`, value in a JSON form defined per type below). |
 | `expect` | Per-mode outcomes, below. |
 | `clause` | Array of citations, each `X.690 (02/2021) §8.19.4`-style. The first is the clause that decides the main outcome. |
 | `provenance` | `from X.690 <place>`, `from X.680 <place>`, or `constructed by hand from <clause>`. Hand-built cases must be so labelled; they are the least authoritative. |
 | `edition` | `X.690:2021-02`, or `X.690:2021-02+E1` when Erratum 1 (09/2021) is involved, or the `X.680:` equivalent. |
+| `policy` | Optional (revision 1.1). A key of the `policies` table in `corpus.json`: the outcome rests on a ROADMAP policy decision, not on a clause alone. A runner that implements a different policy may skip the case. |
 
 ### Operations
 
@@ -92,6 +93,7 @@ Rejected in both BER and DER:
 | `bad_contents` | contents violate the type's rule, e.g. BOOLEAN with length other than 1, NULL with contents, BIT STRING initial octet > 7 | §8.2.1, §8.8.2, §8.6.2.2 |
 | `non_minimal_integer` | INTEGER (or ENUMERATED) contents longer than the smallest two's-complement form | §8.3.2 |
 | `non_minimal_subidentifier` | OID or RELATIVE-OID subidentifier starting with octet `80` | §8.19.2, §8.20.2 |
+| `stray_eoc` | end-of-contents octets (`00 00`), or the UNIVERSAL 0 identifier with more than the two EOC octets (`00 01 05`, `20 00`), where no indefinite-length encoding is open. Needs no `type`. (revision 1.1) | §8.1.5 ¶1, §8.1.1.2; X.680 §8.4 Table 1 |
 | `trailing_data` | octets remain after the single top-level encoding. API-level: the standard describes one encoding; reporting leftover input is a design decision of this corpus | §8.1.1.1 (derived) |
 
 Rejected in DER (accepted by BER unless noted):

@@ -1,0 +1,75 @@
+{
+  "corpus_version": "0.1.0",
+  "corpus_format": "1",
+  "corpus_format_revision": "1.1",
+  "editions": [
+    "X.690:2021-02",
+    "X.690:2021-02+E1",
+    "X.680:2021-02"
+  ],
+  "schema": "case.schema.json",
+  "files": {
+    "cases/annex.json": "469b42786ca7301d7ddebe0aae93ede48a922f91c16f26c3eb2ae7db08e6aac3",
+    "cases/framing.json": "a104defd277d4527e5b173a81a4a77f1721fdf6a4b1b45e2259c29b0dfbf7c90",
+    "cases/primitives.json": "0a40935af6dde9c936c9ed65bca66500317d537056494d61dd3bbfa42b95e4a2",
+    "cases/strings-time.json": "c3bfb86c0d8c9fdb34d25a0448ed937b80fcac9050b6a9d7d9e169b1fe71f248",
+    "cases/structured.json": "fecce4c4d98970f89758112b57135ab90e8254661bf9b43b6c70606f60b04454"
+  },
+  "error_classes": [
+    "truncated",
+    "reserved_length",
+    "indefinite_on_primitive",
+    "length_overrun",
+    "missing_eoc",
+    "non_minimal_tag",
+    "limit_exceeded",
+    "wrong_form",
+    "bad_contents",
+    "non_minimal_integer",
+    "non_minimal_subidentifier",
+    "trailing_data",
+    "stray_eoc",
+    "non_minimal_length",
+    "indefinite_length",
+    "constructed_string",
+    "boolean_not_ff",
+    "unused_bits_nonzero",
+    "bitstring_trailing_zeros",
+    "set_order",
+    "setof_order",
+    "default_encoded",
+    "time_format",
+    "real_form"
+  ],
+  "der_only_error_classes": [
+    "non_minimal_length",
+    "indefinite_length",
+    "constructed_string",
+    "boolean_not_ff",
+    "unused_bits_nonzero",
+    "bitstring_trailing_zeros",
+    "set_order",
+    "setof_order",
+    "default_encoded",
+    "time_format",
+    "real_form"
+  ],
+  "limits": {
+    "max_depth": 64,
+    "max_length": "18446744073709551615",
+    "max_tag_number": "18446744073709551615",
+    "notes": "max_depth: the outermost encoding has depth 1, an element is at depth 1 + its constructed ancestors; depth 65 is limit_exceeded. max_length: a length value above 2^64-1 (after stripping leading zero octets) is limit_exceeded; the number of length octets is not limited (up to 126, 8.1.3.5). max_tag_number: a tag number above 2^64-1 is limit_exceeded. The two large values are decimal strings because JSON numbers above 2^53 are not portable. OID arcs and INTEGER values have no limit."
+  },
+  "policies": {
+    "ber-shall-rules": "ROADMAP policy row 1: BER decoding enforces the standard's shall value rules; used where the rejection is derived from a sender-side rule or from the definition of the type, not stated as a receiver rule",
+    "der-noncanonical-reject": "ROADMAP policy row 2: DER decoding rejects every non-canonical encoding of clauses 10 and 11; used where the clause does not name the type (constructed time types)",
+    "limits": "ROADMAP policy row 3: limits (nesting depth, length, tag number) are declared in this manifest; the standard sets none",
+    "setof-duplicates": "ROADMAP policy row 4: equal adjacent elements of a DER SET OF are accepted",
+    "set-vs-setof": "ROADMAP policy row 5: SET and SET OF share tag 0x31; the ordering check applies only when the caller names the type",
+    "utctime-pivot": "ROADMAP policy row 6: UTCTime takes a century pivot as a parameter; the case does not assert a century",
+    "generalizedtime-x690": "ROADMAP policy row 7: GeneralizedTime follows X.690 section 11.7 (fractions allowed, trailing zero not), not the RFC 5280 profile",
+    "real-opaque": "ROADMAP policy row 8: REAL contents are carried unchanged; no float conversion",
+    "trailing-data": "ROADMAP policy row 9: leftover input after the single top-level encoding is trailing_data",
+    "unchecked-8bit-strings": "ROADMAP policy row 10: Teletex, Videotex, Graphic and General strings are not alphabet-checked"
+  }
+}
