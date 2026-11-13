@@ -19,6 +19,7 @@ pub mod strings;
 pub mod tag;
 pub mod time;
 pub mod tlv;
+pub mod typed;
 
 pub use error::{Error, ErrorClass};
 
