@@ -1,0 +1,11 @@
+[package]
+name = "berkit"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+description = "ASN.1 BER and DER reading and writing, built clause by clause from ITU-T X.690 and X.680"
+publish = false # remove once the name is confirmed free: python names.py --crates berkit
+
+[lints]
+workspace = true

@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "case.schema.json",
+  "title": "BER/DER conformance corpus file (corpus_format 1)",
+  "type": "object",
+  "required": ["corpus_format", "cases"],
+  "additionalProperties": false,
+  "properties": {
+    "corpus_format": { "const": "1" },
+    "cases": { "type": "array", "items": { "$ref": "#/$defs/case" } }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^([0-9a-f]{2})*$",
+      "description": "Lowercase hexadecimal, two digits per octet, no spaces or prefix. Empty string is the empty input."
+    },
+    "errorClass": {
+      "enum": [
+        "truncated", "reserved_length", "indefinite_on_primitive", "length_overrun", "missing_eoc",
+        "non_minimal_tag", "limit_exceeded", "wrong_form", "bad_contents", "non_minimal_integer",
+        "non_minimal_subidentifier", "trailing_data",
+        "non_minimal_length", "indefinite_length", "constructed_string", "boolean_not_ff",
+        "unused_bits_nonzero", "bitstring_trailing_zeros", "set_order", "setof_order",
+        "default_encoded", "time_format", "real_form"
+      ]
+    },
+    "node": {
+      "type": "object",
+      "required": ["class", "constructed", "tag", "length"],
+      "additionalProperties": false,
+      "properties": {
+        "class": { "enum": ["universal", "application", "context", "private"] },
+        "constructed": { "type": "boolean" },
+        "tag": { "type": "integer", "minimum": 0 },
+        "length": {
+          "type": "object",
+          "required": ["form"],
+          "additionalProperties": false,
+          "properties": {
+            "form": { "enum": ["short", "long", "indefinite"] },
+            "octets": {
+              "type": "integer", "minimum": 1, "maximum": 126,
+              "description": "Number of subsequent length octets; only with form long. Lets a non-minimal long form be stated."
+            }
+          },
+          "allOf": [
+            { "if": { "properties": { "form": { "const": "long" } } },
+              "then": { "required": ["octets"] },
+              "else": { "not": { "required": ["octets"] } } }
+          ]
+        },
+        "content": { "$ref": "#/$defs/hex" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+        "asn1": { "type": "string", "description": "Optional human annotation, ignored by runners." }
+      },
+      "oneOf": [
+        { "required": ["content"], "properties": { "constructed": { "const": false } } },
+        { "required": ["children"], "properties": { "constructed": { "const": true } } }
+      ]
+    },
+    "typed": {
+      "type": "object",
+      "required": ["type", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string" },
+        "value": {}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "tree": { "$ref": "#/$defs/node" },
+        "hex": { "$ref": "#/$defs/hex" },
+        "error": { "$ref": "#/$defs/errorClass" },
+        "error_offset": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "expect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "both": { "$ref": "#/$defs/outcome" },
+        "ber": { "$ref": "#/$defs/outcome" },
+        "der": { "$ref": "#/$defs/outcome" }
+      },
+      "oneOf": [
+        { "required": ["both"], "not": { "anyOf": [{ "required": ["ber"] }, { "required": ["der"] }] } },
+        { "anyOf": [{ "required": ["ber"] }, { "required": ["der"] }], "not": { "required": ["both"] } }
+      ]
+    },
+    "case": {
+      "type": "object",
+      "required": ["id", "op", "input", "expect", "clause", "provenance", "edition"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(\\.[a-z0-9-]+)+$",
+          "description": "Stable, unique across the corpus, never reused. Form: <source>.<clause>.<slug>."
+        },
+        "title": { "type": "string" },
+        "op": { "enum": ["decode", "encode", "roundtrip"] },
+        "type": {
+          "type": ["string", "null"],
+          "description": "null = untyped structural decode. Otherwise a universal type name, or '<doc>:<clause>:<Name>' for a type the standard defines (see format.md)."
+        },
+        "input": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "maxProperties": 1,
+          "properties": {
+            "hex": { "$ref": "#/$defs/hex" },
+            "tree": { "$ref": "#/$defs/node" },
+            "typed": { "$ref": "#/$defs/typed" }
+          }
+        },
+        "expect": { "$ref": "#/$defs/expect" },
+        "clause": {
+          "type": "array", "minItems": 1,
+          "items": { "type": "string", "pattern": "^X\\.(690|680) \\((02/2021|09/2021)\\) §[A-Z0-9][A-Za-z0-9.() ]*$" }
+        },
+        "provenance": {
+          "type": "string",
+          "pattern": "^(from X\\.(690|680) .+|constructed by hand from .+)$"
+        },
+        "edition": {
+          "type": "string",
+          "pattern": "^X\\.(690|680):2021-02(\\+E1)?$",
+          "description": "Edition of the standard the expectation was derived from; +E1 = with Erratum 1 (09/2021)."
+        }
+      },
+      "allOf": [
+        { "if": { "properties": { "op": { "const": "decode" } } },
+          "then": { "properties": { "input": { "required": ["hex"] } } } },
+        { "if": { "properties": { "op": { "const": "roundtrip" } } },
+          "then": { "properties": { "input": { "required": ["hex"] } } } },
+        { "if": { "properties": { "op": { "const": "encode" } } },
+          "then": { "properties": { "input": { "anyOf": [{ "required": ["tree"] }, { "required": ["typed"] }] } } } }
+      ]
+    }
+  }
+}
