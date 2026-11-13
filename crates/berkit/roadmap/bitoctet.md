@@ -30,3 +30,33 @@ form, the index of the segment).
 | [open] | Not found in X.690: values of unused bits in BER (primitives.md s4 item 4) and BER equality of such values (item 9): policy above | none | `unequal_values_are_not_equal` |
 | [open] | Not found in X.690: any limit on constructed nesting depth or segment count (item 12); this module has none and the caller bounds the flattening | none | none |
 | [open] | Not found in X.690: how a nested constructed non-final segment's unused bits are judged (item 13); chosen: flattened, every non-final leaf has zero unused bits | X.690 §8.6.4.1 (implied) | `constructed_nested_segments_flattened_by_the_caller` |
+
+## Breakages proved
+
+Each edit was confirmed by printing the changed line, `cargo test --no-fail-fast` was run, the file was restored
+from a backup kept outside the repository and `diff` showed no difference. Every `[ok]` row above names a test
+that failed under at least one of these.
+
+| Breakage | Tests that failed |
+|---|---|
+| accept initial octet 8 | `initial_octet_above_seven_is_bad_contents`, `constructed_segment_contents_are_validated` |
+| drop the DER zero-pad check | `nonzero_pad_bits_are_accepted_in_ber_and_refused_in_der`, `der_pad_check_comes_before_the_trailing_zero_check` |
+| accept unused bits in a non-final segment | `constructed_non_final_segment_with_unused_bits_is_bad_contents`, `constructed_nested_segments_flattened_by_the_caller` |
+| forget the empty-contents case | `empty_contents_has_no_initial_octet`, `constructed_segment_contents_are_validated` |
+| count the initial octet in the bit length | 10 tests, among them `annex_value_constructed`, `encode_then_decode_round_trips_in_der` |
+| trailing-zero check without `named_bit_list` | `a_single_zero_bit_is_valid_without_a_named_bit_list`, `named_bit_list_in_der` |
+| drop the trailing-zero check | `named_bit_list_in_der`, `named_bit_list_value_with_and_without_trailing_zeros` |
+| accept unused bits with no data octets | `unused_bits_with_no_data_octets_is_bad_contents`, `constructed_segment_contents_are_validated` |
+| DER allows a constructed BIT STRING | `constructed_acceptable_by_mode`, `constructed_zero_segments_is_the_empty_value`, `annex_value_constructed` |
+| DER allows a constructed OCTET STRING | `constructed_acceptable_by_mode`, `constructed_octet_string_concatenates` |
+| encode does not zero the pad bits | `encode_writes_literal_contents` |
+| encode writes 8 unused bits for whole octets | `encode_writes_literal_contents` |
+| constructed bit length ignores the last unused bits | `annex_value_constructed` and 4 more |
+| constructed octet total miscounted | `constructed_octet_string_concatenates` |
+| octet iterator drops the first octet | `constructed_octet_string_concatenates`, `constructed_octet_string_nested_empty_and_none` |
+| `copy_data` does not mask the pad | `constructed_final_pad_bits_are_masked_on_reassembly` |
+| equality compares raw pad bits | `nonzero_pad_bits_are_accepted_in_ber_and_refused_in_der` |
+| `named_bit_list_len` inverted | `named_bit_list_len_strips_trailing_zero_bits`, `named_bit_list_value_with_and_without_trailing_zeros` |
+
+Not covered by a breakage: the `limit_exceeded` buffer checks of `encode` and `copy_into`, and the overflow
+`checked_add` paths. Their tests exist and pass but were not shown to fail, so the policy row stays `[open]`.
