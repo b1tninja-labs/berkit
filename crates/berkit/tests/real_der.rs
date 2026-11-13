@@ -72,7 +72,10 @@ const NAME: Schema<'static> = Schema::SequenceOf(&Schema::SetOf(Some(&Schema::Se
 // Extension ::= SEQUENCE { extnID OID, critical BOOLEAN DEFAULT FALSE, extnValue OCTET STRING }.
 const EXTENSION: Schema<'static> = Schema::Sequence(Some(&[
     req(Schema::Prim(Prim::Oid)),
-    opt(Schema::Prim(Prim::Boolean)),
+    Field {
+        schema: Schema::Prim(Prim::Boolean),
+        presence: Presence::DefaultBool(false),
+    },
     req(Schema::Prim(Prim::OctetString)),
 ]));
 const TBS: Schema<'static> = Schema::Sequence(Some(&[
@@ -374,12 +377,7 @@ fn mutate(der: &[u8]) -> Vec<(&'static str, Vec<u8>)> {
 
 /// (mutation, reference prediction, berkit's class) where berkit disagrees with the reference's reading of X.690,
 /// and why. Each entry fails the test once berkit stops disagreeing.
-const KNOWN: &[(&str, &str, &str, &str)] = &[(
-    "critical-default-false",
-    "default_encoded",
-    "ok",
-    "Presence has DefaultInt only: a BOOLEAN DEFAULT FALSE written as 01 01 00 cannot be refused (X.690 section 11.5)",
-)];
+const KNOWN: &[(&str, &str, &str, &str)] = &[];
 
 #[test]
 fn mutations_get_the_class_the_reference_predicts() {

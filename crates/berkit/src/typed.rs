@@ -133,6 +133,8 @@ pub enum Presence {
     Optional,
     /// `DEFAULT n` on an INTEGER: DER leaves the component out when it equals `n` (X.690 §11.5).
     DefaultInt(i128),
+    /// `DEFAULT b` on a BOOLEAN: DER leaves the component out when it equals `b` (X.690 §11.5).
+    DefaultBool(bool),
 }
 
 /// A component of a `SEQUENCE` or `SET`.
@@ -526,7 +528,29 @@ fn check_component(c: &Tlv<'_>, f: &Field<'_>, cx: Context) -> Result<(), TypedE
             return fail(ErrorClass::DefaultEncoded, c.offset());
         }
     }
+    if let Presence::DefaultBool(d) = f.presence {
+        if cx.mode.is_der() && boolean_value(c, &f.schema) == Some(d) {
+            return fail(ErrorClass::DefaultEncoded, c.offset());
+        }
+    }
     Ok(())
+}
+
+fn boolean_value(t: &Tlv<'_>, s: &Schema<'_>) -> Option<bool> {
+    match s {
+        Schema::Prim(Prim::Boolean) => boolean::decode(t.content(), Mode::Ber).ok(),
+        Schema::Tagged {
+            explicit: false,
+            inner,
+            ..
+        } => boolean_value(t, inner),
+        Schema::Tagged {
+            explicit: true,
+            inner,
+            ..
+        } => boolean_value(&t.children().next()?.ok()?, inner),
+        _ => None,
+    }
 }
 
 fn integer_value(t: &Tlv<'_>, s: &Schema<'_>) -> Option<i128> {
