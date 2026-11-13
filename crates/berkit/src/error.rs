@@ -7,7 +7,7 @@
 
 use core::fmt;
 
-/// Why an encoding was refused. The first twelve are refused in both BER and DER; the rest in DER only.
+/// Why an encoding was refused. The first thirteen are refused in both BER and DER; the rest in DER only.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum ErrorClass {
     /// Input ends inside the identifier, the length octets, or the declared contents. X.690 §8.1.1.1, §8.1.3.3.
@@ -36,6 +36,9 @@ pub enum ErrorClass {
     /// Octets remain after the single top-level encoding. Derived from X.690 §8.1.1.1; reporting leftover
     /// input is a design decision of this crate.
     TrailingData,
+    /// End-of-contents octets, or the UNIVERSAL 0 identifier, where no indefinite-length encoding is open.
+    /// X.690 §8.1.5 ¶1; X.680 Table 1 reserves UNIVERSAL 0 for the encoding rules.
+    StrayEoc,
     /// DER: a definite length not in the fewest octets. X.690 §10.1 (BER allows it, §8.1.3.5 NOTE 2).
     NonMinimalLength,
     /// DER: the indefinite length form. X.690 §10.1.
@@ -62,7 +65,7 @@ pub enum ErrorClass {
 
 impl ErrorClass {
     /// Every class, in the order of the corpus format.
-    pub const ALL: [Self; 23] = [
+    pub const ALL: [Self; 24] = [
         Self::Truncated,
         Self::ReservedLength,
         Self::IndefiniteOnPrimitive,
@@ -75,6 +78,7 @@ impl ErrorClass {
         Self::NonMinimalInteger,
         Self::NonMinimalSubidentifier,
         Self::TrailingData,
+        Self::StrayEoc,
         Self::NonMinimalLength,
         Self::IndefiniteLength,
         Self::ConstructedString,
@@ -104,6 +108,7 @@ impl ErrorClass {
             Self::NonMinimalInteger => "non_minimal_integer",
             Self::NonMinimalSubidentifier => "non_minimal_subidentifier",
             Self::TrailingData => "trailing_data",
+            Self::StrayEoc => "stray_eoc",
             Self::NonMinimalLength => "non_minimal_length",
             Self::IndefiniteLength => "indefinite_length",
             Self::ConstructedString => "constructed_string",
@@ -185,8 +190,8 @@ mod tests {
     }
 
     #[test]
-    fn the_twelve_shared_classes_come_first_and_the_der_only_ones_after() {
-        let (shared, der) = ErrorClass::ALL.split_at(12);
+    fn the_thirteen_shared_classes_come_first_and_the_der_only_ones_after() {
+        let (shared, der) = ErrorClass::ALL.split_at(13);
         assert!(shared.iter().all(|c| !c.der_only()));
         assert!(der.iter().all(|c| c.der_only()));
     }

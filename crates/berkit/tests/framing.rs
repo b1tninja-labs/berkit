@@ -826,3 +826,14 @@ fn round_trip_writer_to_reader_with_literal_check() {
         }
     }
 }
+
+#[test]
+fn a_stray_end_of_contents_is_the_stray_eoc_class() {
+    // constructed by hand: `00 00` at the top level is the end-of-contents octets with nothing open to close
+    // (X.690 §8.1.5, X.680 Table 1: UNIVERSAL 0 is reserved for the encoding rules).
+    assert_eq!(
+        class_of(exact(&h("00 00"), BER)),
+        berkit::ErrorClass::StrayEoc
+    );
+    assert_eq!(tlv::STRAY_EOC.name(), "stray_eoc");
+}

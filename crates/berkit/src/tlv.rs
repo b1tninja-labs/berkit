@@ -28,9 +28,8 @@ use core::fmt;
 /// encoding is open, and for tag 0 with more than the two EOC octets (`00 01 05`, `20 00`).
 ///
 /// X.690 §8.1.1.2 and §8.1.5 allow the EOC octets only after an indefinite length, and X.680 §8.4 Table 1
-/// reserves UNIVERSAL 0 for the encoding rules. The shared error list has no class for this, so
-/// `bad_contents` stands in for it; this is the one place to change when the list gains one.
-pub const STRAY_EOC: ErrorClass = ErrorClass::BadContents;
+/// reserves UNIVERSAL 0 for the encoding rules. The shared error list has the class `stray_eoc` for it.
+pub const STRAY_EOC: ErrorClass = ErrorClass::StrayEoc;
 
 /// Resource limits of the reader. The standard sets none (X.690 §8.1.2.4.2 b), §8.1.3.5), so every value here
 /// is POLICY: a choice made so that hostile input cannot cost unbounded stack or accept absurd lengths.
