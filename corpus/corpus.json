@@ -1,7 +1,7 @@
 {
-  "corpus_version": "0.1.0",
+  "corpus_version": "0.2.0",
   "corpus_format": "1",
-  "corpus_format_revision": "1.1",
+  "corpus_format_revision": "1.2",
   "editions": [
     "X.690:2021-02",
     "X.690:2021-02+E1",
@@ -13,7 +13,8 @@
     "cases/framing.json": "a104defd277d4527e5b173a81a4a77f1721fdf6a4b1b45e2259c29b0dfbf7c90",
     "cases/primitives.json": "0a40935af6dde9c936c9ed65bca66500317d537056494d61dd3bbfa42b95e4a2",
     "cases/strings-time.json": "c3bfb86c0d8c9fdb34d25a0448ed937b80fcac9050b6a9d7d9e169b1fe71f248",
-    "cases/structured.json": "fecce4c4d98970f89758112b57135ab90e8254661bf9b43b6c70606f60b04454"
+    "cases/structured.json": "fecce4c4d98970f89758112b57135ab90e8254661bf9b43b6c70606f60b04454",
+    "cases/values.json": "7719d09e6e070f8ee64f41bd32aaf7a89fd15656175d6499c7c31e06a6383bf9"
   },
   "error_classes": [
     "truncated",

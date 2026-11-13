@@ -1,7 +1,7 @@
 # berkit conformance corpus
 
 Language-neutral test cases for ASN.1 BER and DER, built from ITU-T X.690 (02/2021) and X.680 (02/2021) and the notes in
-`docs/design/`. Format: `format.md` (revision 1.1) and `case.schema.json`. Manifest: `corpus.json`. Hand-made schema
+`docs/design/`. Format: `format.md` (revision 1.2) and `case.schema.json`. Manifest: `corpus.json`. Hand-made schema
 types: `types.md`. Notes that disagreed or were wrong: `CORRECTIONS.md`. Format changes: `CHANGES.md`.
 
 ## Layout
@@ -11,6 +11,7 @@ types: `types.md`. Notes that disagreed or were wrong: `CORRECTIONS.md`. Format 
     cases/primitives.json    BOOLEAN, INTEGER, ENUMERATED, NULL, BIT/OCTET STRING, OID, RELATIVE-OID, REAL, OID-IRI, typed encodes
     cases/structured.json    SEQUENCE, SET, SET OF order, tagging, DEFAULT, INSTANCE OF
     cases/strings-time.json  character strings (alphabets exhaustive for Printable and Numeric), UTCTime, GeneralizedTime, TIME family
+    cases/values.json        decoded typed values (format revision 1.2): OID arcs, INTEGER, times, strings, BIT STRING, REAL, ...
     cases/annex.json         examples printed in X.690 clauses and annexes (A.3 record, Annex B, C.5)
     tools/check.py           validator and self-check (stdlib only); tools/refdec.py is its reference decoder and encoder
 
@@ -34,6 +35,13 @@ the manifest. Tag numbers (up to 2^64-1) and `limits.max_length` exceed 2^53: re
 copy of the corpus is checked into an implementation.
 
 ## Conventions worth knowing
+
+- Decoded values (revision 1.2): an outcome of a typed decode or roundtrip may name `value`, the decoded value, so a
+  case pins what the type MEANS and not only the TLV it is made of. `cases/values.json` holds 248 such cases, every
+  expected value constructed by hand from the clause (the provenance shows the arithmetic). A runner must check the
+  value for every case that states one. Types with no value form (SEQUENCE, SET, DATE, TIME-OF-DAY, DATE-TIME, DURATION,
+  TIME, OID-IRI, RELATIVE-OID-IRI and the unchecked 8-bit strings) stay tree-only. `UTCTime` values carry the case's
+  `pivot`. Forms and rules: `format.md`.
 
 - Expectation keys: `both`, or `ber` and/or `der`. "BER accepts, DER rejects" is one case. A case that names one mode
   says nothing about the other.

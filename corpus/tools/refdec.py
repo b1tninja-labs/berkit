@@ -557,6 +557,137 @@ def _real(c, mode):
             raise Err("real_form")
 
 
+# ---------------------------------------------------------------- decoded values (format revision 1.2)
+class _NoValue:
+    def __repr__(self):
+        return "NO_VALUE"
+
+
+NO_VALUE = _NoValue()  # the type has no value form: its cases are tree-only (format.md)
+
+VALUE_TYPES = {
+    "BOOLEAN", "INTEGER", "ENUMERATED", "NULL", "OBJECT IDENTIFIER", "RELATIVE-OID", "OCTET STRING", "BIT STRING",
+    "NumericString", "PrintableString", "VisibleString", "IA5String", "UTF8String", "BMPString", "UniversalString",
+    "UTCTime", "GeneralizedTime", "REAL",
+}
+
+
+def _subids(c):
+    out, v = [], 0
+    for o in c:
+        v = (v << 7) | (o & 0x7F)
+        if not o & 0x80:
+            out.append(v)
+            v = 0
+    return out
+
+
+def _zone(z):
+    if z is None:
+        return None
+    if z == "Z":
+        return "Z"
+    return z[:3] + ":" + z[3:] if len(z) == 5 else z
+
+
+def decode_value_type(typ):
+    """True when `typ` has a value form (format.md), else False."""
+    kind, name, _, _ = resolve_type(typ)
+    return kind == "universal" and name in VALUE_TYPES
+
+
+def decode_value(node, typ, mode, pivot=None):
+    """The decoded value of a successfully decoded top-level `node` of type `typ`, in the `typed.value` forms
+    of format.md; NO_VALUE for a type that has none. Written from the clauses named at each branch."""
+    kind, name, _, _ = resolve_type(typ)
+    if kind != "universal" or name not in VALUE_TYPES:
+        return NO_VALUE
+    if name in ("NumericString", "PrintableString", "VisibleString", "IA5String", "UTF8String", "BMPString",
+                "UniversalString", "OCTET STRING", "UTCTime", "GeneralizedTime"):
+        data = _leaf_bytes(node)
+    elif name == "BIT STRING":
+        data = b""
+    else:
+        data = bytes.fromhex(node["content"])
+    if name == "BOOLEAN":  # X.690 8.2.2: zero is FALSE, anything else is TRUE
+        return data[0] != 0
+    if name in ("INTEGER", "ENUMERATED"):  # 8.3.2, 8.4: two's complement, big-endian
+        return str(int.from_bytes(data, "big", signed=True))
+    if name == "NULL":
+        return None
+    if name == "OBJECT IDENTIFIER":  # 8.19.4
+        subs = _subids(data)
+        v = subs[0]
+        first = (0, v) if v < 40 else (1, v - 40) if v < 80 else (2, v - 80)
+        return ".".join(str(x) for x in (*first, *subs[1:]))
+    if name == "RELATIVE-OID":  # 8.20.3, 8.20.4
+        return ".".join(str(x) for x in _subids(data))
+    if name == "OCTET STRING":  # 8.7.3
+        return data.hex()
+    if name == "BIT STRING":  # 8.6.2, 8.6.4: the unused bits are not part of the value, so they read as zero
+        leaves = _leaves(node)
+        if not leaves:  # 8.6.3: no segments is the empty value
+            return {"unused": 0, "hex": ""}
+        unused = bytes.fromhex(leaves[-1]["content"])[0]
+        body = bytearray(b"".join(bytes.fromhex(lf["content"])[1:] for lf in leaves))
+        if body:
+            body[-1] &= (0xFF << unused) & 0xFF
+        return {"unused": unused, "hex": bytes(body).hex()}
+    if name in ("NumericString", "PrintableString", "VisibleString", "IA5String"):
+        return data.decode("ascii")
+    if name == "UTF8String":
+        return data.decode("utf-8")
+    if name == "BMPString":  # X.690 8.23.8: two octets per character, big-endian
+        return data.decode("utf-16-be")
+    if name == "UniversalString":  # 8.23.7: four octets per character, big-endian
+        return data.decode("utf-32-be")
+    if name == "UTCTime":
+        return _utc_value(data.decode("ascii"), pivot)
+    if name == "GeneralizedTime":
+        return _gen_value(data.decode("ascii"))
+    if name == "REAL":  # 8.5: classified by the first contents octet; no float
+        if not data:
+            return {"kind": "zero", "hex": ""}
+        f = data[0]
+        if f & 0x80:
+            k = "binary"
+        elif f & 0x40:
+            k = {0x40: "plus-infinity", 0x41: "minus-infinity", 0x42: "not-a-number", 0x43: "minus-zero"}[f]
+        else:
+            k = "decimal"
+        return {"kind": k, "hex": data.hex()}
+    return NO_VALUE
+
+
+def _utc_value(s, pivot):
+    if pivot is None:
+        raise ValueError("a UTCTime value needs the case's pivot")
+    m = re.fullmatch(r"(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)?(Z|[+-]\d{4})", s, re.ASCII)
+    yy = int(m.group(1))
+    out = {"year": (1900 if yy >= pivot else 2000) + yy, "month": int(m.group(2)), "day": int(m.group(3)),
+           "hour": int(m.group(4)), "minute": int(m.group(5))}
+    if m.group(6) is not None:
+        out["second"] = int(m.group(6))
+    out["zone"] = _zone(m.group(7))
+    return out
+
+
+def _gen_value(s):
+    m = re.fullmatch(r"(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)?(\d\d)?(?:([.,])(\d+))?(Z|[+-]\d\d(?:\d\d)?)?", s, re.ASCII)
+    out = {"year": int(m.group(1)), "month": int(m.group(2)), "day": int(m.group(3)), "hour": int(m.group(4))}
+    if m.group(5) is not None:
+        out["minute"] = int(m.group(5))
+    if m.group(6) is not None:
+        out["second"] = int(m.group(6))
+    if m.group(8) is not None:
+        out["fraction"] = m.group(8)
+        if m.group(7) == ",":
+            out["comma"] = True
+    if m.group(9) is not None:
+        out["zone"] = _zone(m.group(9))
+    return out
+
+
 # ---------------------------------------------------------------- encoder
 def _enc_id(cls, cons, num):
     b = (CLASSES.index(cls) << 6) | (0x20 if cons else 0)

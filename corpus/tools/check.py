@@ -168,7 +168,7 @@ def main():
 
 
 def check_case(c, cid, fname, seen, limits, classes, policies, der_only, per_class, per_prov, per_policy, per_op, ncheck):
-    allowed = {"id", "title", "op", "type", "input", "expect", "clause", "provenance", "edition", "policy"}
+    allowed = {"id", "title", "op", "type", "input", "expect", "clause", "provenance", "edition", "policy", "pivot"}
     for k in c:
         if k not in allowed:
             fail(cid, f"unknown field {k}")
@@ -224,10 +224,33 @@ def check_case(c, cid, fname, seen, limits, classes, policies, der_only, per_cla
     if not keys or not keys <= {"both", "ber", "der"} or ("both" in keys and len(keys) > 1):
         return fail(cid, "expect keys must be 'both' alone, or ber and/or der")
     outs = {}
+    if "pivot" in c:
+        if not (isinstance(c["pivot"], int) and not isinstance(c["pivot"], bool) and 0 <= c["pivot"] <= 99):
+            fail(cid, "pivot must be an integer 0..99")
+        if typ != "UTCTime":
+            fail(cid, "pivot belongs to UTCTime cases")
+        if c.get("policy") != "utctime-pivot":
+            fail(cid, "a case with a pivot carries policy utctime-pivot")
     for k in keys:
         o = exp[k]
-        if not isinstance(o, dict) or len(o) != 1 or not set(o) <= {"tree", "hex", "error"}:
-            fail(cid, f"expect.{k} must have exactly one of tree, hex, error")
+        okset = isinstance(o, dict) and set(o) <= {"tree", "hex", "error", "value"} and len(o) >= 1
+        if okset and "value" in o:
+            okset = set(o) <= {"tree", "value"}  # revision 1.2: a value stands alone or accompanies a tree
+        elif okset:
+            okset = len(o) == 1
+        if not okset:
+            fail(cid, f"expect.{k} must be one of tree, hex, error, value, or a tree with a value")
+            continue
+        if "value" in o:
+            if typ is None:
+                fail(cid, "a value outcome needs a type")
+            elif refdec.decode_value_type(typ) is False:
+                fail(cid, f"type {typ} has no value form (format.md): state a tree")
+            if op == "encode":
+                fail(cid, "encode outcomes are hex")
+            if "tree" in o:
+                check_node(o["tree"], f"expect.{k}.tree", cid)
+            outs[k] = ("value", o)
             continue
         (kind, val), = o.items()
         if kind == "error":
@@ -261,6 +284,25 @@ def check_case(c, cid, fname, seen, limits, classes, policies, der_only, per_cla
             except Err as e:
                 got = ("error", e.cls)
             ncheck["reference decode"] += 1
+            if kind == "value":
+                if got[0] != "tree":
+                    fail(cid, f"{m}: reference decoder gives {got}, the case states a value")
+                    continue
+                try:
+                    pv = refdec.decode_value(got[1], typ, m, c.get("pivot"))
+                except ValueError as e:
+                    fail(cid, f"{m}: {e}")
+                    continue
+                ncheck["reference value"] += 1
+                if pv != val["value"] or type(pv) is not type(val["value"]):
+                    fail(cid, f"{m}: reference decoder's value {pv!r} differs from the case's {val['value']!r}")
+                if "tree" in val:
+                    ncheck["tree beside a value"] += 1
+                    if got[1] != val["tree"] and strip_asn1(got[1]) != strip_asn1(val["tree"]):
+                        fail(cid, f"{m}: tree differs from the reference decoder's tree")
+                val = got[1]  # the structural checks below run on the decoded tree
+                kind = "tree"
+                got = ("tree", val)
             if got[0] != kind:
                 fail(cid, f"{m}: reference decoder gives {got}, the case states {kind} {val if kind == 'error' else ''}")
                 continue

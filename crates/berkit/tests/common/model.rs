@@ -250,6 +250,12 @@ pub enum Outcome {
     Hex(Vec<u8>),
     /// The `ErrorClass` NAME.
     Error(String),
+    /// A decode that succeeds with this decoded value (`corpus/format.md`, revision 1.2), optionally with the tree
+    /// beside it.
+    Value {
+        tree: Option<Node>,
+        value: Json,
+    },
 }
 
 #[derive(Debug)]
@@ -261,10 +267,21 @@ pub struct Case {
     /// One entry per mode the case names.
     pub expect: Vec<(Mode, Outcome)>,
     pub policy: Option<String>,
+    /// The century pivot of a `UTCTime` value (revision 1.2); `None` leaves it to the runner.
+    pub pivot: Option<u8>,
 }
 
 fn parse_outcome(j: &Json) -> Result<Outcome, String> {
-    if let Some(t) = j.get("tree") {
+    if let Some(v) = j.get("value") {
+        let tree = match j.get("tree") {
+            Some(t) => Some(Node::from_json(t)?),
+            None => None,
+        };
+        Ok(Outcome::Value {
+            tree,
+            value: v.clone(),
+        })
+    } else if let Some(t) = j.get("tree") {
         Ok(Outcome::Tree(Node::from_json(t)?))
     } else if let Some(h) = j.get("hex").and_then(Json::as_str) {
         Ok(Outcome::Hex(unhex(h)?))
@@ -334,6 +351,14 @@ impl Case {
                 other => return Err(ctx(format!("unknown expect key {other}"))),
             }
         }
+        let pivot = match j.get("pivot") {
+            Some(p) => Some(
+                p.as_u64()
+                    .and_then(|p| u8::try_from(p).ok())
+                    .ok_or_else(|| ctx("bad pivot".into()))?,
+            ),
+            None => None,
+        };
         Ok(Case {
             id,
             op,
@@ -341,6 +366,7 @@ impl Case {
             input,
             expect,
             policy: j.get("policy").and_then(Json::as_str).map(str::to_string),
+            pivot,
         })
     }
 }

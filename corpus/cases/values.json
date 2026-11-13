@@ -1,0 +1,5699 @@
+{
+ "corpus_format": "1",
+ "cases": [
+  {
+   "id": "x690.8.19.val-oid-0-0",
+   "title": "OBJECT IDENTIFIER 0.0: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060100"
+   },
+   "expect": {
+    "both": {
+     "value": "0.0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 0*40+0 = 0, base 128 = 00; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-0-39",
+   "title": "OBJECT IDENTIFIER 0.39: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060127"
+   },
+   "expect": {
+    "both": {
+     "value": "0.39"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 0*40+39 = 39, base 128 = 27; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-0",
+   "title": "OBJECT IDENTIFIER 1.0: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060128"
+   },
+   "expect": {
+    "both": {
+     "value": "1.0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+0 = 40, base 128 = 28; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-39",
+   "title": "OBJECT IDENTIFIER 1.39: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06014f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.39"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+39 = 79, base 128 = 4f; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-0",
+   "title": "OBJECT IDENTIFIER 2.0: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060150"
+   },
+   "expect": {
+    "both": {
+     "value": "2.0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+0 = 80, base 128 = 50; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-39",
+   "title": "OBJECT IDENTIFIER 2.39: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060177"
+   },
+   "expect": {
+    "both": {
+     "value": "2.39"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+39 = 119, base 128 = 77; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-40",
+   "title": "OBJECT IDENTIFIER 2.40: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060178"
+   },
+   "expect": {
+    "both": {
+     "value": "2.40"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+40 = 120, base 128 = 78; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-47",
+   "title": "OBJECT IDENTIFIER 2.47: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06017f"
+   },
+   "expect": {
+    "both": {
+     "value": "2.47"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+47 = 127, base 128 = 7f; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-48",
+   "title": "OBJECT IDENTIFIER 2.48: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06028100"
+   },
+   "expect": {
+    "both": {
+     "value": "2.48"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+48 = 128, base 128 = 8100; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-999",
+   "title": "OBJECT IDENTIFIER 2.999: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06028837"
+   },
+   "expect": {
+    "both": {
+     "value": "2.999"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+999 = 1079, base 128 = 8837; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-3",
+   "title": "OBJECT IDENTIFIER 1.2.3: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06022a03"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.3"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 03; the first arc is 0, 1 or 2; v < 40 gives (0, v), v < 80 gives (1, v-40), else (2, v-80)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-999-3",
+   "title": "OBJECT IDENTIFIER 2.999.3: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "0603883703"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 6,
+      "length": {
+       "form": "short"
+      },
+      "content": "883703"
+     },
+     "value": "2.999.3"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "from X.690 §8.19.5 (EXAMPLE) {2 999 3}: 2*40+999 = 1079 = 8*128+55 = 88 37, then 03",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-100-3-2008",
+   "title": "OBJECT IDENTIFIER 2.100.3: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "0603813403"
+   },
+   "expect": {
+    "both": {
+     "value": "2.100.3"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 (the 11/2008 edition's example, not in 02/2021): 2*40+100 = 180 = 1*128+52 = 81 34, then 03",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-840-113549",
+   "title": "OBJECT IDENTIFIER 1.2.840.113549: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06062a864886f70d"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 6,
+      "length": {
+       "form": "short"
+      },
+      "content": "2a864886f70d"
+     },
+     "value": "1.2.840.113549"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.2: 1*40+2 = 42 = 2a; 840 = 6*128+72 = 86 48; 113549 = 6*16384+111*128+13 = 86 f7 0d",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-840-113549-1-1-11",
+   "title": "OBJECT IDENTIFIER 1.2.840.113549.1.1.11: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06092a864886f70d01010b"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.840.113549.1.1.11"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.2: 2a, 840 = 86 48, 113549 = 86 f7 0d, then 01 01 0b",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-5-4-3",
+   "title": "OBJECT IDENTIFIER 2.5.4.3: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "0603550403"
+   },
+   "expect": {
+    "both": {
+     "value": "2.5.4.3"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4: 2*40+5 = 85 = 55; then 04 03",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-127",
+   "title": "OBJECT IDENTIFIER 1.2.127: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06022a7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.127"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 7f; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-128",
+   "title": "OBJECT IDENTIFIER 1.2.128: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06032a8100"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 8100; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-16383",
+   "title": "OBJECT IDENTIFIER 1.2.16383: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06032aff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.16383"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = ff7f; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-16384",
+   "title": "OBJECT IDENTIFIER 1.2.16384: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06042a818000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.16384"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 818000; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2097151",
+   "title": "OBJECT IDENTIFIER 1.2.2097151: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06042affff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.2097151"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = ffff7f; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2097152",
+   "title": "OBJECT IDENTIFIER 1.2.2097152: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06052a81808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.2097152"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 81808000; seven-bit group boundary",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p31",
+   "title": "OBJECT IDENTIFIER 1.2.2147483648: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06062a8880808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.2147483648"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 8880808000; third arc 2147483648 needs 5 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p32m1",
+   "title": "OBJECT IDENTIFIER 1.2.4294967295: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06062a8fffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.4294967295"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 8fffffff7f; third arc 4294967295 needs 5 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p32",
+   "title": "OBJECT IDENTIFIER 1.2.4294967296: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06062a9080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.4294967296"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 9080808000; third arc 4294967296 needs 5 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p64m1",
+   "title": "OBJECT IDENTIFIER 1.2.18446744073709551615: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060b2a81ffffffffffffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.18446744073709551615"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 81ffffffffffffffff7f; third arc 18446744073709551615 needs 10 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p64",
+   "title": "OBJECT IDENTIFIER 1.2.18446744073709551616: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060b2a82808080808080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 82808080808080808000; third arc 18446744073709551616 needs 10 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p64p1",
+   "title": "OBJECT IDENTIFIER 1.2.18446744073709551617: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060b2a82808080808080808001"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.18446744073709551617"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 82808080808080808001; third arc 18446744073709551617 needs 10 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p127",
+   "title": "OBJECT IDENTIFIER 1.2.170141183460469231731687303715884105728: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06142a82808080808080808080808080808080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.170141183460469231731687303715884105728"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 82808080808080808080808080808080808000; third arc 170141183460469231731687303715884105728 needs 19 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p128m1",
+   "title": "OBJECT IDENTIFIER 1.2.340282366920938463463374607431768211455: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06142a83ffffffffffffffffffffffffffffffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.340282366920938463463374607431768211455"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 83ffffffffffffffffffffffffffffffffff7f; third arc 340282366920938463463374607431768211455 needs 19 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p128",
+   "title": "OBJECT IDENTIFIER 1.2.340282366920938463463374607431768211456: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06142a84808080808080808080808080808080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.340282366920938463463374607431768211456"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 84808080808080808080808080808080808000; third arc 340282366920938463463374607431768211456 needs 19 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p128p1",
+   "title": "OBJECT IDENTIFIER 1.2.340282366920938463463374607431768211457: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06142a84808080808080808080808080808080808001"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.340282366920938463463374607431768211457"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 84808080808080808080808080808080808001; third arc 340282366920938463463374607431768211457 needs 19 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-1-2-2p200p12345",
+   "title": "OBJECT IDENTIFIER 1.2.16069380442589902755419620923411626025222029937827928...: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "061e2a908080808080808080808080808080808080808080808080808080e039"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2.1606938044258990275541962092341162602522202993782792835313721"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 1*40+2 = 42, base 128 = 2a; later arcs base 128 = 908080808080808080808080808080808080808080808080808080e039; third arc 1606938044258990275541962092341162602522202993782792835313721 needs 29 base-128 groups",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p32",
+   "title": "OBJECT IDENTIFIER 2.4294967296: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06059080808050"
+   },
+   "expect": {
+    "both": {
+     "value": "2.4294967296"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+4294967296 = 4294967376, base 128 = 9080808050; second arc 4294967296 under first arc 2: the first subidentifier is 80+4294967296",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p64m1",
+   "title": "OBJECT IDENTIFIER 2.18446744073709551615: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060a8280808080808080804f"
+   },
+   "expect": {
+    "both": {
+     "value": "2.18446744073709551615"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+18446744073709551615 = 18446744073709551695, base 128 = 8280808080808080804f; second arc 18446744073709551615 under first arc 2: the first subidentifier is 80+18446744073709551615",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p64",
+   "title": "OBJECT IDENTIFIER 2.18446744073709551616: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060a82808080808080808050"
+   },
+   "expect": {
+    "both": {
+     "value": "2.18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+18446744073709551616 = 18446744073709551696, base 128 = 82808080808080808050; second arc 18446744073709551616 under first arc 2: the first subidentifier is 80+18446744073709551616",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p128m1",
+   "title": "OBJECT IDENTIFIER 2.340282366920938463463374607431768211455: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06138480808080808080808080808080808080804f"
+   },
+   "expect": {
+    "both": {
+     "value": "2.340282366920938463463374607431768211455"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+340282366920938463463374607431768211455 = 340282366920938463463374607431768211535, base 128 = 8480808080808080808080808080808080804f; second arc 340282366920938463463374607431768211455 under first arc 2: the first subidentifier is 80+340282366920938463463374607431768211455",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p128",
+   "title": "OBJECT IDENTIFIER 2.340282366920938463463374607431768211456: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "061384808080808080808080808080808080808050"
+   },
+   "expect": {
+    "both": {
+     "value": "2.340282366920938463463374607431768211456"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+340282366920938463463374607431768211456 = 340282366920938463463374607431768211536, base 128 = 84808080808080808080808080808080808050; second arc 340282366920938463463374607431768211456 under first arc 2: the first subidentifier is 80+340282366920938463463374607431768211456",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-2p128p79",
+   "title": "OBJECT IDENTIFIER 2.340282366920938463463374607431768211535: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06138480808080808080808080808080808080811f"
+   },
+   "expect": {
+    "both": {
+     "value": "2.340282366920938463463374607431768211535"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+340282366920938463463374607431768211535 = 340282366920938463463374607431768211615, base 128 = 8480808080808080808080808080808080811f; second arc 340282366920938463463374607431768211535 under first arc 2: the first subidentifier is 80+340282366920938463463374607431768211535",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-25-uuid",
+   "title": "OBJECT IDENTIFIER 2.25.329800735698586629295641978511506172918: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06146983f09da7ebcfdee0c7a1a7b2c0948cc8f9d776"
+   },
+   "expect": {
+    "both": {
+     "value": "2.25.329800735698586629295641978511506172918"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.2 and X.667 (UUID arc 2.25): the UUID f81d4fae-7dec-11d0-a765-00a0c91e6bf6 as an integer is 329800735698586629295641978511506172918, a 128-bit arc of 19 base-128 groups; first subidentifier 2*40+25 = 105 = 69",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-2-25-uuid-max",
+   "title": "OBJECT IDENTIFIER 2.25.340282366920938463463374607431768211455: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06146983ffffffffffffffffffffffffffffffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "2.25.340282366920938463463374607431768211455"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 2*40+25 = 105, base 128 = 69; later arcs base 128 = 83ffffffffffffffffffffffffffffffffff7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.19.val-oid-0-39-2p64",
+   "title": "OBJECT IDENTIFIER 0.39.18446744073709551616: decoded arcs",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "060b2782808080808080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "0.39.18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2: first subidentifier 0*40+39 = 39, base 128 = 27; later arcs base 128 = 82808080808080808000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-8571-3-2",
+   "title": "RELATIVE-OID 8571.3.2",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d04c27b0302"
+   },
+   "expect": {
+    "both": {
+     "value": "8571.3.2"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "from X.690 §8.20.5 (EXAMPLE): 8571 = 66*128+123 = c2 7b, then 03 02",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-0",
+   "title": "RELATIVE-OID 0",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d0100"
+   },
+   "expect": {
+    "both": {
+     "value": "0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 00; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-1-2",
+   "title": "RELATIVE-OID 1.2",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d020102"
+   },
+   "expect": {
+    "both": {
+     "value": "1.2"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 01 02; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-42",
+   "title": "RELATIVE-OID 42",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d012a"
+   },
+   "expect": {
+    "both": {
+     "value": "42"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 2a; no first-two-arc packing; 42 stays 42, unlike the first subidentifier of an OBJECT IDENTIFIER",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-40",
+   "title": "RELATIVE-OID 40",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d0128"
+   },
+   "expect": {
+    "both": {
+     "value": "40"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 28; no first-two-arc packing; 40 is a legal first arc of a RELATIVE-OID",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-127",
+   "title": "RELATIVE-OID 127",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d017f"
+   },
+   "expect": {
+    "both": {
+     "value": "127"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 7f; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-128",
+   "title": "RELATIVE-OID 128",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d028100"
+   },
+   "expect": {
+    "both": {
+     "value": "128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 8100; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-16384",
+   "title": "RELATIVE-OID 16384",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d03818000"
+   },
+   "expect": {
+    "both": {
+     "value": "16384"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 818000; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-2p32",
+   "title": "RELATIVE-OID 4294967296",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d059080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "4294967296"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 9080808000; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-2p64m1",
+   "title": "RELATIVE-OID 18446744073709551615",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d0a81ffffffffffffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "18446744073709551615"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 81ffffffffffffffff7f; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-2p64",
+   "title": "RELATIVE-OID 18446744073709551616",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d0a82808080808080808000"
+   },
+   "expect": {
+    "both": {
+     "value": "18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 82808080808080808000; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-2p128m1",
+   "title": "RELATIVE-OID 340282366920938463463374607431768211455",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d1383ffffffffffffffffffffffffffffffffff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "340282366920938463463374607431768211455"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 83ffffffffffffffffffffffffffffffffff7f; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-2p128-7",
+   "title": "RELATIVE-OID 340282366920938463463374607431768211456.7",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d148480808080808080808080808080808080800007"
+   },
+   "expect": {
+    "both": {
+     "value": "340282366920938463463374607431768211456.7"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 84808080808080808080808080808080808000 07; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.20.val-relative-oid-1-2p70-3",
+   "title": "RELATIVE-OID 1.1180591620717411303424.3",
+   "op": "roundtrip",
+   "type": "RELATIVE-OID",
+   "input": {
+    "hex": "0d0d01818080808080808080800003"
+   },
+   "expect": {
+    "both": {
+     "value": "1.1180591620717411303424.3"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.20.3",
+    "X.690 (02/2021) §8.20.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.20.3 and §8.20.2: each arc is one subidentifier in base 128: 01 8180808080808080808000 03; no first-two-arc packing",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-0",
+   "title": "INTEGER 0: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020100"
+   },
+   "expect": {
+    "both": {
+     "value": "0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 0 needs 1 octet(s) of big-endian two's complement: 00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-1",
+   "title": "INTEGER 1: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020101"
+   },
+   "expect": {
+    "both": {
+     "value": "1"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 1 needs 1 octet(s) of big-endian two's complement: 01",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-127",
+   "title": "INTEGER 127: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02017f"
+   },
+   "expect": {
+    "both": {
+     "value": "127"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 127 needs 1 octet(s) of big-endian two's complement: 7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-128",
+   "title": "INTEGER 128: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02020080"
+   },
+   "expect": {
+    "both": {
+     "value": "128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 128 needs 2 octet(s) of big-endian two's complement: 0080",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-255",
+   "title": "INTEGER 255: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020200ff"
+   },
+   "expect": {
+    "both": {
+     "value": "255"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 255 needs 2 octet(s) of big-endian two's complement: 00ff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-256",
+   "title": "INTEGER 256: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02020100"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "content": "0100"
+     },
+     "value": "256"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 256 needs 2 octet(s) of big-endian two's complement: 0100",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-32767",
+   "title": "INTEGER 32767: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02027fff"
+   },
+   "expect": {
+    "both": {
+     "value": "32767"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 32767 needs 2 octet(s) of big-endian two's complement: 7fff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-32768",
+   "title": "INTEGER 32768: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0203008000"
+   },
+   "expect": {
+    "both": {
+     "value": "32768"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 32768 needs 3 octet(s) of big-endian two's complement: 008000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-65535",
+   "title": "INTEGER 65535: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020300ffff"
+   },
+   "expect": {
+    "both": {
+     "value": "65535"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 65535 needs 3 octet(s) of big-endian two's complement: 00ffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-65536",
+   "title": "INTEGER 65536: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0203010000"
+   },
+   "expect": {
+    "both": {
+     "value": "65536"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 65536 needs 3 octet(s) of big-endian two's complement: 010000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m1",
+   "title": "INTEGER -1: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0201ff"
+   },
+   "expect": {
+    "both": {
+     "value": "-1"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -1 needs 1 octet(s) of big-endian two's complement: ff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m127",
+   "title": "INTEGER -127: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020181"
+   },
+   "expect": {
+    "both": {
+     "value": "-127"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -127 needs 1 octet(s) of big-endian two's complement: 81",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m128",
+   "title": "INTEGER -128: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020180"
+   },
+   "expect": {
+    "both": {
+     "value": "-128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -128 needs 1 octet(s) of big-endian two's complement: 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m129",
+   "title": "INTEGER -129: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0202ff7f"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "content": "ff7f"
+     },
+     "value": "-129"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -129 needs 2 octet(s) of big-endian two's complement: ff7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m255",
+   "title": "INTEGER -255: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0202ff01"
+   },
+   "expect": {
+    "both": {
+     "value": "-255"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -255 needs 2 octet(s) of big-endian two's complement: ff01",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m256",
+   "title": "INTEGER -256: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0202ff00"
+   },
+   "expect": {
+    "both": {
+     "value": "-256"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -256 needs 2 octet(s) of big-endian two's complement: ff00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m32767",
+   "title": "INTEGER -32767: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02028001"
+   },
+   "expect": {
+    "both": {
+     "value": "-32767"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -32767 needs 2 octet(s) of big-endian two's complement: 8001",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m32768",
+   "title": "INTEGER -32768: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02028000"
+   },
+   "expect": {
+    "both": {
+     "value": "-32768"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -32768 needs 2 octet(s) of big-endian two's complement: 8000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m32769",
+   "title": "INTEGER -32769: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0203ff7fff"
+   },
+   "expect": {
+    "both": {
+     "value": "-32769"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -32769 needs 3 octet(s) of big-endian two's complement: ff7fff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2147483647",
+   "title": "INTEGER 2147483647: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02047fffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "2147483647"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 2147483647 needs 4 octet(s) of big-endian two's complement: 7fffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2147483648",
+   "title": "INTEGER 2147483648: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02050080000000"
+   },
+   "expect": {
+    "both": {
+     "value": "2147483648"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 2147483648 needs 5 octet(s) of big-endian two's complement: 0080000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2147483648",
+   "title": "INTEGER -2147483648: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020480000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-2147483648"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -2147483648 needs 4 octet(s) of big-endian two's complement: 80000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2147483649",
+   "title": "INTEGER -2147483649: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0205ff7fffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "-2147483649"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -2147483649 needs 5 octet(s) of big-endian two's complement: ff7fffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-9223372036-63b",
+   "title": "INTEGER 92233720368547...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02087fffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "9223372036854775807"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 9223372036854775807 needs 8 octet(s) of big-endian two's complement: 7fffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2p63",
+   "title": "INTEGER 92233720368547...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0209008000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "9223372036854775808"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 9223372036854775808 needs 9 octet(s) of big-endian two's complement: 008000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2p63",
+   "title": "INTEGER -9223372036854...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02088000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-9223372036854775808"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -9223372036854775808 needs 8 octet(s) of big-endian two's complement: 8000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m9223372036-64b",
+   "title": "INTEGER -9223372036854...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0209ff7fffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "-9223372036854775809"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -9223372036854775809 needs 9 octet(s) of big-endian two's complement: ff7fffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-1844674407-64b",
+   "title": "INTEGER 18446744073709...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020900ffffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "18446744073709551615"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 18446744073709551615 needs 9 octet(s) of big-endian two's complement: 00ffffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2p64",
+   "title": "INTEGER 18446744073709...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0209010000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 18446744073709551616 needs 9 octet(s) of big-endian two's complement: 010000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2p64",
+   "title": "INTEGER -1844674407370...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0209ff0000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -18446744073709551616 needs 9 octet(s) of big-endian two's complement: ff0000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m1844674407-65b",
+   "title": "INTEGER -1844674407370...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0209feffffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "-18446744073709551617"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -18446744073709551617 needs 9 octet(s) of big-endian two's complement: feffffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-1701411834-127b",
+   "title": "INTEGER 17014118346046...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02107fffffffffffffffffffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "170141183460469231731687303715884105727"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 170141183460469231731687303715884105727 needs 16 octet(s) of big-endian two's complement: 7fffffffffffffffffffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2p127",
+   "title": "INTEGER 17014118346046...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02110080000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "170141183460469231731687303715884105728"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 170141183460469231731687303715884105728 needs 17 octet(s) of big-endian two's complement: 0080000000000000000000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2p127",
+   "title": "INTEGER -1701411834604...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "021080000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-170141183460469231731687303715884105728"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -170141183460469231731687303715884105728 needs 16 octet(s) of big-endian two's complement: 80000000000000000000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m1701411834-128b",
+   "title": "INTEGER -1701411834604...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0211ff7fffffffffffffffffffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "-170141183460469231731687303715884105729"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -170141183460469231731687303715884105729 needs 17 octet(s) of big-endian two's complement: ff7fffffffffffffffffffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-2p128",
+   "title": "INTEGER 34028236692093...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "02110100000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "340282366920938463463374607431768211456"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 340282366920938463463374607431768211456 needs 17 octet(s) of big-endian two's complement: 0100000000000000000000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2p128",
+   "title": "INTEGER -3402823669209...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "0211ff00000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-340282366920938463463374607431768211456"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -340282366920938463463374607431768211456 needs 17 octet(s) of big-endian two's complement: ff00000000000000000000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-1606938044-201b",
+   "title": "INTEGER 16069380442589...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "021a0100000000000000000000000000000000000000000000000001"
+   },
+   "expect": {
+    "both": {
+     "value": "1606938044258990275541962092341162602522202993782792835301377"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 1606938044258990275541962092341162602522202993782792835301377 needs 26 octet(s) of big-endian two's complement, beginning 01000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m2p200",
+   "title": "INTEGER -1606938044258...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "021aff00000000000000000000000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "-1606938044258990275541962092341162602522202993782792835301376"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -1606938044258990275541962092341162602522202993782792835301376 needs 26 octet(s) of big-endian two's complement, beginning ff000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-1234567890-94b",
+   "title": "INTEGER 12345678901234...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020c27e41b3246bec9b16e398115"
+   },
+   "expect": {
+    "both": {
+     "value": "12345678901234567890123456789"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: 12345678901234567890123456789 needs 12 octet(s) of big-endian two's complement: 27e41b3246bec9b16e398115",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.3.2.val-integer-m9876543210-117b",
+   "title": "INTEGER -9876543210987...: decoded value",
+   "op": "roundtrip",
+   "type": "INTEGER",
+   "input": {
+    "hex": "020fecfa7cfd3849b0b2facce87e980187"
+   },
+   "expect": {
+    "both": {
+     "value": "-98765432109876543210987654321012345"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.3.2: -98765432109876543210987654321012345 needs 15 octet(s) of big-endian two's complement: ecfa7cfd3849b0b2facce87e980187",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-0",
+   "title": "ENUMERATED 0: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a0100"
+   },
+   "expect": {
+    "both": {
+     "value": "0"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 0 needs 1 octet(s) of big-endian two's complement: 00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-1",
+   "title": "ENUMERATED 1: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a0101"
+   },
+   "expect": {
+    "both": {
+     "value": "1"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 1 needs 1 octet(s) of big-endian two's complement: 01",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-127",
+   "title": "ENUMERATED 127: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a017f"
+   },
+   "expect": {
+    "both": {
+     "value": "127"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 127 needs 1 octet(s) of big-endian two's complement: 7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-128",
+   "title": "ENUMERATED 128: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a020080"
+   },
+   "expect": {
+    "both": {
+     "value": "128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 128 needs 2 octet(s) of big-endian two's complement: 0080",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-255",
+   "title": "ENUMERATED 255: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a0200ff"
+   },
+   "expect": {
+    "both": {
+     "value": "255"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 255 needs 2 octet(s) of big-endian two's complement: 00ff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-256",
+   "title": "ENUMERATED 256: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a020100"
+   },
+   "expect": {
+    "both": {
+     "value": "256"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 256 needs 2 octet(s) of big-endian two's complement: 0100",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-32768",
+   "title": "ENUMERATED 32768: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a03008000"
+   },
+   "expect": {
+    "both": {
+     "value": "32768"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 32768 needs 3 octet(s) of big-endian two's complement: 008000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-m1",
+   "title": "ENUMERATED -1: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a01ff"
+   },
+   "expect": {
+    "both": {
+     "value": "-1"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: -1 needs 1 octet(s) of big-endian two's complement: ff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-m128",
+   "title": "ENUMERATED -128: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a0180"
+   },
+   "expect": {
+    "both": {
+     "value": "-128"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: -128 needs 1 octet(s) of big-endian two's complement: 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-m129",
+   "title": "ENUMERATED -129: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a02ff7f"
+   },
+   "expect": {
+    "both": {
+     "value": "-129"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: -129 needs 2 octet(s) of big-endian two's complement: ff7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-2p63",
+   "title": "ENUMERATED 92233720368547...: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a09008000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "9223372036854775808"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 9223372036854775808 needs 9 octet(s) of big-endian two's complement: 008000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-2p64",
+   "title": "ENUMERATED 18446744073709...: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a09010000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "18446744073709551616"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 18446744073709551616 needs 9 octet(s) of big-endian two's complement: 010000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-m1844674407-65b",
+   "title": "ENUMERATED -1844674407370...: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a09feffffffffffffffff"
+   },
+   "expect": {
+    "both": {
+     "value": "-18446744073709551617"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: -18446744073709551617 needs 9 octet(s) of big-endian two's complement: feffffffffffffffff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.4.val-enumerated-2p128",
+   "title": "ENUMERATED 34028236692093...: decoded value",
+   "op": "roundtrip",
+   "type": "ENUMERATED",
+   "input": {
+    "hex": "0a110100000000000000000000000000000000"
+   },
+   "expect": {
+    "both": {
+     "value": "340282366920938463463374607431768211456"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.4",
+    "X.690 (02/2021) §8.3.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.4: 340282366920938463463374607431768211456 needs 17 octet(s) of big-endian two's complement: 0100000000000000000000000000000000",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.2.val-boolean-true-ff",
+   "title": "BOOLEAN TRUE, contents ff",
+   "op": "roundtrip",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "0101ff"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 1,
+      "length": {
+       "form": "short"
+      },
+      "content": "ff"
+     },
+     "value": true
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2",
+    "X.690 (02/2021) §11.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2: any non-zero octet is TRUE; §11.1 makes ff the DER form",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.2.val-boolean-false",
+   "title": "BOOLEAN FALSE, contents 00",
+   "op": "roundtrip",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "010100"
+   },
+   "expect": {
+    "both": {
+     "value": false
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2: a zero octet is FALSE",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.1.val-boolean-true-01",
+   "title": "BOOLEAN TRUE written 01: BER accepts the value, DER rejects",
+   "op": "decode",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "010101"
+   },
+   "expect": {
+    "ber": {
+     "value": true
+    },
+    "der": {
+     "error": "boolean_not_ff"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2",
+    "X.690 (02/2021) §11.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2 (non-zero is TRUE) and §11.1 (DER TRUE is ff, so 01 is refused)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.1.val-boolean-true-7f",
+   "title": "BOOLEAN TRUE written 7f: BER accepts the value, DER rejects",
+   "op": "decode",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "01017f"
+   },
+   "expect": {
+    "ber": {
+     "value": true
+    },
+    "der": {
+     "error": "boolean_not_ff"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2",
+    "X.690 (02/2021) §11.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2 (non-zero is TRUE) and §11.1 (DER TRUE is ff, so 7f is refused)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.1.val-boolean-true-80",
+   "title": "BOOLEAN TRUE written 80: BER accepts the value, DER rejects",
+   "op": "decode",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "010180"
+   },
+   "expect": {
+    "ber": {
+     "value": true
+    },
+    "der": {
+     "error": "boolean_not_ff"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2",
+    "X.690 (02/2021) §11.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2 (non-zero is TRUE) and §11.1 (DER TRUE is ff, so 80 is refused)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.1.val-boolean-true-fe",
+   "title": "BOOLEAN TRUE written fe: BER accepts the value, DER rejects",
+   "op": "decode",
+   "type": "BOOLEAN",
+   "input": {
+    "hex": "0101fe"
+   },
+   "expect": {
+    "ber": {
+     "value": true
+    },
+    "der": {
+     "error": "boolean_not_ff"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.2.2",
+    "X.690 (02/2021) §11.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.2.2 (non-zero is TRUE) and §11.1 (DER TRUE is ff, so fe is refused)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.8.val-null",
+   "title": "NULL",
+   "op": "roundtrip",
+   "type": "NULL",
+   "input": {
+    "hex": "0500"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 5,
+      "length": {
+       "form": "short"
+      },
+      "content": ""
+     },
+     "value": null
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.8.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.8.2: no contents octets",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-empty",
+   "title": "OCTET STRING of 0 octets",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "0400"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 0 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-one-00",
+   "title": "OCTET STRING of 1 octets",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "040100"
+   },
+   "expect": {
+    "both": {
+     "value": "00"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 1 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-deadbeef",
+   "title": "OCTET STRING of 4 octets",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "0404deadbeef"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 4,
+      "length": {
+       "form": "short"
+      },
+      "content": "deadbeef"
+     },
+     "value": "deadbeef"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 4 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-127",
+   "title": "OCTET STRING of 127 octets, the longest short length",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "047f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e"
+   },
+   "expect": {
+    "both": {
+     "value": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 127 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-128",
+   "title": "OCTET STRING of 128 octets, the shortest long length",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "048180000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f"
+   },
+   "expect": {
+    "both": {
+     "value": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 128 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-300",
+   "title": "OCTET STRING of 300 octets, two length octets",
+   "op": "roundtrip",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "0482012c00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bcc3cad1d8dfe6edf4fb020910171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c838a91989fa6adb4bbc2c9d0d7dee5ecf3fa01080f161d242b323940474e555c636a71787f868d949ba2a9b0b7bec5ccd3dae1e8eff6fd040b121920272e353c434a51585f666d747b828990979ea5acb3bac1c8cfd6dde4ebf2f900070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d"
+   },
+   "expect": {
+    "both": {
+     "value": "00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bcc3cad1d8dfe6edf4fb020910171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c838a91989fa6adb4bbc2c9d0d7dee5ecf3fa01080f161d242b323940474e555c636a71787f868d949ba2a9b0b7bec5ccd3dae1e8eff6fd040b121920272e353c434a51585f666d747b828990979ea5acb3bac1c8cfd6dde4ebf2f900070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.2: the contents are the octets of the value, 300 of them",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-constructed",
+   "title": "OCTET STRING in two segments: BER value is the concatenation, DER refuses the form",
+   "op": "decode",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "24080402abcd0402ef01"
+   },
+   "expect": {
+    "ber": {
+     "value": "abcdef01"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.3",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.3: the value is the segments' octets in order (ab cd, then ef 01); §10.2 requires the primitive form in DER",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-constructed-indefinite",
+   "title": "OCTET STRING in three segments, one empty, indefinite length",
+   "op": "decode",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "24800402abcd04000401ef0000"
+   },
+   "expect": {
+    "ber": {
+     "value": "abcdef"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.3",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.3 and §8.1.3.6: segments ab cd, (none), ef",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.7.val-octetstring-constructed-empty",
+   "title": "OCTET STRING constructed with no segment is the empty value",
+   "op": "decode",
+   "type": "OCTET STRING",
+   "input": {
+    "hex": "2400"
+   },
+   "expect": {
+    "ber": {
+     "value": ""
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.7.3",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.7.3 (zero segments give the empty value)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-empty",
+   "title": "the empty BIT STRING is 03 01 00",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030100"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 3,
+      "length": {
+       "form": "short"
+      },
+      "content": "00"
+     },
+     "value": {
+      "unused": 0,
+      "hex": ""
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 00 = 0 unused bits in the final octet, so 0 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-0-unused-ff",
+   "title": "BIT STRING with 0 unused bits",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030200ff"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 3,
+      "length": {
+       "form": "short"
+      },
+      "content": "00ff"
+     },
+     "value": {
+      "unused": 0,
+      "hex": "ff"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 00 = 0 unused bits in the final octet, so 8 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-0-unused-two",
+   "title": "BIT STRING with 0 unused bits",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030300aa55"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 0,
+      "hex": "aa55"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 00 = 0 unused bits in the final octet, so 16 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-1-unused",
+   "title": "BIT STRING with 1 unused bits",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030201fe"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 1,
+      "hex": "fe"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 01 = 1 unused bits in the final octet, so 7 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-4-unused",
+   "title": "BIT STRING with 4 unused bits",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030204f0"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 4,
+      "hex": "f0"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 04 = 4 unused bits in the final octet, so 4 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-7-unused",
+   "title": "a single 1 bit",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "03020780"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 7,
+      "hex": "80"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 07 = 7 unused bits in the final octet, so 1 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-7-unused-zero",
+   "title": "a single 0 bit",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "03020700"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 7,
+      "hex": "00"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 07 = 7 unused bits in the final octet, so 1 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-1-unused-three-octets",
+   "title": "BIT STRING with 1 unused bits",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "0304010a3b5e"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 1,
+      "hex": "0a3b5e"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 01 = 1 unused bits in the final octet, so 23 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-long-1-unused",
+   "title": "BIT STRING of 139 octets, long-form length",
+   "op": "roundtrip",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "03818c01020406080a0c0e10121416181a1c1e20222426282a2c2e30323436383a3c3e40424446484a4c4e50525456585a5c5e60626466686a6c6e70727476787a7c7e80828486888a8c8e90929496989a9c9ea0a2a4a6a8aaacaeb0b2b4b6b8babcbec0c2c4c6c8caccced0d2d4d6d8dadcdee0e2e4e6e8eaeceef0f2f4f6f8fafcfe00020406080a0c0e10121416"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "unused": 1,
+      "hex": "020406080a0c0e10121416181a1c1e20222426282a2c2e30323436383a3c3e40424446484a4c4e50525456585a5c5e60626466686a6c6e70727476787a7c7e80828486888a8c8e90929496989a9c9ea0a2a4a6a8aaacaeb0b2b4b6b8babcbec0c2c4c6c8caccced0d2d4d6d8dadcdee0e2e4e6e8eaeceef0f2f4f6f8fafcfe00020406080a0c0e10121416"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 01 = 1 unused bits in the final octet, so 1111 bits",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-padbits-7",
+   "title": "unused bits set to one: BER reads the 1-bit value 1, DER refuses",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030207ff"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 7,
+      "hex": "80"
+     }
+    },
+    "der": {
+     "error": "unused_bits_nonzero"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 07 = 7 unused bits in the final octet, so 1 bits; the unused bits are not part of the value and read as zero",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-padbits-3",
+   "title": "three unused bits not all zero",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "030203e7"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 3,
+      "hex": "e0"
+     }
+    },
+    "der": {
+     "error": "unused_bits_nonzero"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.2",
+    "X.690 (02/2021) §11.2.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.2: initial octet 03 = 3 unused bits in the final octet, so 5 bits; the unused bits are not part of the value and read as zero",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-constructed",
+   "title": "BIT STRING in two segments, BER only",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "2308030200aa030204f0"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 4,
+      "hex": "aaf0"
+     }
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.4",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.4: segment 1 = 00 aa (8 bits), segment 2 = 04 f0 (4 bits); total 12 bits aa f0 with 4 unused in the last octet",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-constructed-padbits-4",
+   "title": "BIT STRING in two segments, the last with unused bits set to one",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "2308030200aa030204ff"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 4,
+      "hex": "aaf0"
+     }
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.4",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.4: segments 00 aa (8 bits) and 04 ff (4 bits); the 4 unused bits of ff are not part of the value and read as zero, so the value is aa f0",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-constructed-padbits-7",
+   "title": "BIT STRING in two segments, the last a single bit with 7 pad bits set",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "2308030200aa030207ff"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 7,
+      "hex": "aa80"
+     }
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.4",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.4: segments 00 aa and 07 ff (1 bit); the 7 unused bits read as zero, so the value is aa 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-constructed-empty",
+   "title": "BIT STRING constructed with no segment",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "2300"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 0,
+      "hex": ""
+     }
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.3",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.3: no segments is the empty value",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.6.val-bitstring-constructed-empty-segment",
+   "title": "BIT STRING whose first segment is the empty value 00",
+   "op": "decode",
+   "type": "BIT STRING",
+   "input": {
+    "hex": "2307030100030200ff"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "unused": 0,
+      "hex": "ff"
+     }
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.6.4",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.6.4 NOTE: a segment may be the empty value 03 01 00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-empty",
+   "title": "UTF8String ''",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c00"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: no characters, no octets",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-ascii",
+   "title": "UTF8String 'Jones'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 12,
+      "length": {
+       "form": "short"
+      },
+      "content": "4a6f6e6573"
+     },
+     "value": "Jones"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: ASCII characters are one octet each: 4a 6f 6e 65 73",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-e-acute",
+   "title": "UTF8String 'é'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c02c3a9"
+   },
+   "expect": {
+    "both": {
+     "value": "é"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+00E9 = 110 00011, 10 101001 = c3 a9",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-euro",
+   "title": "UTF8String '€'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c03e282ac"
+   },
+   "expect": {
+    "both": {
+     "value": "€"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+20AC = 1110 0010, 10 000010, 10 101100 = e2 82 ac",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-cjk",
+   "title": "UTF8String '日本語'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c09e697a5e69cace8aa9e"
+   },
+   "expect": {
+    "both": {
+     "value": "日本語"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+65E5 U+672C U+8A9E, three octets each: e6 97 a5 e6 9c ac e8 aa 9e",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-emoji",
+   "title": "UTF8String '😀'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c04f09f9880"
+   },
+   "expect": {
+    "both": {
+     "value": "😀"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+1F600 = 11110 000, 10 011111, 10 011000, 10 000000 = f0 9f 98 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-mixed",
+   "title": "UTF8String 'aé€😀z'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c0b61c3a9e282acf09f98807a"
+   },
+   "expect": {
+    "both": {
+     "value": "aé€😀z"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: one, two, three and four octet characters in order",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-uffee",
+   "title": "UTF8String '￮'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c03efbfae"
+   },
+   "expect": {
+    "both": {
+     "value": "￮"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+FFEE = ef bf ae",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-u0080",
+   "title": "UTF8String '\\x80'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c02c280"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+0080 is the lowest two-octet character: c2 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-u07ff",
+   "title": "UTF8String '߿'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c02dfbf"
+   },
+   "expect": {
+    "both": {
+     "value": "߿"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+07FF is the highest two-octet character: df bf",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-u0800",
+   "title": "UTF8String 'ࠀ'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c03e0a080"
+   },
+   "expect": {
+    "both": {
+     "value": "ࠀ"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+0800 is the lowest three-octet character: e0 a0 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-u10000",
+   "title": "UTF8String '𐀀'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c04f0908080"
+   },
+   "expect": {
+    "both": {
+     "value": "𐀀"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+10000 is the lowest four-octet character: f0 90 80 80",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-u10ffff",
+   "title": "UTF8String '\\U0010ffff'",
+   "op": "roundtrip",
+   "type": "UTF8String",
+   "input": {
+    "hex": "0c04f48fbfbf"
+   },
+   "expect": {
+    "both": {
+     "value": "􏿿"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.10"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.10: U+10FFFF is the highest character: f4 8f bf bf",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-constructed-split-char",
+   "title": "UTF8String constructed, a two-octet character split across segments",
+   "op": "decode",
+   "type": "UTF8String",
+   "input": {
+    "hex": "2c800401c30401a90000"
+   },
+   "expect": {
+    "ber": {
+     "value": "é"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.6",
+    "X.690 (02/2021) §8.7.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.6 and §8.7.3.1 (segment boundaries carry no meaning): c3 | a9 is U+00E9",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-utf8string-constructed",
+   "title": "UTF8String constructed in two segments",
+   "op": "decode",
+   "type": "UTF8String",
+   "input": {
+    "hex": "2c0c04064a6f6e6573200402c3a9"
+   },
+   "expect": {
+    "ber": {
+     "value": "Jones é"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.6",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.6: segments 'Jones ' and U+00E9",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-printablestring-empty",
+   "title": "PrintableString ''",
+   "op": "roundtrip",
+   "type": "PrintableString",
+   "input": {
+    "hex": "1300"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: no characters",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-printablestring-jones",
+   "title": "PrintableString 'Jones'",
+   "op": "roundtrip",
+   "type": "PrintableString",
+   "input": {
+    "hex": "13054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 19,
+      "length": {
+       "form": "short"
+      },
+      "content": "4a6f6e6573"
+     },
+     "value": "Jones"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: letters",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-printablestring-punctuation",
+   "title": "PrintableString \"Aa09 '()+,-./:=?\"",
+   "op": "roundtrip",
+   "type": "PrintableString",
+   "input": {
+    "hex": "131041613039202728292b2c2d2e2f3a3d3f"
+   },
+   "expect": {
+    "both": {
+     "value": "Aa09 '()+,-./:=?"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: every non-alphanumeric printable character of X.680 Table 10 once",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-numericstring-digits-space",
+   "title": "NumericString '0123456789 '",
+   "op": "roundtrip",
+   "type": "NumericString",
+   "input": {
+    "hex": "120b3031323334353637383920"
+   },
+   "expect": {
+    "both": {
+     "value": "0123456789 "
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: digits and space",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-numericstring-phone",
+   "title": "NumericString '123 456 7890'",
+   "op": "roundtrip",
+   "type": "NumericString",
+   "input": {
+    "hex": "120c313233203435362037383930"
+   },
+   "expect": {
+    "both": {
+     "value": "123 456 7890"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: digits with spaces",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-ia5string-email",
+   "title": "IA5String 'a@b.example'",
+   "op": "roundtrip",
+   "type": "IA5String",
+   "input": {
+    "hex": "160b6140622e6578616d706c65"
+   },
+   "expect": {
+    "both": {
+     "value": "a@b.example"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: ASCII",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-ia5string-controls",
+   "title": "IA5String 'x\\ty\\x7f'",
+   "op": "roundtrip",
+   "type": "IA5String",
+   "input": {
+    "hex": "16047809797f"
+   },
+   "expect": {
+    "both": {
+     "value": "x\ty"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: IA5 includes the control characters: tab 09 and DEL 7f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-ia5string-all-0-to-7f",
+   "title": "IA5String '\\x00\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\\t\\n\\x0b\\x0c\\r\\x0e\\x0f\\",
+   "op": "roundtrip",
+   "type": "IA5String",
+   "input": {
+    "hex": "168180000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f"
+   },
+   "expect": {
+    "both": {
+     "value": "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: all 128 IA5 characters in order",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-visiblestring-jones",
+   "title": "VisibleString 'Jones'",
+   "op": "roundtrip",
+   "type": "VisibleString",
+   "input": {
+    "hex": "1a054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "value": "Jones"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: printed in X.690 §8.23.5.4 as 'Jones': 4a 6f 6e 65 73",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-visiblestring-tilde-space",
+   "title": "VisibleString ' ~!'",
+   "op": "roundtrip",
+   "type": "VisibleString",
+   "input": {
+    "hex": "1a03207e21"
+   },
+   "expect": {
+    "both": {
+     "value": " ~!"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23: space 20, tilde 7e and 21 bound the visible range",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-empty",
+   "title": "BMPString ''",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e00"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: no characters",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-ascii",
+   "title": "BMPString 'Jones'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e0a004a006f006e00650073"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 30,
+      "length": {
+       "form": "short"
+      },
+      "content": "004a006f006e00650073"
+     },
+     "value": "Jones"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: two octets per character, high first: 00 4a 00 6f 00 6e 00 65 00 73",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-e-acute",
+   "title": "BMPString 'é'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e0200e9"
+   },
+   "expect": {
+    "both": {
+     "value": "é"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+00E9 = 00 e9",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-euro",
+   "title": "BMPString '€'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e0220ac"
+   },
+   "expect": {
+    "both": {
+     "value": "€"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+20AC = 20 ac",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-cjk",
+   "title": "BMPString '日本'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e0465e5672c"
+   },
+   "expect": {
+    "both": {
+     "value": "日本"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+65E5 U+672C = 65 e5 67 2c",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-ffee",
+   "title": "BMPString '￮'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e02ffee"
+   },
+   "expect": {
+    "both": {
+     "value": "￮"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+FFEE = ff ee",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-d7ff",
+   "title": "BMPString '\\ud7ff'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e02d7ff"
+   },
+   "expect": {
+    "both": {
+     "value": "퟿"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+D7FF is the last value below the surrogates: d7 ff",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-e000",
+   "title": "BMPString '\\ue000'",
+   "op": "roundtrip",
+   "type": "BMPString",
+   "input": {
+    "hex": "1e02e000"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.8"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.8: U+E000 is the first value above the surrogates: e0 00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-bmpstring-constructed-split-unit",
+   "title": "BMPString constructed, a code unit split across segments",
+   "op": "decode",
+   "type": "BMPString",
+   "input": {
+    "hex": "3e800401000401e90000"
+   },
+   "expect": {
+    "ber": {
+     "value": "é"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.6",
+    "X.690 (02/2021) §8.7.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.6 and §8.7.3.1: 00 | e9 is U+00E9",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-universalstring-empty",
+   "title": "UniversalString ''",
+   "op": "roundtrip",
+   "type": "UniversalString",
+   "input": {
+    "hex": "1c00"
+   },
+   "expect": {
+    "both": {
+     "value": ""
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.7"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.7: no characters",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-universalstring-ascii",
+   "title": "UniversalString 'Jo'",
+   "op": "roundtrip",
+   "type": "UniversalString",
+   "input": {
+    "hex": "1c080000004a0000006f"
+   },
+   "expect": {
+    "both": {
+     "value": "Jo"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.7"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.7: four octets per character: 00 00 00 4a 00 00 00 6f",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-universalstring-emoji",
+   "title": "UniversalString '😀'",
+   "op": "roundtrip",
+   "type": "UniversalString",
+   "input": {
+    "hex": "1c040001f600"
+   },
+   "expect": {
+    "both": {
+     "value": "😀"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.7"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.7: U+1F600 = 00 01 f6 00",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-universalstring-mixed",
+   "title": "UniversalString 'a€😀'",
+   "op": "roundtrip",
+   "type": "UniversalString",
+   "input": {
+    "hex": "1c0c00000061000020ac0001f600"
+   },
+   "expect": {
+    "both": {
+     "value": "a€😀"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.7"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.7: U+0061 U+20AC U+1F600",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.23.val-visiblestring-constructed",
+   "title": "VisibleString \"Jones\" in two segments",
+   "op": "decode",
+   "type": "VisibleString",
+   "input": {
+    "hex": "3a0904034a6f6e04026573"
+   },
+   "expect": {
+    "ber": {
+     "value": "Jones"
+    },
+    "der": {
+     "error": "constructed_string"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.23.6",
+    "X.690 (02/2021) §10.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.23.6: segments 4a 6f 6e and 65 73",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.8.val-utctime-991231235959z",
+   "title": "UTCTime 991231235959Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3939313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-000101000000z",
+   "title": "UTCTime 000101000000Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3030303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-490101000000z",
+   "title": "UTCTime 490101000000Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3439303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2049,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: yy 49 is below the pivot 50; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-500101000000z",
+   "title": "UTCTime 500101000000Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3530303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1950,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: yy 50 equals the pivot; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-491231235959z",
+   "title": "UTCTime 491231235959Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3439313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2049,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-510229120000z",
+   "title": "UTCTime 510229120000Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3531303232393132303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1951,
+      "month": 2,
+      "day": 29,
+      "hour": 12,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: the calendar is not checked (policy); 29 February 1951 is read as written; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot0-00",
+   "title": "UTCTime 000101000000Z, pivot 0",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3030303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1900,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: pivot 0: every yy is 19yy; the century by the pivot rule, yy >= 0 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 0
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot0-99",
+   "title": "UTCTime 991231235959Z, pivot 0",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3939313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 0 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 0
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot99-98",
+   "title": "UTCTime 980101000000Z, pivot 99",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3938303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2098,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: pivot 99: only yy 99 is 19yy; the century by the pivot rule, yy >= 99 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 99
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot99-99",
+   "title": "UTCTime 990101000000Z, pivot 99",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3939303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1999,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 99 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 99
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot70-69",
+   "title": "UTCTime 691231235959Z, pivot 70",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3639313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2069,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 70 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 70
+  },
+  {
+   "id": "x690.11.8.val-utctime-pivot70-70",
+   "title": "UTCTime 700101000000Z, pivot 70",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3730303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1970,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 70 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 70
+  },
+  {
+   "id": "x690.11.8.val-utctime-noseconds",
+   "title": "UTCTime 9912312359Z, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170b393931323331323335395a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: the seconds are optional in BER (X.680 §47.3); DER requires them (X.690 §11.8.2); the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-noseconds-2k",
+   "title": "UTCTime 0001010000Z, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170b303030313031303030305a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-plus0100",
+   "title": "UTCTime 991231235959+0100, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "17113939313233313233353935392b30313030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "+01:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: difference +0100, written +01:00; DER requires Z (X.690 §11.8.1); the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-minus0530",
+   "title": "UTCTime 000101000000-0530, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "17113030303130313030303030302d30353330"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "-05:30"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-plus0000",
+   "title": "UTCTime 000101000000+0000, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "17113030303130313030303030302b30303030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "+00:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-minus0000",
+   "title": "UTCTime 000101000000-0000, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "17113030303130313030303030302d30303030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "-00:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-noseconds-offset",
+   "title": "UTCTime 9912312359-0100, pivot 50",
+   "op": "decode",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170f393931323331323335392d30313030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "zone": "-01:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.8.val-utctime-month-12-day-31",
+   "title": "UTCTime 001231000000Z, pivot 50",
+   "op": "roundtrip",
+   "type": "UTCTime",
+   "input": {
+    "hex": "170d3030313233313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2000,
+      "month": 12,
+      "day": 31,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.8",
+    "X.680 (02/2021) §47.3"
+   ],
+   "provenance": "constructed by hand from X.680 §47.3 and X.690 §11.8: YYMMDDhhmmssZ read field by field; the century by the pivot rule, yy >= 50 is 19yy, else 20yy",
+   "edition": "X.690:2021-02",
+   "policy": "utctime-pivot",
+   "pivot": 50
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1992-07-22z",
+   "title": "GeneralizedTime 19920722132100Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f31393932303732323133323130305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1992,
+      "month": 7,
+      "day": 22,
+      "hour": 13,
+      "minute": 21,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the X.690 §11.7.5 example date without the fraction",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-fraction-3z",
+   "title": "GeneralizedTime 19920722132100.3Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393932303732323133323130302e335a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1992,
+      "month": 7,
+      "day": 22,
+      "hour": 13,
+      "minute": 21,
+      "second": 0,
+      "fraction": "3",
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the X.690 §11.7.5 example: fraction digit 3 of a second",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-local-fraction",
+   "title": "GeneralizedTime 19851106210627.3",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181031393835313130363231303632372e33"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "3"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: no zone designator is local time (X.680 §46.3 a); DER requires Z (X.690 §11.7.1)",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-z-fraction",
+   "title": "GeneralizedTime 19851106210627.3Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393835313130363231303632372e335a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "3",
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-minus0500",
+   "title": "GeneralizedTime 19851106210627.3-0500",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181531393835313130363231303632372e332d30353030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "3",
+      "zone": "-05:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: local time with difference -0500; DER requires Z",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-plus0130",
+   "title": "GeneralizedTime 19851106210627+0130",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181331393835313130363231303632372b30313330"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "zone": "+01:30"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-plus01",
+   "title": "GeneralizedTime 19851106210627+01",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393835313130363231303632372b3031"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "zone": "+01"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: a difference of hours only is written +01, minutes omitted",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-1985-minus12",
+   "title": "GeneralizedTime 19851106210627-12",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393835313130363231303632372d3132"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "zone": "-12"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-hour-z",
+   "title": "GeneralizedTime 1985110621Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180b313938353131303632315a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: hour precision; DER requires the seconds",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-hour-local",
+   "title": "GeneralizedTime 1985110621",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180a31393835313130363231"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-hour-fraction",
+   "title": "GeneralizedTime 1985110621.25Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180e313938353131303632312e32355a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "fraction": "25",
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the fraction is of the hour",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-minute-z",
+   "title": "GeneralizedTime 198511062106Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180d3139383531313036323130365a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-minute-fraction",
+   "title": "GeneralizedTime 198511062106.5Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f3139383531313036323130362e355a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "fraction": "5",
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the fraction is of the minute",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-comma",
+   "title": "GeneralizedTime 19851106210627,3Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393835313130363231303632372c335a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "3",
+      "comma": true,
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the decimal sign may be a comma (X.680 §46.3 a) 2); DER allows the full stop only (X.690 §11.7.4)",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-trailing-zero",
+   "title": "GeneralizedTime 19851106210627.30Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181231393835313130363231303632372e33305a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "30",
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: the fraction digits are kept as written; DER refuses a trailing zero (X.690 §11.7.3)",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-zero-fraction",
+   "title": "GeneralizedTime 19851106210627.0Z",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181131393835313130363231303632372e305a"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "0",
+      "zone": "Z"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: a zero fraction is refused in DER (X.690 §11.7.3)",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-long-fraction",
+   "title": "GeneralizedTime 19851106210627.123456789Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181931393835313130363231303632372e3132333435363738395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "123456789",
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: any number of fraction digits; the last is not zero",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-fraction-leading-zeros",
+   "title": "GeneralizedTime 19851106210627.0005Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181431393835313130363231303632372e303030355a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "fraction": "0005",
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: leading zeros of the fraction are significant",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-midnight",
+   "title": "GeneralizedTime 20000101000000Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f32303030303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2000,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-end-of-day",
+   "title": "GeneralizedTime 19991231235959Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f31393939313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-leap-day",
+   "title": "GeneralizedTime 20000229120000Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f32303030303232393132303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2000,
+      "month": 2,
+      "day": 29,
+      "hour": 12,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-year-9999",
+   "title": "GeneralizedTime 99991231235959Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f39393939313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 9999,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-year-1970",
+   "title": "GeneralizedTime 19700101000000Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f31393730303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1970,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-year-2049",
+   "title": "GeneralizedTime 20491231235959Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f32303439313233313233353935395a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 2049,
+      "month": 12,
+      "day": 31,
+      "hour": 23,
+      "minute": 59,
+      "second": 59,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: a four-digit year needs no pivot",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-year-1950",
+   "title": "GeneralizedTime 19500101000000Z",
+   "op": "roundtrip",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180f31393530303130313030303030305a"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "year": 1950,
+      "month": 1,
+      "day": 1,
+      "hour": 0,
+      "minute": 0,
+      "second": 0,
+      "zone": "Z"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-plus-0000",
+   "title": "GeneralizedTime 19851106210627+0000",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "181331393835313130363231303632372b30303030"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27,
+      "zone": "+00:00"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-minute-offset",
+   "title": "GeneralizedTime 198511062106+0530",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "18113139383531313036323130362b30353330"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "zone": "+05:30"
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.11.7.val-generalizedtime-local-no-fraction",
+   "title": "GeneralizedTime 19851106210627",
+   "op": "decode",
+   "type": "GeneralizedTime",
+   "input": {
+    "hex": "180e3139383531313036323130363237"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "year": 1985,
+      "month": 11,
+      "day": 6,
+      "hour": 21,
+      "minute": 6,
+      "second": 27
+     }
+    },
+    "der": {
+     "error": "time_format"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.7",
+    "X.680 (02/2021) §46.3"
+   ],
+   "provenance": "constructed by hand from X.680 §46.3 and X.690 §11.7: YYYYMMDDhhmmss then the zone, read field by field",
+   "edition": "X.690:2021-02",
+   "policy": "generalizedtime-x690"
+  },
+  {
+   "id": "x690.8.5.val-real-zero",
+   "title": "REAL zero: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "0900"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "zero",
+      "hex": ""
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.2",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: plus zero has no contents octets (§8.5.2)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-plus-infinity",
+   "title": "REAL plus-infinity: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090140"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "plus-infinity",
+      "hex": "40"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.9",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 40: bits 8-7 are 01, PLUS-INFINITY (§8.5.9)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-minus-infinity",
+   "title": "REAL minus-infinity: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090141"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "minus-infinity",
+      "hex": "41"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.9",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 41: MINUS-INFINITY (§8.5.9)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-not-a-number",
+   "title": "REAL not-a-number: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090142"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "not-a-number",
+      "hex": "42"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.9",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 42: NOT-A-NUMBER (§8.5.9)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-minus-zero",
+   "title": "REAL minus-zero: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090143"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "minus-zero",
+      "hex": "43"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.9",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 43: minus zero (§8.5.9)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-one",
+   "title": "REAL binary-one: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "0903800001"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "binary",
+      "hex": "800001"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 80 = binary, S=0, base 2, F=0, one exponent octet; E = 00, N = 01: 1 x 2^0 (§8.5.7)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-ten",
+   "title": "REAL binary-ten: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "0903800105"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "binary",
+      "hex": "800105"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 80, E = 01, N = 05: 5 x 2^1 = 10",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-half",
+   "title": "REAL binary-half: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090380ff01"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "binary",
+      "hex": "80ff01"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 80, E = ff = -1, N = 01: 1 x 2^-1 = 0.5",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-minus-one-and-a-half",
+   "title": "REAL binary-minus-one-and-a-half: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "0903c0ff03"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "binary",
+      "hex": "c0ff03"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet c0: bit 7 set, S = -1; E = -1, N = 3: -3 x 2^-1",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-two-octet-exponent",
+   "title": "REAL binary-two-octet-exponent: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090481010001"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "binary",
+      "hex": "81010001"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 81: exponent in two octets 01 00 = 256, N = 1: 2^256",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-base8",
+   "title": "REAL binary-base8: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0903900101"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "binary",
+      "hex": "900101"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 90: bits 6-5 = 01, base 8; E = 1, N = 1: 8. DER allows base 2 only (§11.3.1)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-base16",
+   "title": "REAL binary-base16: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0903a00101"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "binary",
+      "hex": "a00101"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet a0: bits 6-5 = 10, base 16; 16. DER allows base 2 only (§11.3.1)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-scale",
+   "title": "REAL binary-scale: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0903840003"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "binary",
+      "hex": "840003"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 84: F = 1; E = 0, N = 3: 3 x 2 = 6. DER requires F = 0 (§11.3.1)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-binary-even-mantissa",
+   "title": "REAL binary-even-mantissa: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0903800002"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "binary",
+      "hex": "800002"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: N = 02 is even: DER requires an odd mantissa (§11.3.1)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-decimal-nr3",
+   "title": "REAL decimal-nr3: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "090603312e452b30"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "decimal",
+      "hex": "03312e452b30"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.8",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 03 = decimal NR3; the ISO 6093 text 1.E+0; the DER form (§11.3.2)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-decimal-nr3-fraction",
+   "title": "REAL decimal-nr3-fraction: opaque record",
+   "op": "roundtrip",
+   "type": "REAL",
+   "input": {
+    "hex": "09070331352e452d31"
+   },
+   "expect": {
+    "both": {
+     "value": {
+      "kind": "decimal",
+      "hex": "0331352e452d31"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.8",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: NR3 text 15.E-1 = 1.5",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-decimal-nr1",
+   "title": "REAL decimal-nr1: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0903013135"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "decimal",
+      "hex": "013135"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.8",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 01 = NR1, text 15; DER requires NR3 (§11.3.2.1)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  },
+  {
+   "id": "x690.8.5.val-real-decimal-nr2",
+   "title": "REAL decimal-nr2: opaque record",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "090402312e35"
+   },
+   "expect": {
+    "ber": {
+     "value": {
+      "kind": "decimal",
+      "hex": "02312e35"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.8",
+    "X.690 (02/2021) §8.5.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.5: first octet 02 = NR2, text 1.5; DER requires NR3",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  }
+ ]
+}
