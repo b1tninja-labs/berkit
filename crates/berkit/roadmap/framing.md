@@ -44,3 +44,9 @@ re-read is `[unread]`; it becomes `[ok]` when someone reads the clause. `B nn` n
 | [open] | POLICY: stray EOC and tag-0 not `00 00` are reported as `bad_contents` because the shared class list has no class for them (constant `tlv::STRAY_EOC`) | X.690 §8.1.1.2, §8.1.5; X.680 Table 1 | `eoc_errors`; B06, B16. Needs a shared `ErrorClass` (coordinator) |
 | [open] | The `Item::Eoc` arm in `Children::next` is unreachable (an EOC is never read inside a region that is not an open indefinite one); breakage B28 on it survives | n/a | none |
 | [open] | No streaming, no CER, no checking that `max_depth` of a caller-built `Limits` is sensible | n/a | none |
+
+## Long-form lengths in the writer (added with the corpus runner)
+
+| Status | Obligation | Anchor | Test |
+|---|---|---|---|
+| [ok] | A BER sender may write a definite length in the long form with surplus, zero-padded length octets, so the writer offers `length::encode_long` and `tlv::write_header_long`; DER takes the minimal form only and `write_header` writes it | X.690 §8.1.3.5 NOTE 2, §10.1 | `tests/framing.rs::a_long_form_length_with_a_chosen_number_of_octets_is_written_exactly`, `a_long_form_length_is_refused_when_it_cannot_be_written`, `a_header_with_a_padded_long_length_reads_back_in_ber_and_is_refused_in_der`, `the_padding_octets_of_a_long_form_length_are_written_into_a_dirty_buffer`; the corpus case `x690.8.1.3.encode-length-nonminimal-81-01` (a break of the marker bit failed 3 tests; a break of the zero padding failed only the dirty-buffer test, which uses nine octets because a `u64` fills the last eight) |

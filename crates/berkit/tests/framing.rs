@@ -837,3 +837,74 @@ fn a_stray_end_of_contents_is_the_stray_eoc_class() {
     );
     assert_eq!(tlv::STRAY_EOC.name(), "stray_eoc");
 }
+
+#[test]
+fn a_long_form_length_with_a_chosen_number_of_octets_is_written_exactly() {
+    // constructed by hand from X.690 §8.1.3.5 and its NOTE 2: the initial octet is `80 | k`, then k octets, so a
+    // sender may pad the length with leading zero octets. `81 00` is a long-form zero, not the indefinite form.
+    let mut out = [0u8; 16];
+    for (value, octets, expect) in [
+        (1u64, 1usize, "81 01"),
+        (1, 2, "82 00 01"),
+        (0x1234, 2, "82 12 34"),
+        (0, 1, "81 00"),
+        (1, 9, "89 00 00 00 00 00 00 00 00 01"),
+    ] {
+        let n = length::encode_long(value, octets, &mut out).expect("fits");
+        assert_eq!(
+            &out[..n],
+            h(expect).as_slice(),
+            "{value} in {octets} octets"
+        );
+    }
+}
+
+#[test]
+fn a_long_form_length_is_refused_when_it_cannot_be_written() {
+    let mut out = [0u8; 4];
+    assert_eq!(
+        length::encode_long(1, 0, &mut out),
+        Err(length::LongFormError::OctetCount)
+    );
+    assert_eq!(
+        length::encode_long(1, 127, &mut out),
+        Err(length::LongFormError::OctetCount)
+    );
+    assert_eq!(
+        length::encode_long(256, 1, &mut out),
+        Err(length::LongFormError::ValueTooLarge)
+    );
+    assert!(matches!(
+        length::encode_long(1, 4, &mut out),
+        Err(length::LongFormError::BufferTooSmall(_))
+    ));
+}
+
+#[test]
+fn a_header_with_a_padded_long_length_reads_back_in_ber_and_is_refused_in_der() {
+    // constructed by hand: `04 81 01 41` is an OCTET STRING of one octet whose length is written in the long form.
+    let mut head = [0u8; 8];
+    let tag = Tag::new(Class::Universal, false, 4);
+    let n = tlv::write_header_long(&tag, 1, 1, &mut head).expect("writes");
+    assert_eq!(&head[..n], h("04 81 01").as_slice());
+    let whole = h("04 81 01 41");
+    let ber =
+        exact(&whole, Mode::Ber).expect("BER accepts the sender's choice (X.690 §8.1.3.5 NOTE 2)");
+    assert_eq!(ber.content(), [0x41]);
+    assert_eq!(class_of(exact(&whole, Mode::Der)), E::NonMinimalLength);
+    let zero_tag = Tag::new(Class::Universal, false, 0);
+    assert_eq!(
+        tlv::write_header_long(&zero_tag, 1, 1, &mut head),
+        Err(WriteError::ReservedTag)
+    );
+}
+
+#[test]
+fn the_padding_octets_of_a_long_form_length_are_written_into_a_dirty_buffer() {
+    // constructed by hand: the writer must not rely on the caller's buffer being zeroed, so pre-fill it with FF.
+    // Nine length octets is where the padding matters: a u64 fills only the last eight (X.690 §8.1.3.5 NOTE 2).
+    let mut out = [0xFFu8; 12];
+    let n = length::encode_long(1, 9, &mut out).expect("fits");
+    assert_eq!(&out[..n], h("89 00 00 00 00 00 00 00 00 01").as_slice());
+    assert_eq!(out[n], 0xFF, "nothing past the length octets is touched");
+}

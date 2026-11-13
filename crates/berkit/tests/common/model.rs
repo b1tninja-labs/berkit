@@ -137,9 +137,9 @@ impl Node {
             }
     }
 
-    /// Serialise with the crate's writer. With `strict` the node's length form must be one the writer can
-    /// produce (it writes the minimal definite form and the indefinite form); otherwise a long form with
-    /// surplus length octets is written minimally (BER roundtrip, where bytes need not match).
+    /// Serialise with the crate's writer. With `strict` the node's length form is reproduced exactly, including a
+    /// long form with surplus length octets (`tlv::write_header_long`, a BER sender's choice); otherwise a long
+    /// form with surplus length octets is written minimally (BER roundtrip, where bytes need not match).
     pub fn encode(&self, strict: bool, out: &mut Vec<u8>) -> Result<(), String> {
         let tag = Tag::new(self.class, self.constructed, self.tag);
         let mut inner = Vec::new();
@@ -153,21 +153,24 @@ impl Node {
         }
         let n = inner.len() as u64;
         let minimal = Length::Definite(n).encoded_len() - 1; // 0 for the short form
+        let mut long_octets = None;
         let length = match self.length {
             LenForm::Indefinite => Length::Indefinite,
             LenForm::Short if n >= 128 => return Err("short form cannot hold the length".into()),
             LenForm::Short => Length::Definite(n),
             LenForm::Long(k) => {
-                if usize::from(k) != minimal && strict {
-                    return Err(format!(
-                        "writer cannot write {k} length octets for length {n} (it writes the minimal form only)"
-                    ));
+                if strict && usize::from(k) != minimal {
+                    long_octets = Some(usize::from(k));
                 }
                 Length::Definite(n)
             }
         };
-        let mut head = [0u8; 32];
-        let h = tlv::write_header(&tag, length, &mut head).map_err(|e| e.to_string())?;
+        let mut head = [0u8; 160];
+        let h = match long_octets {
+            Some(k) => tlv::write_header_long(&tag, n, k, &mut head),
+            None => tlv::write_header(&tag, length, &mut head),
+        }
+        .map_err(|e| e.to_string())?;
         out.extend_from_slice(&head[..h]);
         out.extend_from_slice(&inner);
         if length == Length::Indefinite {

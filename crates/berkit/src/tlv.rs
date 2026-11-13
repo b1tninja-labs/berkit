@@ -19,7 +19,7 @@
 //! encoding that reaches the end of its enclosing contents exactly at an element boundary is `missing_eoc`
 //! (`corpus/format.md`, X.690 §8.1.3.6.2).
 
-use crate::length::{self, Length};
+use crate::length::{self, Length, LongFormError};
 use crate::tag::{BufferTooSmall, Class, Tag};
 use crate::{Error, ErrorClass, Mode};
 use core::fmt;
@@ -404,6 +404,8 @@ pub enum WriteError {
     ReservedTag,
     /// The indefinite length was asked for a primitive tag. X.690 §8.1.3.2 a).
     IndefiniteOnPrimitive,
+    /// The long-form length could not be written. See [`length::encode_long`].
+    LongForm(LongFormError),
 }
 
 impl From<BufferTooSmall> for WriteError {
@@ -422,6 +424,7 @@ impl fmt::Display for WriteError {
             Self::IndefiniteOnPrimitive => {
                 f.write_str("the indefinite length needs a constructed tag")
             }
+            Self::LongForm(e) => e.fmt(f),
         }
     }
 }
@@ -454,6 +457,27 @@ pub fn write_header(tag: &Tag, length: Length, out: &mut [u8]) -> Result<usize, 
     }
     let t = tag.encode(out)?;
     let l = length.encode(&mut out[t..])?;
+    Ok(t + l)
+}
+
+/// Write the identifier octets and a definite length in the long form with exactly `octets` length octets (BER
+/// only: DER takes the minimal form, which [`write_header`] writes). Returns the octets written.
+/// X.690 §8.1.2, §8.1.3.5 and its NOTE 2, §10.1.
+///
+/// # Errors
+/// [`WriteError::ReservedTag`] for UNIVERSAL 0, [`WriteError::LongForm`] as [`length::encode_long`] (the octet
+/// count, a value that does not fit, a buffer that is too small).
+pub fn write_header_long(
+    tag: &Tag,
+    value: u64,
+    octets: usize,
+    out: &mut [u8],
+) -> Result<usize, WriteError> {
+    if tag.is_universal_zero() {
+        return Err(WriteError::ReservedTag);
+    }
+    let t = tag.encode(out)?;
+    let l = length::encode_long(value, octets, &mut out[t..]).map_err(WriteError::LongForm)?;
     Ok(t + l)
 }
 
