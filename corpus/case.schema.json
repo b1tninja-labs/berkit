@@ -19,7 +19,7 @@
       "enum": [
         "truncated", "reserved_length", "indefinite_on_primitive", "length_overrun", "missing_eoc",
         "non_minimal_tag", "limit_exceeded", "wrong_form", "bad_contents", "non_minimal_integer",
-        "non_minimal_subidentifier", "trailing_data",
+        "non_minimal_subidentifier", "trailing_data", "stray_eoc",
         "non_minimal_length", "indefinite_length", "constructed_string", "boolean_not_ff",
         "unused_bits_nonzero", "bitstring_trailing_zeros", "set_order", "setof_order",
         "default_encoded", "time_format", "real_form"
@@ -128,6 +128,11 @@
         "provenance": {
           "type": "string",
           "pattern": "^(from X\\.(690|680) .+|constructed by hand from .+)$"
+        },
+        "policy": {
+          "enum": ["ber-shall-rules", "der-noncanonical-reject", "limits", "setof-duplicates", "set-vs-setof", "utctime-pivot",
+                   "generalizedtime-x690", "real-opaque", "trailing-data", "unchecked-8bit-strings"],
+          "description": "Present when the outcome rests on a ROADMAP policy decision rather than a clause alone; the keys are listed in corpus.json."
         },
         "edition": {
           "type": "string",

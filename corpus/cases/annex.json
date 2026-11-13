@@ -1,0 +1,940 @@
+{
+ "corpus_format": "1",
+ "cases": [
+  {
+   "id": "x690.8.9.sequence-smith",
+   "title": "SEQUENCE {name IA5String, ok BOOLEAN} = {\"Smith\", TRUE}",
+   "op": "roundtrip",
+   "type": "SEQUENCE {name IA5String, ok BOOLEAN}",
+   "input": {
+    "hex": "300a1605536d6974680101ff"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 22,
+        "length": {
+         "form": "short"
+        },
+        "content": "536d697468"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "ff"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.9"
+   ],
+   "provenance": "from X.690 §8.9.3 (EXAMPLE; the octets of \"Smith\" are an ASCII expansion, 7 + 3 = 10 agrees with the printed length)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.type1-visiblestring",
+   "title": "Type1 ::= VisibleString, value \"Jones\"",
+   "op": "roundtrip",
+   "type": "x690:8.14:Type1",
+   "input": {
+    "hex": "1a054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 26,
+      "length": {
+       "form": "short"
+      },
+      "content": "4a6f6e6573"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "from X.690 §8.14.4 (EXAMPLE, Type1)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.type2-application-implicit",
+   "title": "Type2 ::= [APPLICATION 3] IMPLICIT Type1",
+   "op": "roundtrip",
+   "type": "x690:8.14:Type2",
+   "input": {
+    "hex": "43054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "application",
+      "constructed": false,
+      "tag": 3,
+      "length": {
+       "form": "short"
+      },
+      "content": "4a6f6e6573"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "from X.690 §8.14.4 (EXAMPLE, Type2)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.type3-explicit",
+   "title": "Type3 ::= [2] Type2 (explicit environment)",
+   "op": "roundtrip",
+   "type": "x690:8.14:Type3",
+   "input": {
+    "hex": "a20743054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": true,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 3,
+        "length": {
+         "form": "short"
+        },
+        "content": "4a6f6e6573"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4",
+    "X.690 (02/2021) §8.14.3"
+   ],
+   "provenance": "from X.690 §8.14.4 (EXAMPLE, Type3)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.type4-implicit-over-explicit",
+   "title": "Type4 ::= [APPLICATION 7] IMPLICIT Type3, Type3 ::= [2] Type2; value \"Jones\"",
+   "op": "roundtrip",
+   "type": "x690:8.14:Type4",
+   "input": {
+    "hex": "670743054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "application",
+      "constructed": true,
+      "tag": 7,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 3,
+        "length": {
+         "form": "short"
+        },
+        "content": "4a6f6e6573"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "from X.690 §8.14.4 (EXAMPLE, Type4)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.type5-implicit-over-implicit",
+   "title": "Type5 ::= [2] IMPLICIT Type2",
+   "op": "roundtrip",
+   "type": "x690:8.14:Type5",
+   "input": {
+    "hex": "82054a6f6e6573"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": false,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "content": "4a6f6e6573"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "from X.690 §8.14.4 (EXAMPLE, Type5)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.a3.personnel-record.ber",
+   "title": "Annex A record, A.3 bytes (declaration order): BER accepts, DER rejects the SET component order",
+   "op": "decode",
+   "type": "x690:A.1:PersonnelRecord",
+   "input": {
+    "hex": "60818561101a044a6f686e1a01501a05536d697468a00a1a084469726563746f72420133a10a43083139373130393137a21261101a044d6172791a01541a05536d697468a342311f61111a0552616c70681a01541a05536d697468a00a43083139353731313131311f61111a05537573616e1a01421a054a6f6e6573a00a43083139353930373137"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "application",
+      "constructed": true,
+      "tag": 0,
+      "length": {
+       "form": "long",
+       "octets": 1
+      },
+      "children": [
+       {
+        "class": "application",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "4a6f686e"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "50"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "536d697468"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "4469726563746f72"
+         }
+        ]
+       },
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "33"
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": false,
+          "tag": 3,
+          "length": {
+           "form": "short"
+          },
+          "content": "3139373130393137"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": true,
+          "tag": 1,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "4d617279"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "54"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "536d697468"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 3,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": true,
+          "tag": 17,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": true,
+            "tag": 1,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "52616c7068"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "54"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "536d697468"
+             }
+            ]
+           },
+           {
+            "class": "context",
+            "constructed": true,
+            "tag": 0,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "application",
+              "constructed": false,
+              "tag": 3,
+              "length": {
+               "form": "short"
+              },
+              "content": "3139353731313131"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "class": "universal",
+          "constructed": true,
+          "tag": 17,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": true,
+            "tag": 1,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "537573616e"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "42"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "4a6f6e6573"
+             }
+            ]
+           },
+           {
+            "class": "context",
+            "constructed": true,
+            "tag": 0,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "application",
+              "constructed": false,
+              "tag": 3,
+              "length": {
+               "form": "short"
+              },
+              "content": "3139353930373137"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §A.3",
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "from X.690 §A.3",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.a3.personnel-record.der-order",
+   "title": "Annex A record with SET components in canonical tag order (APPLICATION before context-specific)",
+   "op": "roundtrip",
+   "type": "x690:A.1:PersonnelRecord",
+   "input": {
+    "hex": "60818561101a044a6f686e1a01501a05536d697468420133a00a1a084469726563746f72a10a43083139373130393137a21261101a044d6172791a01541a05536d697468a342311f61111a0552616c70681a01541a05536d697468a00a43083139353731313131311f61111a05537573616e1a01421a054a6f6e6573a00a43083139353930373137"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "application",
+      "constructed": true,
+      "tag": 0,
+      "length": {
+       "form": "long",
+       "octets": 1
+      },
+      "children": [
+       {
+        "class": "application",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "4a6f686e"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "50"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "536d697468"
+         }
+        ]
+       },
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "33"
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "4469726563746f72"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": false,
+          "tag": 3,
+          "length": {
+           "form": "short"
+          },
+          "content": "3139373130393137"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": true,
+          "tag": 1,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "4d617279"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "54"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "536d697468"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 3,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": true,
+          "tag": 17,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": true,
+            "tag": 1,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "52616c7068"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "54"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "536d697468"
+             }
+            ]
+           },
+           {
+            "class": "context",
+            "constructed": true,
+            "tag": 0,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "application",
+              "constructed": false,
+              "tag": 3,
+              "length": {
+               "form": "short"
+              },
+              "content": "3139353731313131"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "class": "universal",
+          "constructed": true,
+          "tag": 17,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": true,
+            "tag": 1,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "537573616e"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "42"
+             },
+             {
+              "class": "universal",
+              "constructed": false,
+              "tag": 26,
+              "length": {
+               "form": "short"
+              },
+              "content": "4a6f6e6573"
+             }
+            ]
+           },
+           {
+            "class": "context",
+            "constructed": true,
+            "tag": 0,
+            "length": {
+             "form": "short"
+            },
+            "children": [
+             {
+              "class": "application",
+              "constructed": false,
+              "tag": 3,
+              "length": {
+               "form": "short"
+              },
+              "content": "3139353930373137"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 §10.3, X.680 §8.6 and X.690 §A.3",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.b.identification-oid-ber",
+   "title": "Annex B identification OID of BER: 2.1.1",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "06025101"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 6,
+      "length": {
+       "form": "short"
+      },
+      "content": "5101",
+      "asn1": "OBJECT IDENTIFIER 2.1.1"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §B",
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2 (Annex B prints the values, not the bytes; first subidentifier 2*40+1 = 81 = 0x51)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.b.identification-oid-cer",
+   "title": "Annex B identification OID of CER: 2.1.2.0",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "0603510200"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 6,
+      "length": {
+       "form": "short"
+      },
+      "content": "510200",
+      "asn1": "OBJECT IDENTIFIER 2.1.2.0"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §B",
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2 (Annex B prints the values, not the bytes; first subidentifier 2*40+1 = 81 = 0x51)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.b.identification-oid-der",
+   "title": "Annex B identification OID of DER: 2.1.2.1",
+   "op": "roundtrip",
+   "type": "OBJECT IDENTIFIER",
+   "input": {
+    "hex": "0603510201"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 6,
+      "length": {
+       "form": "short"
+      },
+      "content": "510201",
+      "asn1": "OBJECT IDENTIFIER 2.1.2.1"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §B",
+    "X.690 (02/2021) §8.19.4",
+    "X.690 (02/2021) §8.19.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.19.4 and §8.19.2 (Annex B prints the values, not the bytes; first subidentifier 2*40+1 = 81 = 0x51)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.c.5.real-base16-f3",
+   "title": "REAL, base 16, F=3, 3-octet exponent, 5-octet mantissa (shape of C.5)",
+   "op": "decode",
+   "type": "REAL",
+   "input": {
+    "hex": "0909ae0000070000000001"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": false,
+      "tag": 9,
+      "length": {
+       "form": "short"
+      },
+      "content": "ae0000070000000001"
+     }
+    },
+    "der": {
+     "error": "real_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.5.7",
+    "X.690 (02/2021) §11.3.1",
+    "X.690 (02/2021) §C.5"
+   ],
+   "provenance": "constructed by hand from X.690 §C.2 and §C.5 (the bit patterns and lengths are printed; the byte string is not)",
+   "edition": "X.690:2021-02",
+   "policy": "real-opaque"
+  }
+ ]
+}

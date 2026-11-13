@@ -1,0 +1,2049 @@
+{
+ "corpus_format": "1",
+ "cases": [
+  {
+   "id": "x690.8.9.sequence-empty",
+   "title": "Empty SEQUENCE",
+   "op": "roundtrip",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "3000"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": []
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.9.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.1 clause 1 (0x30 = universal, constructed, 16) and §8.1.3.4 clause 1 (length 0)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.11.set-of-empty",
+   "title": "Empty SET OF",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "3100"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": []
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.11.1",
+    "X.690 (02/2021) §8.12.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.11.1 clause 1 and §8.12.2 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.9.sequence-primitive",
+   "title": "Primitive SEQUENCE",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "1000"
+   },
+   "expect": {
+    "both": {
+     "error": "wrong_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.9.1",
+    "X.690 (02/2021) §8.1.2.5"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.1 clause 1; 0x10 = universal 16 with bit 6 = 0 (§8.1.2.5 clause 1)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.11.set-primitive",
+   "title": "Primitive SET",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "1100"
+   },
+   "expect": {
+    "both": {
+     "error": "wrong_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.11.1",
+    "X.690 (02/2021) §8.1.2.5"
+   ],
+   "provenance": "constructed by hand from X.690 §8.11.1 clause 1 (0x11 has bit 6 = 0)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.9.sequence-one-integer",
+   "title": "SEQUENCE {INTEGER 5}",
+   "op": "roundtrip",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "3003020105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.9.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.2 clause 1 (length 3 = one TLV of 3 octets)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.9.sequence-child-overruns",
+   "title": "SEQUENCE whose child overruns it",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "3003020205"
+   },
+   "expect": {
+    "both": {
+     "error": "length_overrun"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.3.4",
+    "X.690 (02/2021) §8.9.2"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.3.4 clause 1 (the child needs 2 content octets, 1 left)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.9.sequence-truncated",
+   "title": "SEQUENCE cut short",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "30030201"
+   },
+   "expect": {
+    "both": {
+     "error": "truncated"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.3.3"
+   ],
+   "provenance": "constructed by hand from X.690 the parent declares 3 octets, only 2 are present",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.3.6.sequence-indefinite",
+   "title": "SEQUENCE {INTEGER 5}, indefinite: BER accepts, DER rejects",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "30800201050000"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "indefinite"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "indefinite_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.3.6",
+    "X.690 (02/2021) §8.1.5",
+    "X.690 (02/2021) §10.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.3.6 clause 1 (length octet 0x80) and §8.1.5 clause 2 (EOC = 00 00); §10.1 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.5.sequence-nested-indefinite",
+   "title": "Both levels indefinite",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "3080308002010500000000"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "indefinite"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": true,
+        "tag": 16,
+        "length": {
+         "form": "indefinite"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "05"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "indefinite_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.5",
+    "X.690 (02/2021) §8.1.1.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.5 clauses 1-2 and §8.1.1.1 clause 1 d) (the first 00 00 closes the inner, the second the outer)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.5.sequence-indefinite-over-definite",
+   "title": "Outer indefinite, inner definite",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "308030030201050000"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "indefinite"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": true,
+        "tag": 16,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "05"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "indefinite_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.1.2",
+    "X.690 (02/2021) §8.1.5"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.1.2 clause 1 (the inner encoding has no EOC; the single 00 00 closes the outer)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.5.sequence-inner-closed-outer-open",
+   "title": "Outer EOC missing",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "308030800201050000"
+   },
+   "expect": {
+    "ber": {
+     "error": "missing_eoc"
+    },
+    "der": {
+     "error": "indefinite_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.5"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.5 clause 1 (the inner is closed, the outer is not)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.1.2.sequence-stray-eoc",
+   "title": "Stray EOC after the last child of a definite SEQUENCE",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "30050201050000"
+   },
+   "expect": {
+    "both": {
+     "error": "stray_eoc"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.1.2",
+    "X.690 (02/2021) §8.1.5"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.1.2 clause 1 and §8.1.5 clause 1 (an EOC inside a definite-length parent)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.3.5.sequence-length-ff",
+   "title": "SEQUENCE with the reserved length octet FF",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "30ff020105"
+   },
+   "expect": {
+    "both": {
+     "error": "reserved_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.3.5 c)"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.3.5 clause 2 c)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.1.3.5.sequence-long-length",
+   "title": "SEQUENCE with a longer length form than necessary",
+   "op": "decode",
+   "type": "SEQUENCE",
+   "input": {
+    "hex": "308103020105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "long",
+       "octets": 1
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "non_minimal_length"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.1.3.5 NOTE 2",
+    "X.690 (02/2021) §10.1"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.3.5 clause 5 (NOTE 2) and §10.1 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-canonical-class-order",
+   "title": "SET in canonical order: universal, application, context-specific, private",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "310c020105410105800105c00105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "private",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 X.680 §8.6 clause 1 a) (class order) and §10.3 clause 1; identifier octets 02, 41 (class bits 01), 80 (10), C0 (11) from §8.1.2.2 Table 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-reversed",
+   "title": "SET in reverse class order: BER accepts, DER rejects",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "310cc00105800105410105020105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "private",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 X.680 §8.6 clause 1 a) and §10.3 clause 1, the exact reverse",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-context-before-universal",
+   "title": "SET with a context-specific component before a universal one",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "310c800105410105020105c00105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "application",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "private",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 the same construction (context-specific before universal)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-explicit-before-implicit",
+   "title": "SET with [0] EXPLICIT before [1] IMPLICIT",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "3108a003020105810105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "05"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 X.680 §8.6 clause 1 b) and §8.14.3 clause 1 (explicit is constructed, A0 = 0x80 + 0x20 + 0)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-by-number-not-by-byte",
+   "title": "SET [1] before [0]: byte order is not tag order",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "3108810105a003020105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "05"
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 X.680 §8.6 clause 1 b): sorting by raw identifier byte would wrongly accept this (0x81 < 0xA0); the order is by class and tag number only",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-high-tags-ascending",
+   "title": "SET with tags 2, 31 and 200",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "310c8201059f1f01059f81480105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 31,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 200,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 §8.1.2.4.1 and §8.1.2.4.2 ([2], [31], [200] ascending by number; 200 = 81 48)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-high-tags-descending",
+   "title": "SET with tags 200, 31 and 2",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "310c9f814801059f1f0105820105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 200,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 31,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 the same, reversed",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-untagged-choice-actual-tag",
+   "title": "SET holding a tagged CHOICE and an untagged CHOICE, sorted by actual tag",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "310ba103820102830101860103"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "context",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "02"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 3,
+        "length": {
+         "form": "short"
+        },
+        "content": "01"
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 6,
+        "length": {
+         "form": "short"
+        },
+        "content": "03"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 §10.3 clauses 1-2 (the actual outermost tag decides); schema A ::= SET { a [3] INTEGER, b [1] CHOICE {c [2] INTEGER, d [4] INTEGER}, e CHOICE {f CHOICE {g [5] INTEGER, h [6] INTEGER}, i CHOICE {j [0] INTEGER}} } in an IMPLICIT TAGS environment, value b = c 2, a = 1, e = h 3; tags 1, 3, 6",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.10.3.set-a0-before-81",
+   "title": "SET {[0], [1]} in tag order, valid DER",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "3104a0008100"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": []
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": ""
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 §10.3 and X.680 §8.6 ([0] before [1]); hazards/deviations.md item 4",
+   "edition": "X.690:2021-02",
+   "policy": "set-vs-setof"
+  },
+  {
+   "id": "x690.10.3.set-81-before-a0",
+   "title": "SET {[1], [0]} out of tag order",
+   "op": "decode",
+   "type": "SET",
+   "input": {
+    "hex": "31048100a000"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": ""
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": []
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "set_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §10.3",
+    "X.680 (02/2021) §8.6"
+   ],
+   "provenance": "constructed by hand from X.690 §10.3 and X.680 §8.6 ([1] before [0]); hazards/deviations.md item 4",
+   "edition": "X.690:2021-02",
+   "policy": "set-vs-setof"
+  },
+  {
+   "id": "x690.11.6.setof-81-before-a0",
+   "title": "Same bytes as a SET OF: ascending, valid DER",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "31048100a000"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": ""
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": []
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (81 00 < A0 00 as octet strings); the same bytes as the SET case above",
+   "edition": "X.690:2021-02",
+   "policy": "set-vs-setof"
+  },
+  {
+   "id": "x690.11.6.setof-a0-before-81",
+   "title": "Same bytes as a SET OF: descending",
+   "op": "decode",
+   "type": "SET OF",
+   "input": {
+    "hex": "3104a0008100"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": []
+       },
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "content": ""
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "setof_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (A0 00 > 81 00); the same bytes as the SET case above",
+   "edition": "X.690:2021-02",
+   "policy": "set-vs-setof"
+  },
+  {
+   "id": "x690.11.6.setof-ascending",
+   "title": "SET OF INTEGER {1, 2}",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "3106020101020102"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "01"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "02"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (02 01 01 < 02 01 02)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.6.setof-descending",
+   "title": "SET OF INTEGER {2, 1}: BER accepts, DER rejects",
+   "op": "decode",
+   "type": "SET OF",
+   "input": {
+    "hex": "3106020102020101"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "02"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "01"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "setof_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6",
+    "X.690 (02/2021) §8.12.3"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1, reversed; BER: the order is the sender's (§8.12.3 clause 1)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.6.setof-equal-elements",
+   "title": "SET OF with two equal elements: accepted in BER and DER",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "3106020105020105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 says only 'ascending'; no clause forbids equal elements; ROADMAP policy: equal adjacent elements are accepted",
+   "edition": "X.690:2021-02",
+   "policy": "setof-duplicates"
+  },
+  {
+   "id": "x690.11.6.setof-choice-tag-before-length",
+   "title": "SET OF whose longer element sorts first",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "310702020080040141"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0080"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 4,
+        "length": {
+         "form": "short"
+        },
+        "content": "41"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (INTEGER 128 = 00 80 by §8.3.2); schema SET OF CHOICE {i INTEGER, o OCTET STRING}: the 4-octet element sorts first because 0x02 < 0x04; a shorter-first rule would wrongly reject this",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.6.setof-choice-reversed",
+   "title": "SET OF whose shorter element wrongly comes first",
+   "op": "decode",
+   "type": "SET OF",
+   "input": {
+    "hex": "310704014102020080"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 4,
+        "length": {
+         "form": "short"
+        },
+        "content": "41"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0080"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "setof_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 the same, reversed",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.6.setof-same-tag-length-order-wrong",
+   "title": "SET OF INTEGER {128, 256, 127} out of order",
+   "op": "decode",
+   "type": "SET OF",
+   "input": {
+    "hex": "310b020200800202010002017f"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0080"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0100"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "7f"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "setof_order"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (same tag: 02 01 7F < 02 02 00 80 < 02 02 01 00; the note gave length 0A, which is wrong: 4 + 4 + 3 = 11, see CORRECTIONS.md)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.6.setof-same-tag-length-order-right",
+   "title": "SET OF INTEGER {127, 128, 256} in order",
+   "op": "roundtrip",
+   "type": "SET OF",
+   "input": {
+    "hex": "310b02017f0202008002020100"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "7f"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0080"
+       },
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "0100"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.6"
+   ],
+   "provenance": "constructed by hand from X.690 §11.6 clause 1 (note's length corrected, see CORRECTIONS.md)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.explicit-integer",
+   "title": "[2] EXPLICIT INTEGER 5: constructed, holds the full INTEGER TLV",
+   "op": "roundtrip",
+   "type": "corpus:ExplicitInt2",
+   "input": {
+    "hex": "a203020105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": true,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.14.3 clause 1 (the Type3 pattern in §8.14.4)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.implicit-integer",
+   "title": "[2] IMPLICIT INTEGER 5: primitive, the INTEGER tag replaced",
+   "op": "roundtrip",
+   "type": "corpus:ImplicitInt2",
+   "input": {
+    "hex": "820105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": false,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "content": "05"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "constructed by hand from X.690 §8.14.4 clause 1 (the Type5 pattern)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.implicit-integer-tlv-lookalike",
+   "title": "Implicit [2] INTEGER whose content looks like a TLV",
+   "op": "roundtrip",
+   "type": "corpus:ImplicitInt2",
+   "input": {
+    "hex": "8203020105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": false,
+      "tag": 2,
+      "length": {
+       "form": "short"
+      },
+      "content": "020105"
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "constructed by hand from X.690 §8.14.4 clause 1 b): the content octets 02 01 05 are the integer 0x020105 = 131333 for an implicit INTEGER; not an error",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.implicit-integer-constructed",
+   "title": "Constructed [2] where the schema says IMPLICIT INTEGER",
+   "op": "decode",
+   "type": "corpus:ImplicitInt2",
+   "input": {
+    "hex": "a203020105"
+   },
+   "expect": {
+    "both": {
+     "error": "wrong_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "constructed by hand from X.690 §8.14.4 clause 1 a) (an INTEGER's tag with the constructed bit)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.14.explicit-integer-primitive",
+   "title": "Primitive [2] where the schema says EXPLICIT INTEGER",
+   "op": "decode",
+   "type": "corpus:ExplicitInt2",
+   "input": {
+    "hex": "820105"
+   },
+   "expect": {
+    "both": {
+     "error": "wrong_form"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.14.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.14.3 clause 1 (explicit requires constructed)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.5.default-omitted",
+   "title": "DEFAULT component omitted",
+   "op": "roundtrip",
+   "type": "corpus:DefaultSeq",
+   "input": {
+    "hex": "3000"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": []
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.5",
+    "X.680 (02/2021) §25.12"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.3 clause 1 and X.680 §25.12 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.5.default-present",
+   "title": "Component equal to its DEFAULT present: BER accepts, DER rejects",
+   "op": "decode",
+   "type": "corpus:DefaultSeq",
+   "input": {
+    "hex": "3003020105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "default_encoded"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.5",
+    "X.690 (02/2021) §8.9.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.3 clause 1; §11.5 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.5.default-other-value",
+   "title": "Component different from its DEFAULT",
+   "op": "roundtrip",
+   "type": "corpus:DefaultSeq",
+   "input": {
+    "hex": "3003020106"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 2,
+        "length": {
+         "form": "short"
+        },
+        "content": "06"
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.9.3"
+   ],
+   "provenance": "constructed by hand from X.690 §8.9.3 clause 1",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.11.5.default-present-implicit-tag",
+   "title": "Tagged DEFAULT component present",
+   "op": "decode",
+   "type": "corpus:DefaultSeqTagged",
+   "input": {
+    "hex": "3003800105"
+   },
+   "expect": {
+    "ber": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 16,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "context",
+        "constructed": false,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "content": "05"
+       }
+      ]
+     }
+    },
+    "der": {
+     "error": "default_encoded"
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §11.5"
+   ],
+   "provenance": "constructed by hand from X.690 §11.5 clause 1 for E ::= SEQUENCE { a [0] IMPLICIT INTEGER DEFAULT 5, b [1] IMPLICIT INTEGER OPTIONAL } with a = 5",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.8.16.instance-of-open-type",
+   "title": "INSTANCE OF / EXTERNAL shape, open-type value left unopened",
+   "op": "roundtrip",
+   "type": null,
+   "input": {
+    "hex": "280806012aa003020105"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 8,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": false,
+        "tag": 6,
+        "length": {
+         "form": "short"
+        },
+        "content": "2a"
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 2,
+          "length": {
+           "form": "short"
+          },
+          "content": "05"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §8.16.1",
+    "X.690 (02/2021) §8.14.4",
+    "X.690 (02/2021) §8.14.3",
+    "X.690 (02/2021) §8.15"
+   ],
+   "provenance": "constructed by hand from X.690 §8.16.1 clause 1, §8.14.4 clause 1 a), §8.14.3 clause 1 and §8.15 clause 2: [UNIVERSAL 8] IMPLICIT SEQUENCE is constructed (0x28); type-id 06 01 2A (content opaque here), then value [0] EXPLICIT = A0 03 wrapping the open-type value, a complete INTEGER TLV; the value stays unopened",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.a3.child-information-set",
+   "title": "ChildInformation SET {name, dateOfBirth} from Annex A.3, components already in canonical order",
+   "op": "roundtrip",
+   "type": "SET",
+   "input": {
+    "hex": "311f61111a0552616c70681a01541a05536d697468a00a43083139353731313131"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "universal",
+      "constructed": true,
+      "tag": 17,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "application",
+        "constructed": true,
+        "tag": 1,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "52616c7068"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "54"
+         },
+         {
+          "class": "universal",
+          "constructed": false,
+          "tag": 26,
+          "length": {
+           "form": "short"
+          },
+          "content": "536d697468"
+         }
+        ]
+       },
+       {
+        "class": "context",
+        "constructed": true,
+        "tag": 0,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": false,
+          "tag": 3,
+          "length": {
+           "form": "short"
+          },
+          "content": "3139353731313131"
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §A.3",
+    "X.690 (02/2021) §10.3"
+   ],
+   "provenance": "from X.690 §A.3 (the first child; hex re-assembled by hand from the annex text; 1F = 2 + 17 + 2 + 10 = 31)",
+   "edition": "X.690:2021-02"
+  },
+  {
+   "id": "x690.a3.children-implicit-sequence-of",
+   "title": "children [3] IMPLICIT SEQUENCE OF ChildInformation from Annex A.3 (A3 42, two child SETs)",
+   "op": "roundtrip",
+   "type": null,
+   "input": {
+    "hex": "a342311f61111a0552616c70681a01541a05536d697468a00a43083139353731313131311f61111a05537573616e1a01421a054a6f6e6573a00a43083139353930373137"
+   },
+   "expect": {
+    "both": {
+     "tree": {
+      "class": "context",
+      "constructed": true,
+      "tag": 3,
+      "length": {
+       "form": "short"
+      },
+      "children": [
+       {
+        "class": "universal",
+        "constructed": true,
+        "tag": 17,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": true,
+          "tag": 1,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "52616c7068"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "54"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "536d697468"
+           }
+          ]
+         },
+         {
+          "class": "context",
+          "constructed": true,
+          "tag": 0,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": false,
+            "tag": 3,
+            "length": {
+             "form": "short"
+            },
+            "content": "3139353731313131"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "class": "universal",
+        "constructed": true,
+        "tag": 17,
+        "length": {
+         "form": "short"
+        },
+        "children": [
+         {
+          "class": "application",
+          "constructed": true,
+          "tag": 1,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "537573616e"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "42"
+           },
+           {
+            "class": "universal",
+            "constructed": false,
+            "tag": 26,
+            "length": {
+             "form": "short"
+            },
+            "content": "4a6f6e6573"
+           }
+          ]
+         },
+         {
+          "class": "context",
+          "constructed": true,
+          "tag": 0,
+          "length": {
+           "form": "short"
+          },
+          "children": [
+           {
+            "class": "application",
+            "constructed": false,
+            "tag": 3,
+            "length": {
+             "form": "short"
+            },
+            "content": "3139353930373137"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "clause": [
+    "X.690 (02/2021) §A.3",
+    "X.690 (02/2021) §8.14.4"
+   ],
+   "provenance": "from X.690 §A.3 (A3 42 followed by the two SETs; 0x42 = 2 x 33)",
+   "edition": "X.690:2021-02"
+  }
+ ]
+}
