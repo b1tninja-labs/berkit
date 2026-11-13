@@ -1,4 +1,4 @@
-# Conformance corpus format, `corpus_format` 1 (revision 1.1, see CHANGES.md)
+# Conformance corpus format, `corpus_format` 1 (revision 1.2, see CHANGES.md)
 
 Plain JSON, UTF-8, no BOM. One file holds `{"corpus_format": "1", "cases": [ ... ]}`. Validate with
 `case.schema.json` (JSON Schema 2020-12). Sample: `sample-cases.json` (28 cases; all hex checked
@@ -19,6 +19,7 @@ patterns with a hand script, not run a full JSON Schema validator (none installe
 | `clause` | Array of citations, each `X.690 (02/2021) §8.19.4`-style. The first is the clause that decides the main outcome. |
 | `provenance` | `from X.690 <place>`, `from X.680 <place>`, or `constructed by hand from <clause>`. Hand-built cases must be so labelled; they are the least authoritative. |
 | `edition` | `X.690:2021-02`, or `X.690:2021-02+E1` when Erratum 1 (09/2021) is involved, or the `X.680:` equivalent. |
+| `pivot` | Optional (revision 1.2), `UTCTime` cases only: an integer 0 to 99, the century pivot of a stated `value` (see "Decoded values"). A case with a `pivot` carries `policy` `utctime-pivot`. |
 | `policy` | Optional (revision 1.1). A key of the `policies` table in `corpus.json`: the outcome rests on a ROADMAP policy decision, not on a clause alone. A runner that implements a different policy may skip the case. |
 
 ### Operations
@@ -50,9 +51,11 @@ Class and bit 6 are in `class` and `constructed` (§8.1.2.2, §8.1.2.5).
 
 ### `typed.value` JSON forms
 
-`BOOLEAN`: true/false. `INTEGER`: decimal string. `NULL`: null. `OBJECT IDENTIFIER` and
-`RELATIVE-OID`: dotted string. Character strings: the string. `OCTET STRING`: hex. `BIT STRING`:
-`{"unused": n, "hex": ...}`. Others added by version bump only.
+The forms below are used by `input.typed` (encode) and, since revision 1.2, by `value` outcomes (decode and
+roundtrip; see "Decoded values"). `BOOLEAN`: true/false. `INTEGER`: decimal string. `NULL`: null.
+`OBJECT IDENTIFIER` and `RELATIVE-OID`: dotted string. Character strings: the string. `OCTET STRING`: hex.
+`BIT STRING`: `{"unused": n, "hex": ...}`. The forms added in revision 1.2 are in "Decoded values". Others added by
+version bump only.
 
 ## "BER accepts, DER rejects" without duplication
 
@@ -62,10 +65,57 @@ either). A case runs once per mode it names. Example: `{"ber": {"tree": ...}, "d
 established what BER does, e.g. the DER time-format cases). The input is shared, so there is nothing to
 duplicate.
 
+## Decoded values (revision 1.2)
+
+Before 1.2 a decode outcome could state only a TLV tree, a hex string or an error class, so no case pinned the VALUE a
+typed decode produces: an implementation could read an OID's first arc, an INTEGER or a time wrongly and still pass.
+An outcome may now name `value`.
+
+**Alternative or accompanying.** `value` may stand alone, or sit beside `tree` in the same outcome
+(`{"tree": {...}, "value": ...}`); it never appears with `hex` or `error`. Alone, it says "the decode succeeds
+and produces this value": the input is the hex of the case, so the tree is already determined and restating it adds
+nothing but length. Beside a tree, both must hold, which lets a case pin framing (length form, tag) and meaning
+together. The tree-only outcome is unchanged, so every case of corpus 0.1.0 means exactly what it did, which is why
+this is a minor bump. A `value` needs a `type` and a type that has a value form (below); it is for `decode` and
+`roundtrip` only (an `encode` outcome stays `hex`). In a roundtrip the re-encoded bytes must decode to the same value
+as well as the same tree. Because `expect` is per mode, one case can say `{"ber": {"value": true}, "der":
+{"error": "boolean_not_ff"}}`.
+
+**Forms** (the `typed.value` forms, plus the following):
+
+| Type | `value` |
+|---|---|
+| `BOOLEAN` | `true` or `false` (BER: any non-zero octet is `true`, X.690 §8.2.2) |
+| `INTEGER`, `ENUMERATED` | decimal string, any size, `-` for negative, no leading zeros, `"0"` for zero (ENUMERATED is the associated integer, §8.4) |
+| `NULL` | `null` (the key is present) |
+| `OBJECT IDENTIFIER` | dotted string of the arcs after the §8.19.4 split of the first subidentifier into two arcs; any arc size |
+| `RELATIVE-OID` | dotted string, one arc per subidentifier (§8.20.4); any arc size |
+| `OCTET STRING` | lowercase hex of the value; for a constructed BER encoding the segments' octets concatenated (§8.7.3) |
+| `BIT STRING` | `{"unused": n, "hex": ...}`; a constructed BER encoding is reassembled (§8.6.4), `unused` is that of the last segment. The unused bits are not part of the value and read as zero in `hex`, so a BER encoding with pad bits set (`03 02 07 ff`) has `{"unused": 7, "hex": "80"}` |
+| `NumericString`, `PrintableString`, `VisibleString`, `IA5String` | the string |
+| `UTF8String` | the string (a segment boundary of a constructed encoding may fall inside a character) |
+| `BMPString` | the string: two octets per character, big-endian, no surrogates (§8.23.8) |
+| `UniversalString` | the string: four octets per character (§8.23.7) |
+| `UTCTime`, `GeneralizedTime` | a record of the fields as written: `year` (an integer; for UTCTime the full year, see below), `month`, `day`, `hour`, then `minute`, `second` where written, `fraction` (the digits after the decimal sign, a string, only when written, and `"comma": true` beside it when the sign was a comma), `zone` (`"Z"`, `"+hh:mm"` or `"-hh:mm"`; `"+hh"` or `"-hh"` when the minutes are omitted, which only GeneralizedTime allows; the key is absent for a GeneralizedTime with no designator, local time). Numbers are JSON numbers. No arithmetic is applied: a zone is not converted, a fraction is not scaled, a day is not checked against its month |
+| `REAL` | an opaque record `{"kind": ..., "hex": contents}` where `kind` is `zero` (no contents octets, §8.5.2), `plus-infinity`, `minus-infinity`, `not-a-number`, `minus-zero` (first octets `40` to `43`, §8.5.9), `binary` (bit 8 of the first octet set, §8.5.7) or `decimal` (bits 8-7 `00`, §8.5.8). No float and no mantissa or exponent: the REAL scope policy `real-opaque`. |
+
+**UTCTime and the pivot.** X.680 §47.3 gives a two-digit year and no century rule, so the century is the ROADMAP
+policy `utctime-pivot`. A case that states a UTCTime `value` therefore names the pivot in its own `pivot` field
+(0 to 99) and carries `policy` `utctime-pivot`: a year `yy` of `pivot` or more is `19yy`, below it `20yy`, and
+`year` in the record is that full year. A runner passes the pivot to its parser. The cases include both sides of the
+boundary and the pivots 0, 50, 70 and 99.
+
+**Types with no value form** stay tree-only: `SEQUENCE`, `SET`, `SET OF` and every tagged or corpus type; `DATE`,
+`TIME-OF-DAY`, `DATE-TIME`, `DURATION`, `TIME`; `OID-IRI` and `RELATIVE-OID-IRI`; and `TeletexString`,
+`VideotexString`, `GraphicString`, `GeneralString` (the repertoires and escapes are not read, policy
+`unchecked-8bit-strings`). A case that states a `value` for one of them is invalid. Forms for them are added by a
+version bump.
+
 ## Outcomes
 
 An outcome has exactly one of `tree` (decode/roundtrip success), `hex` (encode success), `error`
-(error class). `error_offset` (octet offset of first violation) is permitted only as an advisory field
+(error class), or, since revision 1.2, `value` alone or `tree` together with `value` (see "Decoded values").
+`error_offset` (octet offset of first violation) is permitted only as an advisory field
 and is not required to match.
 
 Rule for which error wins when an input has several faults: **stream order**. Identifier octets, then
@@ -128,7 +178,8 @@ case must carry `type`.
   hand" cases can be weighted differently.
 - Version: semver on the corpus as a whole. Adding cases or a new error class = minor. Changing an
   existing case's expectation, deleting a case, or changing the format = major. Ids are immutable;
-  a retracted case keeps its id in `cases/retired.json` with a reason, never reused.
+  a retracted case keeps its id in `cases/retired.json` with a reason, never reused. An id is never reissued for a
+  different case, even one in another file or one that was never released.
 - Two implementations (Rust crate, Python package) depend on it by relative path inside the same
   workspace, e.g. `../ber-corpus` (workspace siblings, as the other projects under `D:\code`), or
   a git submodule at `tests/corpus` pinned to a tag. Each test harness reads `corpus.json`, refuses to run

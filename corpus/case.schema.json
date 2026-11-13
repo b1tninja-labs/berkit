@@ -69,16 +69,23 @@
       }
     },
     "outcome": {
+      "description": "Exactly one of hex, error, tree; or value alone; or tree together with value (revision 1.2). `value` is any JSON: its form is per type, see format.md.",
       "type": "object",
       "additionalProperties": false,
-      "minProperties": 1,
-      "maxProperties": 1,
       "properties": {
         "tree": { "$ref": "#/$defs/node" },
         "hex": { "$ref": "#/$defs/hex" },
         "error": { "$ref": "#/$defs/errorClass" },
+        "value": {},
         "error_offset": { "type": "integer", "minimum": 0 }
-      }
+      },
+      "oneOf": [
+        { "required": ["hex"], "not": { "anyOf": [{ "required": ["tree"] }, { "required": ["error"] }, { "required": ["value"] }] } },
+        { "required": ["error"], "not": { "anyOf": [{ "required": ["tree"] }, { "required": ["hex"] }, { "required": ["value"] }] } },
+        { "required": ["tree"], "not": { "anyOf": [{ "required": ["hex"] }, { "required": ["error"] }, { "required": ["value"] }] } },
+        { "required": ["value"], "not": { "anyOf": [{ "required": ["hex"] }, { "required": ["error"] }, { "required": ["tree"] }] } },
+        { "required": ["tree", "value"], "not": { "anyOf": [{ "required": ["hex"] }, { "required": ["error"] }] } }
+      ]
     },
     "expect": {
       "type": "object",
@@ -133,6 +140,10 @@
           "enum": ["ber-shall-rules", "der-noncanonical-reject", "limits", "setof-duplicates", "set-vs-setof", "utctime-pivot",
                    "generalizedtime-x690", "real-opaque", "trailing-data", "unchecked-8bit-strings"],
           "description": "Present when the outcome rests on a ROADMAP policy decision rather than a clause alone; the keys are listed in corpus.json."
+        },
+        "pivot": {
+          "type": "integer", "minimum": 0, "maximum": 99,
+          "description": "UTCTime cases only (revision 1.2): the century pivot of the value. A two-digit year yy of pivot or more is 19yy, else 20yy. Requires policy utctime-pivot."
         },
         "edition": {
           "type": "string",
