@@ -5,16 +5,17 @@ language-neutral conformance corpus in `corpus/`. The library is `#![no_std]`, a
 dependencies: functions borrow from the input slice, and encoders write into a caller-supplied `&mut [u8]` and
 return the length written. Every public item cites the clause it implements.
 
-berkit is not published to crates.io (`publish = false` in the manifest).
+Repository: <https://github.com/b1tninja-labs/berkit> (public since 2026-11-14). berkit is not published to
+crates.io (`publish = false` in the manifest).
 
 ## Status
 
 This is a young library, not a vetted one. What is and is not established:
 
 - **Pinned by tests.** `docs/matrix.md` (generated from the `ROADMAP.md` tables) lists every obligation with
-  its clause, its status and the test that pins it: 194 rows, of which 126 are `[ok]` (the named test exists,
+  its clause, its status and the test that pins it: 194 rows, of which 128 are `[ok]` (the named test exists,
   passes, and failed when the code it covers was deliberately broken), 12 are `[unread]` (the test passes but
-  the clause could not be read from the standard) and 56 are `[open]`. See `ROADMAP.md` for the open rows.
+  the clause could not be read from the standard) and 54 are `[open]`. See `ROADMAP.md` for the open rows.
 - **Policy, not standard.** X.690 states the sender's rules and no receiver-side errors, and sets no limits.
   Where berkit rejects, limits or chooses, that is a recorded POLICY decision in `ROADMAP.md`, open to change.
 - **Not independent of the author's reading.** The corpus expectations and the code were written from the same
@@ -76,7 +77,8 @@ an argument of every decoding function; offsets in an `Error` count from the sta
     python tools/matrix.py --check
 
 Python 3 with the standard library only. CI (`.github/workflows/ci.yml`) runs these, the tests on Rust 1.85, and
-a build of the library for `thumbv7em-none-eabi` and `thumbv6m-none-eabi`.
+a build of the library for `thumbv7em-none-eabi` and `thumbv6m-none-eabi`. All four jobs passed in
+GitHub Actions run 43543070623 on `main` (2026-11-14).
 
 ## The corpus
 
