@@ -138,7 +138,7 @@ REAL scope decision for v1 is in section 5.
 | OID5 | §8.19.2 ¶6 | Fewest possible octets: the leading octet of a subidentifier shall not be `80` | never emit `80` first | stated as "shall", not a sender's option: reject a subidentifier whose first octet is `80` (in BER too) | reject | `NonMinimal` |
 | OID6 | §8.19.3 ¶1 | Number of subidentifiers N = (number of components) - 1 | | | | n/a |
 | OID7 | §8.19.4 ¶1-¶2 | First subidentifier = X*40 + Y, X first component, Y second | encode two arcs as one subidentifier | decode: read first subidentifier v; X, Y recovered as below | same | n/a |
-| OID7a | derived from §8.19.4 ¶2-¶3 NOTE (the 0/1/2 and "at most 39" facts are only in that NOTE and in X.660, not in the corpus) | Split: v < 40 gives (0, v); v < 80 gives (1, v - 40); otherwise (2, v - 80). The second arc is unbounded only when X = 2 | encode: first arc must be 0, 1 or 2; if first arc < 2 the second must be <= 39 | apply the split; v can be arbitrarily large (e.g. 2.999) | same | `Unsupported` only for size limits |
+| OID7a | derived from §8.19.4 ¶2-¶3 NOTE (the 0/1/2 and "at most 39" facts are in that NOTE and are stated by X.660 §7.6 ¶1, read 2026-11-13) | Split: v < 40 gives (0, v); v < 80 gives (1, v - 40); otherwise (2, v - 80). The second arc is unbounded only when X = 2 | encode: first arc must be 0, 1 or 2; if first arc < 2 the second must be <= 39 | apply the split; v can be arbitrarily large (e.g. 2.999) | same | `Unsupported` only for size limits |
 | OID8 | not found in X.690 | No upper bound on a subidentifier value or on the count of arcs is stated | arbitrary-precision API | decide: keep arcs as big-endian minimal octets or a bigint; do not truncate silently. Hard resource limit allowed only if reported as `Unsupported` | same | `Unsupported` |
 | OID9 | derived from §8.19.3 ¶1 and X.680 §32.11 ¶2 (NOTE: at least two arcs) | Empty contents has no first subidentifier, so is not a value | | reject length 0 | reject | `OidEmpty` |
 | OID10 | §8.19.5 ¶2-¶4 (example) | {2 999 3}: first subidentifier 1079 = `88 37`, then `03` | | | | n/a |
@@ -161,7 +161,7 @@ REAL scope decision for v1 is in section 5.
 | IRI1 | §8.21.1 ¶1 | Primitive | `1F 23` | reject `3F 23` | reject | `WrongForm` |
 | IRI2 | §8.21.2 ¶1 | Contents are the UTF-8 of the lexical items of the XML value notation (X.680 §34.3), no white-space between items. That XML notation is `FirstArcIdentifier SubsequentArcIdentifier`, i.e. it starts with `/` and has no quotation marks | write UTF-8 of `/arc/arc...` | no X.690 rule on grammar; v1 checks UTF-8 only (see IRI3) | same | `InvalidUtf8` |
 | IRI3 | §8.21.2 ¶2 | No announcers or escape sequences; each character in the smallest number of octets | shortest-form UTF-8 | reject overlong or otherwise ill-formed UTF-8 (the clause says smallest-octet encoding; surrogates, out-of-range code points are not addressed: use the ISO/IEC 10646 definition, not in corpus) | same | `InvalidUtf8` |
-| IRI4 | X.680 §34.3 ¶3 | Arc labels are integer or non-integer Unicode labels (defined by X.660, not in the corpus) | | label validation deferred (v1: not done) | same | n/a |
+| IRI4 | X.680 §34.3 ¶3 | Arc labels are integer or non-integer Unicode labels (defined by X.660 §7.3 to §7.5) | | non-integer labels checked against the X.660 §7.5.2 repertoire; the §7.5.3 10646 exclusion is not applied | same | n/a |
 | RIRI1 | §8.22.1 ¶1 | Primitive | `1F 24` | reject `3F 24` | reject | `WrongForm` |
 | RIRI2 | §8.22.2 ¶1 | UTF-8 of the lexical items of X.680 §35.3: `FirstRelativeArcIdentifier SubsequentArcIdentifier`, first arc without a leading `/` | | as IRI2-IRI3 | same | `InvalidUtf8` |
 | RIRI3 | derived | Clause §8.22.2 does not repeat the "smallest number of octets" sentence of §8.21.2 ¶2; it is still UTF-8, so apply IRI3 | | as IRI3 | same | `InvalidUtf8` |
@@ -357,7 +357,7 @@ Method: `itu_compare` on 8.2.2, 8.3.2, 8.5.7.4, 8.5.8, 8.6.2, 8.6.2.4, 8.7.3, 8.
 ## 4. Statements not found in X.690 (kept out of the obligation table as rules)
 
 1. Any maximum for an INTEGER, a subidentifier, the number of arcs, or a length (see INT5, OID8): the standard states no limit. X.680 §3.8.48 ¶3 only says encoding-rule limits are chosen not to affect users.
-2. The rule "first arc is 0, 1 or 2; if first arc < 2 the second is <= 39" as a stated shall. X.690 §8.19.4 ¶3 says it only in a NOTE; X.660 is the source and is not in the corpus. The decoder split in OID7a is derived from the §8.19.4 formula plus that NOTE.
+2. The rule "first arc is 0, 1 or 2; if first arc < 2 the second is <= 39" as a stated shall. X.690 §8.19.4 ¶3 says it only in a NOTE; X.660 §7.6 ¶1 a) and b) state it (read 2026-11-13). The decoder split in OID7a is derived from the §8.19.4 formula plus that NOTE.
 3. "At least two arcs for an OBJECT IDENTIFIER": only as an X.680 §32.11 NOTE citing X.660. Hence OID9 is derived.
 4. A rule on the values of the unused bits in BER (BIT6): none found; only DER (§11.2.1) constrains them.
 5. A statement that a BER receiver must reject a non-minimal INTEGER or an OID subidentifier starting with `80`: the clauses use "shall" for the sender-side minimal form (§8.3.2, §8.19.2 ¶6) with no sender's option, so I treat these as invalid in BER. Real-world lenient decoders accept them; the standard gives no such permission.
@@ -365,7 +365,7 @@ Method: `itu_compare` on 8.2.2, 8.3.2, 8.5.7.4, 8.5.8, 8.6.2, 8.6.2.4, 8.7.3, 8.
 7. Empty contents for OBJECT IDENTIFIER, RELATIVE-OID, OID-IRI: not addressed in X.690; derived from X.680 notation productions.
 8. Binary REAL with N having no octets (no mantissa octets after the exponent): not stated; and REAL form 11 with X = 1 where "first nine bits" cannot exist.
 9. How BER decoders treat unused pad bits when comparing bit strings (equality): not stated.
-10. The grammar of IRI labels (integerUnicodeLabel, non-integerUnicodeLabel): X.660 and ISO/IEC 10646, not in the corpus. UTF-8 well-formedness details beyond "smallest number of octets" (surrogates, code point range, BOM) rest on ISO/IEC 10646 Annex D, not available.
+10. The grammar of IRI labels (integerUnicodeLabel, non-integerUnicodeLabel): X.660 §7.3 to §7.5 (read 2026-11-13; only the §7.5.3 "(This position shall not be used)" exclusion needs ISO/IEC 10646, not in the corpus). UTF-8 well-formedness details beyond "smallest number of octets" (surrogates, code point range, BOM) rest on ISO/IEC 10646 Annex D, not available.
 11. ISO 6093 NR1/NR2/NR3 grammar (REAL decimal): ISO 6093 is not in the corpus; V-F18 and V-F19 rely only on what §8.5.8 and §11.3.2.x say, plus my reading of NR2 as "digits with a decimal mark" and NR3 as "mantissa, `E`, exponent" (not verified).
 12. Nesting depth limits for constructed strings: none stated.
 13. Behaviour of `BIT STRING` decoders for segment `unused bits` when a nested non-final segment is itself constructed: only implied by the recursion in §8.6.4.1 (BIT12).

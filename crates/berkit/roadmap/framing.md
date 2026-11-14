@@ -98,4 +98,4 @@ the framing tests that failed.
 The `[unread]` rows of the other modules cite ISO 6093, X.660, ISO/IEC 10646 or the ISO register, none of them in the
 corpus. The X.690 and X.680 clauses they also cite were read on 2026-11-13 and say what those rows say (X.690 §11.3.2.6
 "+0", §8.19.4 NOTE on 39, §8.23.10 ¶1 "ISO/IEC 10646, Annex D", §11.4 escape sequences, X.680 §12.27 and §41.6 defer
-to X.660 and 10646), so those rows stay `[unread]` until the external document is read.
+to X.660 and 10646), so those rows stay `[unread]` until the external document is read. X.660 (07/2011) has since been read (2026-11-13): the two `oid` rows that cited it are settled in `oid.md`; the rest still wait on ISO 6093, ISO/IEC 10646 or the register.

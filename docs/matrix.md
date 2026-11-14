@@ -4,7 +4,7 @@
 
 This matrix is rebuilt from the `Status | Obligation | Anchor | Test` tables of `ROADMAP.md` and the module fragments under `crates/*/roadmap/`. Nothing in it is written by hand: each cell is copied from a ROADMAP row, and the only computed things are the counts and the split of an Anchor cell into a document and clauses. A row that cites two clauses appears under both. Status words are the ROADMAP's: `[ok]` the named test exists, passes, and failed when the code was deliberately broken; `[unread]` the test passes but the anchor could not be read cleanly; `[open]` not done.
 
-Rows read: 196. Placed under a clause: 152. Not placed (listed under Unanchored): 44.
+Rows read: 197. Placed under a clause: 153. Not placed (listed under Unanchored): 44.
 
 ## Summary by module
 
@@ -14,11 +14,11 @@ Rows read: 196. Placed under a clause: 152. Not placed (listed under Unanchored)
 | corpus | 11 | 0 | 2 | 13 | 15 | 1 | 12 |
 | framing | 23 | 4 | 10 | 37 | 30 | 31 | 6 |
 | numeric | 30 | 2 | 4 | 36 | 36 | 30 | 6 |
-| oid | 11 | 2 | 3 | 16 | 22 | 15 | 1 |
+| oid | 14 | 1 | 2 | 17 | 23 | 16 | 1 |
 | strtime | 31 | 3 | 14 | 48 | 38 | 48 | 0 |
 | (across the modules) | 6 | 1 | 5 | 12 | 9 | 2 | 10 |
 | (policy decisions) | 0 | 0 | 10 | 10 | 0 | 5 | 5 |
-| **Total** | 128 | 12 | 56 | 196 | 174 | 152 | 44 |
+| **Total** | 131 | 11 | 55 | 197 | 175 | 153 | 44 |
 
 `Test names cited` counts the distinct test names that appear in the Test cells of the module's rows. It is not a count of tests in the code: a test no row names is not counted, and a name in a Test cell that no longer exists in the code is.
 
@@ -34,7 +34,7 @@ The root ROADMAP keeps its own per-module counts by hand. Where they differ from
 | corpus | 11 / 11 | 0 / 0 | 2 / 2 | 15 / 15 |
 | framing | 23 / 23 | 4 / 4 | 10 / 10 | 38 / 30 **differs** |
 | numeric | 30 / 30 | 2 / 2 | 4 / 4 | 41 / 36 **differs** |
-| oid | 11 / 11 | 2 / 2 | 3 / 3 | 27 / 22 **differs** |
+| oid | 11 / 14 **differs** | 2 / 1 **differs** | 3 / 2 **differs** | 27 / 23 **differs** |
 | strtime | 31 / 31 | 3 / 3 | 14 / 14 | 39 / 38 **differs** |
 
 ## Summary by standard document
@@ -43,9 +43,9 @@ The root ROADMAP keeps its own per-module counts by hand. Where they differ from
 |---|---:|---:|---:|---:|---:|
 | ISO/IEC 10646 | 1 | 1 | 0 | 1 | 0 |
 | RFC 5280 | 3 | 3 | 2 | 0 | 1 |
-| X.660 | 1 | 1 | 0 | 1 | 0 |
-| X.680 | 28 | 28 | 17 | 3 | 8 |
-| X.690 | 109 | 131 | 99 | 6 | 26 |
+| X.660 | 4 | 4 | 3 | 1 | 0 |
+| X.680 | 28 | 28 | 19 | 2 | 7 |
+| X.690 | 109 | 131 | 101 | 5 | 25 |
 
 A row that cites several clauses of one document counts once for that document and once per document it cites, so the Rows column does not add up to the total.
 
@@ -72,7 +72,11 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 
 | Clause | What the code does | Module | Status | Test |
 |---|---|---|---|---|
-| §7.5 | Character rules of non-integer Unicode labels in an IRI (not checked) | oid | `[unread]` | none |
+| §7.5.1 | Every character of a non-integer Unicode label is in the §7.5.2 repertoire: `-` `.` `_` `~`, digits and letters, U+00A0 to U+DFFE, U+F900 to U+FDCF, U+FDF0 to U+FFEF, planes 1 to 13 up to xFFFD, U+E1000 to U+EFFFD; so no control character, private-use or noncharacter code point (refused as `bad_contents` and `InvalidIri`). §7.5.1 (a non-integer label has a character that is not a digit) is the X.680 §12.27 ¶2 split and needs no check of its own | oid | `[ok]` | `non_integer_label_repertoire` |
+| §7.5.2 | Every character of a non-integer Unicode label is in the §7.5.2 repertoire: `-` `.` `_` `~`, digits and letters, U+00A0 to U+DFFE, U+F900 to U+FDCF, U+FDF0 to U+FFEF, planes 1 to 13 up to xFFFD, U+E1000 to U+EFFFD; so no control character, private-use or noncharacter code point (refused as `bad_contents` and `InvalidIri`). §7.5.1 (a non-integer label has a character that is not a digit) is the X.680 §12.27 ¶2 split and needs no check of its own | oid | `[ok]` | `non_integer_label_repertoire` |
+| §7.5.2 | ASCII white-space inside an IRI is refused: space, tab and the controls are outside the §7.5.2 repertoire | oid | `[ok]` | `iri_refusals` |
+| §7.5.3 | Exclusion of ISO/IEC 10646 positions marked "(This position shall not be used)" from labels (not checked; §7.5.3 NOTE invites tolerance) | oid | `[unread]` | none; needs ISO/IEC 10646 |
+| §7.6 ¶1 | First arc is 0, 1 or 2 and the second is at most 39 under 0 and 1 (encoder refuses otherwise; decoder accepts any value). Read 2026-11-13: X.660 §7.6 ¶1 a) and b) state it, and ¶2 is the NOTE on the single-octet encodings; the clause says nothing of what a receiver does, so the decoder's choice stands | oid | `[ok]` | `encoder_refusals` |
 
 ### X.680
 
@@ -82,8 +86,8 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | §8.2 | F-17 tag number is a `u64`; above it is `limit_exceeded` (POLICY: the standard sets no maximum) | framing | `[unread]` | `tag_errors`, `header_and_extent_errors`; B08 |
 | §8.4 Table 1 | F-18 UNIVERSAL 0 only as the closing EOC; unassigned universal numbers (15, 37+) accepted at framing (POLICY) | framing | `[open]` | `eoc_errors`, `tlv_unassigned_universal_numbers_pass_at_framing`; B06 proves the EOC part, no breakage for the 15/37 policy |
 | §12.26 | OID-IRI contents: UTF-8 of `/arc/arc`, leading slash, no empty label, integer label without leading zero, no ill-formed UTF-8 | oid | `[ok]` | `oid_iri_contents`, `iri_refusals` |
-| §12.27 ¶1 | Character rules of non-integer Unicode labels in an IRI (not checked) | oid | `[unread]` | none |
-| §12.27 | ASCII white-space inside an IRI is refused: derived from "no white-space", not stated | oid | `[open]` | `iri_refusals` |
+| §12.27 ¶1 | Every character of a non-integer Unicode label is in the §7.5.2 repertoire: `-` `.` `_` `~`, digits and letters, U+00A0 to U+DFFE, U+F900 to U+FDCF, U+FDF0 to U+FFEF, planes 1 to 13 up to xFFFD, U+E1000 to U+EFFFD; so no control character, private-use or noncharacter code point (refused as `bad_contents` and `InvalidIri`). §7.5.1 (a non-integer label has a character that is not a digit) is the X.680 §12.27 ¶2 split and needs no check of its own | oid | `[ok]` | `non_integer_label_repertoire` |
+| §12.27 | ASCII white-space inside an IRI is refused: space, tab and the controls are outside the §7.5.2 repertoire | oid | `[ok]` | `iri_refusals` |
 | §21.3 | REAL contents are carried unchanged and re-encode byte for byte; no float conversion. | (policy decisions) | `[open]` |  |
 | §22.7 | DER: trailing 0 bits removed, only where the type has a NamedBitList; the caller sets `named_bit_list`; the all-zero value is `00` | bitoctet | `[ok]` | `named_bit_list_in_der`, `named_bit_list_value_with_and_without_trailing_zeros` |
 | §22.7 | BER does not require trailing-zero removal and `named_bit_list` has no effect in BER | bitoctet | `[ok]` | `named_bit_list_in_der` (V-S22 part) |
@@ -232,14 +236,14 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | §8.19.3 | Empty contents refused (`bad_contents`). POLICY, derived | oid | `[ok]` | `empty_contents_are_refused` |
 | §8.19.4 | First subidentifier is X*40+Y; split at 40 and 80; second arc of any size under arc 2 (`2.100.3` = `81 34 03`, `2.999.3` = `88 37 03`) | oid | `[ok]` | `first_two_arcs_split_at_40_and_80`, `the_x690_example_2_999_3_is_88_37_03`, `the_2008_example_2_100_3_is_81_34_03` |
 | §8.19.4 | Single subidentifier is two arcs; Annex B values `2.1.1`, `2.1.2.0`, `2.1.2.1` (bytes derived by hand) | oid | `[ok]` | `single_subidentifier_is_two_arcs`, `annex_b_values_contents` |
-| §8.19.4 | First arc is 0, 1 or 2 and the second is at most 39 under 0 and 1 (encoder refuses otherwise; decoder accepts any value) | oid | `[unread]` | `encoder_refusals` |
+| §8.19.4 | First arc is 0, 1 or 2 and the second is at most 39 under 0 and 1 (encoder refuses otherwise; decoder accepts any value). Read 2026-11-13: X.660 §7.6 ¶1 a) and b) state it, and ¶2 is the NOTE on the single-octet encodings; the clause says nothing of what a receiver does, so the decoder's choice stands | oid | `[ok]` | `encoder_refusals` |
 | §8.19.5 | First subidentifier is X*40+Y; split at 40 and 80; second arc of any size under arc 2 (`2.100.3` = `81 34 03`, `2.999.3` = `88 37 03`) | oid | `[ok]` | `first_two_arcs_split_at_40_and_80`, `the_x690_example_2_999_3_is_88_37_03`, `the_2008_example_2_100_3_is_81_34_03` |
 | §8.20.1 | Identifier octets `06`, `0D`, `1F 23`, `1F 24` and the primitive-form (`wrong_form`) check belong to the framing module | oid | `[open]` | none |
 | §8.20.2 | RELATIVE-OID: same subidentifier rules, no packing of the first two arcs, empty refused (derived) | oid | `[ok]` | `relative_oid_example_8571_3_2`, `relative_oid_has_no_first_two_arc_packing`, `relative_oid_refusals` |
 | §8.20.5 | RELATIVE-OID: same subidentifier rules, no packing of the first two arcs, empty refused (derived) | oid | `[ok]` | `relative_oid_example_8571_3_2`, `relative_oid_has_no_first_two_arc_packing`, `relative_oid_refusals` |
 | §8.21.1 | Identifier octets `06`, `0D`, `1F 23`, `1F 24` and the primitive-form (`wrong_form`) check belong to the framing module | oid | `[open]` | none |
 | §8.21.2 | OID-IRI contents: UTF-8 of `/arc/arc`, leading slash, no empty label, integer label without leading zero, no ill-formed UTF-8 | oid | `[ok]` | `oid_iri_contents`, `iri_refusals` |
-| §8.21.2 ¶1 | ASCII white-space inside an IRI is refused: derived from "no white-space", not stated | oid | `[open]` | `iri_refusals` |
+| §8.21.2 ¶1 | ASCII white-space inside an IRI is refused: space, tab and the controls are outside the §7.5.2 repertoire | oid | `[ok]` | `iri_refusals` |
 | §8.22.1 | Identifier octets `06`, `0D`, `1F 23`, `1F 24` and the primitive-form (`wrong_form`) check belong to the framing module | oid | `[open]` | none |
 | §8.22.2 | RELATIVE-OID-IRI contents: as OID-IRI with no leading slash. POLICY: the shortest-form check applies though §8.22.2 does not repeat it | oid | `[ok]` | `relative_oid_iri_contents`, `iri_refusals` |
 | §8.23.2 | S03 values encoded independently | strtime | `[open]` | structural (a `Validator` is per value); no test can fail |
@@ -332,7 +336,7 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | (across the modules) | `[open]` | The typed layer returns no values and has no encoder: a caller decodes the content itself after `typed::validate`, and `encode_typed` is still test code | none | decide whether a value-returning, still allocation-free API is wanted | no anchor |
 | (across the modules) | `[ok]` | Robustness: no input makes the library panic, return an error offset past the slice it was given, return a parsed element that is not a sub-slice of its input (header + contents, plus the EOC octets, is the encoding), disagree between `validate` and a walk of `children()`, or run for more than 2 seconds. Swept deterministically (fixed seeds, a std-only xorshift): 40 real certificates and every hex input of the corpus (mutated by flips, truncation, insertion, header and slice duplication, length corruption), crafted length fields, crafted nesting at and beyond `HARD_MAX_DEPTH` (definite, indefinite, no EOC, alternating), random bytes; 14,950 inputs, each through `Tlv::parse` and `parse_exact` in both modes under three limit sets, `validate`, `children()`, `Leaves`, `typed::validate` against the Certificate and a dozen other schemas, and every content function in both modes. No panic, hang or unbounded offset was found | `crates/berkit/tests/robustness.rs` | `crates/berkit/tests/robustness.rs`: five sweep tests and one nesting and stack test, plus two that prove the harness (a watchdog on a spinning function and a panicking function). Breaks, each failing a named test: `Tlv.encoding` equal to the contents slice, children never advancing (the hang: the watchdog reports `HANG` for the input in five tests), an unchecked index in the length decoder (`30 81`), error offsets past the input in `null::decode` and in the reader, `validate` not recursing, a header one octet short, the nesting bound off by one and the hard bound removed. Limits: the sweeps run on a 4 MiB stack; the inputs are one author's mutations, not a coverage-guided fuzzer | no recognisable clause |
 | (across the modules) | `[open]` | The recursion bound is not a stack bound: the reader recurses once per level, `Limits::HARD_MAX_DEPTH` is 512, and a level costs about 2.7 KiB of stack in a debug build and about 0.4 KiB in release (measured: 512 indefinite levels need 1.3 to 1.4 MiB in debug and between 192 and 256 KiB in release; 123 levels of `a0 80` with the end-of-contents octets, no depth limit asked for, overflow a 256 KiB debug stack). It fits the 2 MiB test default and the default limit of 64 fits 256 KiB, but not a small embedded or 1 MiB Windows stack | none | an iterative reader (an explicit stack of fixed size) or a documented stack figure per level; `robustness.rs` asserts the 256 KiB / 64 level and 2 MiB / 512 level cases | no anchor |
-| (across the modules) | `[open]` | Reference material is missing: X.660 (OID arcs), ISO 6093 (REAL decimal), ISO/IEC 10646 (UTF-8, BMP and UCS-4 rules), ISO 8601 (time), the ISO register (Teletex, Videotex, Graphic, General) | requested from the primarysource coordinator | those rules stay `[unread]` | no recognisable clause |
+| (across the modules) | `[open]` | Reference material is missing: ISO 6093 (REAL decimal), ISO/IEC 10646 (UTF-8, BMP and UCS-4 rules), ISO 8601 (time), the ISO register (Teletex, Videotex, Graphic, General) | requested from the primarysource coordinator | those rules stay `[unread]` | no recognisable clause |
 | (across the modules) | `[open]` | The crate builds on Rust 1.85, on bare-metal `no_std` targets and on 32-bit | `docs/msrv.md` | measured by hand 2026-11-13: tests and clippy pass on 1.85.0, all tests pass on `i686-pc-windows-msvc`, the library builds for `thumbv7em-none-eabi` and `thumbv6m-none-eabi`; build only, nothing was run on a target. Real runs of the named commands in GitHub Actions run 43543070623 on `main` (2026-11-14, ubuntu-latest): the `msrv` job (`cargo test` on 1.85) and both `no_std` jobs (`cargo build -p berkit --lib` for the two targets) concluded success. Not covered by CI: clippy on 1.85 and the 32-bit run, which rest on the by-hand measurement. No deliberate break of either job has been shown to fail it | refers to the repository's own notes |
 | (across the modules) | `[ok]` | berkit is registered in the portfolio and has a remote | `PORTFOLIO.md` | registered in `PORTFOLIO.md` on 2026-11-13 as an untiered Rust crate; public at <https://github.com/b1tninja-labs/berkit> since 2026-11-14 (`gh repo view` reports PUBLIC), with CI run 43543070623 green on `main`. Still `publish = false`: not on crates.io | refers to the repository's own notes |
 | bitoctet | `[open]` | Policy: an output buffer that is too small reports `limit_exceeded`; no corpus class names it | none (POLICY) | `encode_refuses_short_input_and_short_output`, `primitive_octet_string` | no anchor |
