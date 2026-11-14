@@ -12,13 +12,13 @@ Rows read: 194. Placed under a clause: 152. Not placed (listed under Unanchored)
 |---|---:|---:|---:|---:|---:|---:|---:|
 | bitoctet | 16 | 0 | 8 | 24 | 24 | 20 | 4 |
 | corpus | 11 | 0 | 2 | 13 | 15 | 1 | 12 |
-| framing | 1 | 26 | 10 | 37 | 30 | 31 | 6 |
+| framing | 23 | 4 | 10 | 37 | 30 | 31 | 6 |
 | numeric | 30 | 2 | 4 | 36 | 36 | 30 | 6 |
 | oid | 11 | 2 | 3 | 16 | 22 | 15 | 1 |
 | strtime | 31 | 3 | 14 | 48 | 38 | 48 | 0 |
 | (across the modules) | 4 | 1 | 5 | 10 | 5 | 2 | 8 |
 | (policy decisions) | 0 | 0 | 10 | 10 | 0 | 5 | 5 |
-| **Total** | 104 | 34 | 56 | 194 | 170 | 152 | 42 |
+| **Total** | 126 | 12 | 56 | 194 | 170 | 152 | 42 |
 
 `Test names cited` counts the distinct test names that appear in the Test cells of the module's rows. It is not a count of tests in the code: a test no row names is not counted, and a name in a Test cell that no longer exists in the code is.
 
@@ -32,7 +32,7 @@ The root ROADMAP keeps its own per-module counts by hand. Where they differ from
 |---|---:|---:|---:|---:|
 | bitoctet | 16 / 16 | 0 / 0 | 8 / 8 | 29 / 24 **differs** |
 | corpus | 11 / 11 | 0 / 0 | 2 / 2 | 15 / 15 |
-| framing | 1 / 1 | 26 / 26 | 10 / 10 | 38 / 30 **differs** |
+| framing | 23 / 23 | 4 / 4 | 10 / 10 | 38 / 30 **differs** |
 | numeric | 30 / 30 | 2 / 2 | 4 / 4 | 41 / 36 **differs** |
 | oid | 11 / 11 | 2 / 2 | 3 / 3 | 27 / 22 **differs** |
 | strtime | 31 / 31 | 3 / 3 | 14 / 14 | 39 / 38 **differs** |
@@ -42,10 +42,10 @@ The root ROADMAP keeps its own per-module counts by hand. Where they differ from
 | Document | Clauses cited | Rows | `[ok]` | `[unread]` | `[open]` |
 |---|---:|---:|---:|---:|---:|
 | ISO/IEC 10646 | 1 | 1 | 0 | 1 | 0 |
-| RFC 5280 | 2 | 3 | 2 | 0 | 1 |
+| RFC 5280 | 3 | 3 | 2 | 0 | 1 |
 | X.660 | 1 | 1 | 0 | 1 | 0 |
 | X.680 | 28 | 28 | 17 | 3 | 8 |
-| X.690 | 109 | 131 | 77 | 28 | 26 |
+| X.690 | 109 | 131 | 99 | 6 | 26 |
 
 A row that cites several clauses of one document counts once for that document and once per document it cites, so the Rows column does not add up to the total.
 
@@ -66,6 +66,7 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | §4.1 | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | (across the modules) | `[ok]` | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
 | §4.1.2.5.1 | UTCTime takes a century pivot as a parameter. | (policy decisions) | `[open]` |  |
 | §4.1.2.5.1 | T08 century pivot is a parameter | strtime | `[ok]` | `utctime_century_pivot_is_a_parameter` |
+| §4.1.2.9 | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | (across the modules) | `[ok]` | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
 
 ### X.660
 
@@ -118,54 +119,54 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 |---|---|---|---|---|
 | §6 | POLICY: nesting limit, default 64 levels (top level is 1), clamped to 512 whatever the caller asks; `limit_exceeded` | framing | `[open]` | `depth_limit_is_limit_exceeded_not_a_crash`; B11 |
 | §7.1 | DER decoding rejects every non-canonical encoding of §10 and §11. | (policy decisions) | `[open]` |  |
-| §7.3 ¶2 | F-01 BER accepts every sender alternative (non-minimal long forms, indefinite, constructed) | framing | `[unread]` | `tlv_non_minimal_length_is_kept_and_der_rejects_it`, `indefinite_forms_ber`; B03 |
+| §7.3 ¶2 | F-01 BER accepts every sender alternative (non-minimal long forms, indefinite, constructed) | framing | `[ok]` | `tlv_non_minimal_length_is_kept_and_der_rejects_it`, `indefinite_forms_ber`; B03 |
 | §7.3 | Contents re-encode byte for byte; no normalisation | numeric | `[ok]` | `real_decode_then_write_is_byte_for_byte` |
 | §7.3 | S04 constructed accepted in BER | strtime | `[ok]` | `constructed_strings_are_refused_in_der_only` (form flag only; segment framing is the bit/octet module's) |
-| §7.4 † | F-02, F-41 DER: definite form only, minimal length octets | framing | `[unread]` | `length_non_minimal_long_forms_ber_accepts_der_rejects`, `indefinite_der_is_refused_everywhere_by_header`; B05, B10, B20 |
+| §7.4 † | F-02, F-41 DER: definite form only, minimal length octets | framing | `[ok]` | `length_non_minimal_long_forms_ber_accepts_der_rejects`, `indefinite_der_is_refused_everywhere_by_header`; B05, B10, B20 |
 | §7.4 | POLICY (derived, not stated): DER refuses exponent format `11` when X < 4 (a shorter format exists, one value one encoding) | numeric | `[ok]` | `real_binary_non_normalised_forms_are_valid_ber_and_real_form_in_der` (cases "form 11, X=1" and "X=3") |
-| §8.1.1.1 ¶1 † | F-03 components in order: identifier, length, contents, EOC | framing | `[unread]` | `writer_emits_literal_wire_bytes`, `truncation_sweep_*`; B13, B18, B24 |
-| §8.1.1.1 † | Truncation: every proper prefix refused (A: 8, B: 262 incl. high tag and long length, C: 7 incl. indefinite, Annex A record: 136) | framing | `[unread]` | `truncation_sweep_*`, `annex_a_record_parses_and_every_prefix_is_refused`; B15 |
-| §8.1.1.2 † | F-04 EOC only after an indefinite length; `00 00` after a definite value is trailing data | framing | `[unread]` | `eoc_errors`; B06, B17 |
+| §8.1.1.1 ¶1 † | F-03 components in order: identifier, length, contents, EOC | framing | `[ok]` | `writer_emits_literal_wire_bytes`, `truncation_sweep_*`; B13, B18, B24 |
+| §8.1.1.1 † | Truncation: every proper prefix refused (A: 8, B: 262 incl. high tag and long length, C: 7 incl. indefinite, Annex A record: 136) | framing | `[ok]` | `truncation_sweep_*`, `annex_a_record_parses_and_every_prefix_is_refused`; B15 |
+| §8.1.1.2 † | F-04 EOC only after an indefinite length; `00 00` after a definite value is trailing data | framing | `[ok]` | `eoc_errors`; B06, B17 |
 | §8.1.1.2 | POLICY: stray EOC and tag-0 not `00 00` are reported as `bad_contents` because the shared class list has no class for them (constant `tlv::STRAY_EOC`) | framing | `[open]` | `eoc_errors`; B06, B16. Needs a shared `ErrorClass` (coordinator) |
-| §8.1.2 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[unread]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
-| §8.1.2.1 † | F-05, F-06 identifier carries class (all four) and number | framing | `[unread]` | `tag_vectors_decode_and_encode_to_the_literal_octets`, `tag_class_bits_round_trip`; B21 |
-| §8.1.2.2 Table 1 † | F-05, F-06 identifier carries class (all four) and number | framing | `[unread]` | `tag_vectors_decode_and_encode_to_the_literal_octets`, `tag_class_bits_round_trip`; B21 |
-| §8.1.2.2 b) † | F-07 bit 6 is the constructed bit | framing | `[unread]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B22 |
-| §8.1.2.2 c) † | F-08 numbers 0..30 in one octet | framing | `[unread]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B23 |
-| §8.1.2.2 † | F-14 number 0..30 in the high form is `non_minimal_tag` (derived) | framing | `[unread]` | `tag_errors`; B07 |
-| §8.1.2.4 † | F-09, F-10, F-11 high form: leading octet `xx111111`, continuation bit 8, truncation | framing | `[unread]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
-| §8.1.2.4 † | F-14 number 0..30 in the high form is `non_minimal_tag` (derived) | framing | `[unread]` | `tag_errors`; B07 |
-| §8.1.2.4.1 † | F-09, F-10, F-11 high form: leading octet `xx111111`, continuation bit 8, truncation | framing | `[unread]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
+| §8.1.2 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[ok]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
+| §8.1.2.1 † | F-05, F-06 identifier carries class (all four) and number | framing | `[ok]` | `tag_vectors_decode_and_encode_to_the_literal_octets`, `tag_class_bits_round_trip`; B21 |
+| §8.1.2.2 Table 1 † | F-05, F-06 identifier carries class (all four) and number | framing | `[ok]` | `tag_vectors_decode_and_encode_to_the_literal_octets`, `tag_class_bits_round_trip`; B21 |
+| §8.1.2.2 b) † | F-07 bit 6 is the constructed bit | framing | `[ok]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B22 |
+| §8.1.2.2 c) † | F-08 numbers 0..30 in one octet | framing | `[ok]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B23 |
+| §8.1.2.2 † | F-14 number 0..30 in the high form is `non_minimal_tag` (derived) | framing | `[ok]` | `tag_errors`; B07 |
+| §8.1.2.4 † | F-09, F-10, F-11 high form: leading octet `xxx11111` (bits 8 and 7 class, bit 6 constructed, bits 5 to 1 all one), continuation bit 8, truncation | framing | `[ok]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
+| §8.1.2.4 † | F-14 number 0..30 in the high form is `non_minimal_tag` (derived) | framing | `[ok]` | `tag_errors`; B07 |
+| §8.1.2.4.1 † | F-09, F-10, F-11 high form: leading octet `xxx11111` (bits 8 and 7 class, bit 6 constructed, bits 5 to 1 all one), continuation bit 8, truncation | framing | `[ok]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
 | §8.1.2.4.2 | BER decoding enforces the standard's "shall" value rules, including minimal INTEGER, OID subidentifier and tag-number forms. There is no lenient mode in version 1. | (policy decisions) | `[open]` |  |
-| §8.1.2.4.2 a) † | F-09, F-10, F-11 high form: leading octet `xx111111`, continuation bit 8, truncation | framing | `[unread]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
-| §8.1.2.4.2 b) † | F-12 base-128 big-endian number | framing | `[unread]` | `tag_vectors_...` (30, 31, 127, 128, 16383, 16384, 2^32, 2^64-1); B18 |
-| §8.1.2.4.2 c) † | F-13 leading zero subsequent octet is `non_minimal_tag` | framing | `[unread]` | `tag_errors`; B04 |
+| §8.1.2.4.2 a) † | F-09, F-10, F-11 high form: leading octet `xxx11111` (bits 8 and 7 class, bit 6 constructed, bits 5 to 1 all one), continuation bit 8, truncation | framing | `[ok]` | `tag_vectors_...`, `tag_errors`, `truncation_sweep_b_*`; B18 |
+| §8.1.2.4.2 b) † | F-12 base-128 big-endian number | framing | `[ok]` | `tag_vectors_...` (30, 31, 127, 128, 16383, 16384, 2^32, 2^64-1); B18 |
+| §8.1.2.4.2 c) † | F-13 leading zero subsequent octet is `non_minimal_tag` | framing | `[ok]` | `tag_errors`; B04 |
 | §8.1.2.4.3 † | F-16 Figure 4 after Erratum 1: penultimate subsequent octet has bit 8 = 1 | framing | `[unread]` | `tag_vectors_...` (literal bytes); B18 |
-| §8.1.2.5 † | F-07 bit 6 is the constructed bit | framing | `[unread]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B22 |
+| §8.1.2.5 † | F-07 bit 6 is the constructed bit | framing | `[ok]` | `tag_vectors_decode_and_encode_to_the_literal_octets`; B22 |
 | §8.1.2.5 † | F-15, F-36, F-37, F-38, F-42 constructed-versus-type, tagging, constructed strings, CHOICE, DER constructed strings | framing | `[open]` | typed layer; at framing the bit is data (`tlv_vectors_ok_in_both_modes` checks it is carried) |
-| §8.1.3 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[unread]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
+| §8.1.3 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[ok]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
 | §8.1.3 | S08 length forms | strtime | `[open]` | framing |
-| §8.1.3.1 † | F-19, F-22, F-23 definite short and long forms | framing | `[unread]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
+| §8.1.3.1 † | F-19, F-22, F-23 definite short and long forms | framing | `[ok]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
 | §8.1.3.2 | Definite and indefinite length of the constructed encoding (BIT14) | bitoctet | `[open]` | none here (TLV layer) |
-| §8.1.3.2 a) † | F-20, F-33 indefinite on a primitive is `indefinite_on_primitive`, decided from the identifier, in both modes | framing | `[unread]` | `indefinite_on_primitive_is_decided_by_the_identifier`; B09 |
-| §8.1.3.2 b) † | F-21, F-29 indefinite form `80` on constructed in BER; `81 00` is a long-form zero | framing | `[unread]` | `length_indefinite_is_a_single_80_and_81_00_is_zero`; B02 |
-| §8.1.3.3 † | F-19, F-22, F-23 definite short and long forms | framing | `[unread]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
-| §8.1.3.3 † | F-35 a child that does not fit a definite parent is `length_overrun`, header or contents | framing | `[unread]` | `header_and_extent_errors`, `truncation_sweep_inside_a_definite_parent_*`; B12 |
+| §8.1.3.2 a) † | F-20, F-33 indefinite on a primitive is `indefinite_on_primitive`, decided from the identifier, in both modes | framing | `[ok]` | `indefinite_on_primitive_is_decided_by_the_identifier`; B09 |
+| §8.1.3.2 b) † | F-21, F-29 indefinite form `80` on constructed in BER; `81 00` is a long-form zero | framing | `[ok]` | `length_indefinite_is_a_single_80_and_81_00_is_zero`; B02 |
+| §8.1.3.3 † | F-19, F-22, F-23 definite short and long forms | framing | `[ok]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
+| §8.1.3.3 † | F-35 a child that does not fit a definite parent is `length_overrun`, header or contents | framing | `[ok]` | `header_and_extent_errors`, `truncation_sweep_inside_a_definite_parent_*`; B12 |
 | §8.1.3.3 NOTE † | F-24, F-32, F-34, F-43 informative or out of scope (short-form note, EOC as tag 0 note, contents per type, CER) | framing | `[open]` | no behaviour of its own |
-| §8.1.3.4 † | F-19, F-22, F-23 definite short and long forms | framing | `[unread]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
+| §8.1.3.4 † | F-19, F-22, F-23 definite short and long forms | framing | `[ok]` | `length_vectors_ber_and_der` (0, 127, 128, 201, 255, 256, 65535, 65536); B13, B24 |
 | §8.1.3.5 | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | (across the modules) | `[ok]` | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
 | §8.1.3.5 NOTE 2 | `x690.8.1.3.encode-length-nonminimal-81-01`: the writer cannot write surplus length octets | corpus | `[open]` | POLICY-GAP in `corpus_known.md`; decision needed: a writer option or retire the case |
-| §8.1.3.5 ¶1-4 † | F-25, F-27 long form, big-endian value | framing | `[unread]` | `length_vectors_ber_and_der`; B24 |
-| §8.1.3.5 ¶2 c) † | F-26 initial octet `FF` is `reserved_length` | framing | `[unread]` | `length_errors`, `header_and_extent_errors`; B01 |
-| §8.1.3.5 NOTE 2 † | F-28 BER accepts leading zero length octets and counts above 8 when the value fits; limit applies to the value | framing | `[unread]` | `length_non_minimal_long_forms_ber_accepts_der_rejects` (9 and 127 octets); B03 |
+| §8.1.3.5 ¶1-4 † | F-25, F-27 long form, big-endian value | framing | `[ok]` | `length_vectors_ber_and_der`; B24 |
+| §8.1.3.5 ¶2 c) † | F-26 initial octet `FF` is `reserved_length` | framing | `[ok]` | `length_errors`, `header_and_extent_errors`; B01 |
+| §8.1.3.5 NOTE 2 † | F-28 BER accepts leading zero length octets and counts above 8 when the value fits; limit applies to the value | framing | `[ok]` | `length_non_minimal_long_forms_ber_accepts_der_rejects` (9 and 127 octets); B03 |
 | §8.1.3.5 NOTE 2 | A BER sender may write a definite length in the long form with surplus, zero-padded length octets, so the writer offers `length::encode_long` and `tlv::write_header_long`; DER takes the minimal form only and `write_header` writes it | framing | `[ok]` | `tests/framing.rs::a_long_form_length_with_a_chosen_number_of_octets_is_written_exactly`, `a_long_form_length_is_refused_when_it_cannot_be_written`, `a_header_with_a_padded_long_length_reads_back_in_ber_and_is_refused_in_der`, `the_padding_octets_of_a_long_form_length_are_written_into_a_dirty_buffer`; the corpus case `x690.8.1.3.encode-length-nonminimal-81-01` (a break of the marker bit failed 3 tests; a break of the zero padding failed only the dirty-buffer test, which uses nine octets because a `u64` fills the last eight) |
-| §8.1.3.6 † | F-20, F-33 indefinite on a primitive is `indefinite_on_primitive`, decided from the identifier, in both modes | framing | `[unread]` | `indefinite_on_primitive_is_decided_by_the_identifier`; B09 |
-| §8.1.3.6.1 † | F-21, F-29 indefinite form `80` on constructed in BER; `81 00` is a long-form zero | framing | `[unread]` | `length_indefinite_is_a_single_80_and_81_00_is_zero`; B02 |
-| §8.1.3.6.2 † | F-30, F-31 indefinite contents end at the first EOC at their level; EOC is exactly `00 00`; missing EOC is `missing_eoc` | framing | `[unread]` | `indefinite_forms_ber`, `eoc_errors`, `truncation_sweep_c_indefinite`; B15, B16 |
-| §8.1.4 † | F-35 a child that does not fit a definite parent is `length_overrun`, header or contents | framing | `[unread]` | `header_and_extent_errors`, `truncation_sweep_inside_a_definite_parent_*`; B12 |
+| §8.1.3.6 † | F-20, F-33 indefinite on a primitive is `indefinite_on_primitive`, decided from the identifier, in both modes | framing | `[ok]` | `indefinite_on_primitive_is_decided_by_the_identifier`; B09 |
+| §8.1.3.6.1 † | F-21, F-29 indefinite form `80` on constructed in BER; `81 00` is a long-form zero | framing | `[ok]` | `length_indefinite_is_a_single_80_and_81_00_is_zero`; B02 |
+| §8.1.3.6.2 † | F-30, F-31 indefinite contents end at the first EOC at their level; EOC is exactly `00 00`; missing EOC is `missing_eoc` | framing | `[ok]` | `indefinite_forms_ber`, `eoc_errors`, `truncation_sweep_c_indefinite`; B15, B16 |
+| §8.1.4 † | F-35 a child that does not fit a definite parent is `length_overrun`, header or contents | framing | `[ok]` | `header_and_extent_errors`, `truncation_sweep_inside_a_definite_parent_*`; B12 |
 | §8.1.4 † | F-24, F-32, F-34, F-43 informative or out of scope (short-form note, EOC as tag 0 note, contents per type, CER) | framing | `[open]` | no behaviour of its own |
 | §8.1.5 | Definite and indefinite length of the constructed encoding (BIT14) | bitoctet | `[open]` | none here (TLV layer) |
-| §8.1.5 ¶1-2 † | F-30, F-31 indefinite contents end at the first EOC at their level; EOC is exactly `00 00`; missing EOC is `missing_eoc` | framing | `[unread]` | `indefinite_forms_ber`, `eoc_errors`, `truncation_sweep_c_indefinite`; B15, B16 |
+| §8.1.5 ¶1-2 † | F-30, F-31 indefinite contents end at the first EOC at their level; EOC is exactly `00 00`; missing EOC is `missing_eoc` | framing | `[ok]` | `indefinite_forms_ber`, `eoc_errors`, `truncation_sweep_c_indefinite`; B15, B16 |
 | §8.1.5 ¶3 † | F-24, F-32, F-34, F-43 informative or out of scope (short-form note, EOC as tag 0 note, contents per type, CER) | framing | `[open]` | no behaviour of its own |
 | §8.1.5 | POLICY: stray EOC and tag-0 not `00 00` are reported as `bad_contents` because the shared class list has no class for them (constant `tlv::STRAY_EOC`) | framing | `[open]` | `eoc_errors`; B06, B16. Needs a shared `ErrorClass` (coordinator) |
 | §8.2.1 | BOOLEAN contents are exactly one octet; other lengths are `bad_contents` | numeric | `[ok]` | `boolean_wrong_length_is_bad_contents_in_both_modes` |
@@ -268,8 +269,8 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | §10 | DER decoding rejects every non-canonical encoding of §10 and §11. | (policy decisions) | `[open]` |  |
 | §10 † | F-44 DER adds no tag rule beyond BER | framing | `[unread]` | `header_and_extent_errors` runs the tag cases in both modes |
 | §10.1 | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | (across the modules) | `[ok]` | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
-| §10.1 ¶1 † | F-02, F-41 DER: definite form only, minimal length octets | framing | `[unread]` | `length_non_minimal_long_forms_ber_accepts_der_rejects`, `indefinite_der_is_refused_everywhere_by_header`; B05, B10, B20 |
-| §10.1 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[unread]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
+| §10.1 ¶1 † | F-02, F-41 DER: definite form only, minimal length octets | framing | `[ok]` | `length_non_minimal_long_forms_ber_accepts_der_rejects`, `indefinite_der_is_refused_everywhere_by_header`; B05, B10, B20 |
+| §10.1 † | Writer: minimal tag and length, literal wire bytes, refuses UNIVERSAL 0, indefinite primitive and a short buffer | framing | `[ok]` | `writer_emits_literal_wire_bytes`, `writer_refusals`, `round_trip_writer_to_reader_with_literal_check`; B13, B18, B26, B27 |
 | §10.1 | A BER sender may write a definite length in the long form with surplus, zero-padded length octets, so the writer offers `length::encode_long` and `tlv::write_header_long`; DER takes the minimal form only and `write_header` writes it | framing | `[ok]` | `tests/framing.rs::a_long_form_length_with_a_chosen_number_of_octets_is_written_exactly`, `a_long_form_length_is_refused_when_it_cannot_be_written`, `a_header_with_a_padded_long_length_reads_back_in_ber_and_is_refused_in_der`, `the_padding_octets_of_a_long_form_length_are_written_into_a_dirty_buffer`; the corpus case `x690.8.1.3.encode-length-nonminimal-81-01` (a break of the marker bit failed 3 tests; a break of the zero padding failed only the dirty-buffer test, which uses nine octets because a `u64` fills the last eight) |
 | §10.2 | A typed layer in the library: `typed.rs` joins the TLV reader to the content functions over a caller-built `Schema`, without allocating. It judges the identifier before the length (`wrong_form`, DER `constructed_string`), walks structure, checks DER SET and SET OF order and DEFAULT, reads constructed strings through a bounded segment iterator, and returns `Mismatch` where X.690 has no class. The corpus runner now calls it, so the 1179 cases test the library path | (across the modules) | `[ok]` | `src/typed.rs` (14 unit tests) and `tests/corpus.rs`; four breaks (DER constructed string accepted, SET OF order inverted, SET seen-mask dropped, segment depth bound removed) each fail a test. Policy limits, not the standard's: segment nesting 16, constructed time 64 octets, 64 SET components. Decoded values still come from the test adapter, which keeps alloc-only rendering |
 | §10.2 | Constructed BIT STRING: BER only; DER `constructed_string` | bitoctet | `[ok]` | `constructed_acceptable_by_mode`, `annex_value_constructed` |
@@ -299,7 +300,7 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | §11.6 † | Equal adjacent elements of a DER SET OF are accepted. | (policy decisions) | `[open]` |  |
 | §11.6 | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | (across the modules) | `[ok]` | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
 | §11.6 | A typed layer in the library: `typed.rs` joins the TLV reader to the content functions over a caller-built `Schema`, without allocating. It judges the identifier before the length (`wrong_form`, DER `constructed_string`), walks structure, checks DER SET and SET OF order and DEFAULT, reads constructed strings through a bounded segment iterator, and returns `Mismatch` where X.690 has no class. The corpus runner now calls it, so the 1179 cases test the library path | (across the modules) | `[ok]` | `src/typed.rs` (14 unit tests) and `tests/corpus.rs`; four breaks (DER constructed string accepted, SET OF order inverted, SET seen-mask dropped, segment depth bound removed) each fail a test. Policy limits, not the standard's: segment nesting 16, constructed time 64 octets, 64 SET components. Decoded values still come from the test adapter, which keeps alloc-only rendering |
-| §11.6 | Exact slices: header, content and whole encoding are the input octets; offsets absolute | framing | `[unread]` | `tlv_slices_are_the_exact_input_octets`, `children_iterate_without_allocation_and_keep_offsets`; B14 |
+| §11.6 | Exact slices: header, content and whole encoding are the input octets; offsets absolute | framing | `[ok]` | `tlv_slices_are_the_exact_input_octets`, `children_iterate_without_allocation_and_keep_offsets`; B14 |
 | §11.7.1 -5 | T06 DER GeneralizedTime: Z, seconds, `.`, no trailing zero | strtime | `[ok]` | `generalized_time_standard_examples`, `generalized_time_standard_invalid_examples`, `generalized_time_fractions`, `generalized_time_zones` |
 | §11.7.5 | T07 the standard's valid and invalid examples, hh 24 refused | strtime | `[ok]` | the tests above; `19920722132100.3Z` is DER-valid and refused only by `parse_rfc5280_generalized_time` |
 | §11.8.1 -3 | T05 DER UTCTime: Z, seconds | strtime | `[ok]` | `utctime_standard_invalid_examples`, `utctime_minutes_only_and_offsets` |
@@ -324,7 +325,7 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | (policy decisions) | `[open]` | GeneralizedTime follows X.690 §11.7 (fractions allowed, trailing zero not), not the RFC 5280 profile, which is a later layer. | The standard's own valid example has a fraction |  | no recognisable clause |
 | (policy decisions) | `[open]` | Leftover input after the single top-level encoding is `trailing_data`. | A design decision of this crate; the standard describes one encoding |  | refers to the repository's own notes |
 | (policy decisions) | `[open]` | Teletex, Videotex, Graphic and General strings are not alphabet-checked. | Their alphabets are ISO register entries that are not in the corpus |  | no recognisable clause |
-| (across the modules) | `[unread]` | The 26 framing rows rest on the research notes, not on a clause read at implementation time | `docs/design/framing.md` | the framing agent could not read X.690: the `itulib` index failed with "no such table: meta". Re-read each clause through the primarysource server and flip the rows | refers to the repository's own notes |
+| (across the modules) | `[unread]` | 22 of the 26 framing rows were re-read from X.690 on 2026-11-13 and are now `[ok]`; four are not: F-16 (Figure 4 is an image), F-17 (a POLICY), F-44 (its named test did not fail under a breakage) and stream order (its anchor is not X.690). One row text was wrong and is corrected: the high-tag leading octet is `xxx11111` | `crates/berkit/roadmap/framing.md`, section "Clause reading" | clauses read through `primarysource itu read`; each flipped row has a fresh breakage recorded there | refers to the repository's own notes |
 | (across the modules) | `[ok]` | The corpus runs against the code: 1179 cases, 2355 runs, all agree, with a known-disagreement list that is empty | `corpus/` 0.2.0 | `tests/corpus.rs::corpus_agrees_with_the_code_except_the_known_list`; breaking INTEGER minimality produced 7 disagreements, DER indefinite length 20, the PrintableString alphabet 183, the OID first-arc decode 23, REAL minus zero 1 | refers to the repository's own notes |
 | (across the modules) | `[open]` | Agreement is code against corpus, not either against the standard: the corpus expectations are an author's reading of the clauses, written from the same research notes the code was built from, and checked by a Python reference decoder that is not independent of them | none | an independent check (a second implementation written without the notes, or a real-certificate sample) is not done | no anchor |
 | (across the modules) | `[ok]` | The corpus states decoded typed values (format 1.2): 248 cases pin OID, INTEGER, ENUMERATED, BOOLEAN, NULL, OCTET STRING, BIT STRING, string, UTCTime, GeneralizedTime and REAL values, each constructed by hand from the clause. The OID first-arc decode break that no case caught before now fails the corpus test, and an independent decode of all 111 OID, INTEGER and ENUMERATED values found no mismatch | `corpus/format.md` revision 1.2 | `tests/corpus.rs`; eight breaks by the agent and two by me (OID first arc, REAL minus zero) all fail it; one coverage hole (constructed BIT STRING pad bits) was found and closed | refers to the repository's own notes |

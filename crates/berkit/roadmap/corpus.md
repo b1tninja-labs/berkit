@@ -6,6 +6,8 @@ re-read from X.690; the only classification so far is a design question, not a c
 was restored from a copy kept outside the repository and verified with `diff` and `git status`; `cargo clean -p berkit`
 ran between runs.
 
+Update 2026-11-13: clause reading works through `python -m primarysource.cli itu read "X.690§8.1.3.5"` (run from `a sibling directory of the workspace` with `PYTHONUTF8=1`); the MCP `itulib` tools still fail. The framing clauses were re-read that way (see `framing.md`). The decoded-value cases below were not: their clauses are still unread.
+
 | Status | Obligation | Anchor | Test |
 |---|---|---|---|
 | [ok] | All 1179 cases run, once per mode the case names: 2355 runs (decode 690 ber + 690 der, roundtrip 445 ber + 444 der, encode 44 ber + 42 der); 1063 cases are typed, 541 carry a `policy` | `corpus/format.md` Operations | `corpus_agrees_with_the_code_except_the_known_list` (prints the table with `--nocapture`); M1 `boolean.rs` DER check off (2 new), M2 Printable alphabet off (183 new disagreements), M3 `time.rs` DER zone check off (1 new), M4 `tlv.rs` DER indefinite check off (20 new) |
