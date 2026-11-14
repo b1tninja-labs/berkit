@@ -18,6 +18,18 @@
 //! wholly inside the input (the child does not fit its parent, X.690 §8.1.3.3, §8.1.4). An indefinite-length
 //! encoding that reaches the end of its enclosing contents exactly at an element boundary is `missing_eoc`
 //! (`corpus/format.md`, X.690 §8.1.3.6.2).
+//!
+//! # Stack use
+//!
+//! The reader does not recurse: nesting is followed with an explicit stack of frames of 24 octets each (12 on a
+//! 32-bit target). The stack has 8, 64 or 512 frames, the smallest that holds `max_depth` (never more than
+//! [`Limits::HARD_MAX_DEPTH`]): 192, 1,536 or 12,288 octets (96, 768 or 6,144 on 32-bit), so the default limit of
+//! 64 levels costs 1,536 octets and no limit at all costs 12,288. It is a local array of the call that needs it:
+//! [`Tlv::validate`] on a definite element, and [`Tlv::parse`] or an iteration of [`Children`] when the element
+//! read has the indefinite length. That is the whole cost of depth: it does not depend on the input, in any
+//! build, and `Tlv`, [`Children`] and the other public types are unchanged. The depth bound is therefore a bound
+//! on the work and on the offsets reported, no longer on the stack. The one recursion left in the crate is over a
+//! caller-built schema (`typed`), which the caller bounds.
 
 use crate::length::{self, Length, LongFormError};
 use crate::tag::{BufferTooSmall, Class, Tag};
@@ -36,7 +48,7 @@ pub const STRAY_EOC: ErrorClass = ErrorClass::StrayEoc;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Limits {
     /// The deepest nesting accepted, counting the top-level element as level 1. An element at a deeper level
-    /// is `limit_exceeded`. The reader recurses at most this deep, and never deeper than
+    /// is `limit_exceeded`. The reader reads at most this deep, and never deeper than
     /// [`Limits::HARD_MAX_DEPTH`] whatever is requested here. Default 64.
     pub max_depth: usize,
     /// The largest definite contents length accepted, in octets. A longer one that fits the input is
@@ -46,7 +58,9 @@ pub struct Limits {
 }
 
 impl Limits {
-    /// The deepest recursion the reader will ever do, whatever `max_depth` says: a stack-safety bound.
+    /// The deepest nesting the reader will ever read, whatever `max_depth` says. It is also the size, in frames,
+    /// of the largest explicit stack the reader uses (see the module documentation), so the stack the reader uses
+    /// never depends on the input.
     pub const HARD_MAX_DEPTH: usize = 512;
 
     /// The documented defaults: depth 64, contents 256 MiB.
@@ -111,9 +125,14 @@ impl Ctx {
     }
 }
 
-/// Read one element, or one end-of-contents, at the start of `input`. `base` is the offset of `input[0]` in
-/// the top-level input; `level` is the nesting level of the element (the top level is 1).
-fn next_item<'a>(
+/// Read the header of one element, or one end-of-contents, at the start of `input`, and check what the header
+/// alone decides: identifier, length form, the depth bound and, for a definite length, the extent. `base` is the
+/// offset of `input[0]` in the top-level input; `level` is the nesting level of the element (the top level is 1).
+///
+/// This function does not recurse. For the indefinite form it returns the element with PROVISIONAL contents and
+/// encoding (everything after the header, and the whole of `input`): the end-of-contents octets are found by
+/// [`walk`], which fixes both up.
+fn read_element<'a>(
     input: &'a [u8],
     ctx: Ctx,
     indef_open: bool,
@@ -189,30 +208,188 @@ fn next_item<'a>(
             let end = header_len + n as usize;
             Ok(Item::Element(make(&input[header_len..end], &input[..end])))
         }
-        Length::Indefinite => {
-            // Read the children in stream order until the EOC closes this element (X.690 §8.1.3.6.2, §8.1.5).
-            let mut pos = header_len;
-            loop {
-                let rest = &input[pos..];
-                if rest.is_empty() {
-                    return Err(Error::new(ErrorClass::MissingEoc, base + pos));
+        Length::Indefinite => Ok(Item::Element(make(&input[header_len..], input))),
+    }
+}
+
+/// Read one element, or one end-of-contents, at the start of `input`. `base` is the offset of `input[0]` in
+/// the top-level input; `level` is the nesting level of the element (the top level is 1).
+///
+/// A definite element is checked as far as its header and extent. An indefinite one is read in full, validating
+/// everything inside in stream order, by [`walk`].
+fn next_item(
+    input: &[u8],
+    ctx: Ctx,
+    indef_open: bool,
+    level: usize,
+    base: usize,
+) -> Result<Item<'_>, Error> {
+    let t = match read_element(input, ctx, indef_open, level, base)? {
+        Item::Element(t) if t.length == Length::Indefinite => t,
+        done => return Ok(done),
+    };
+    let header_len = t.header.len();
+    let root = Frame {
+        pos: header_len,
+        end: input.len(),
+        indefinite: true,
+        bounded: ctx.bounded,
+    };
+    let eoc = walk(input, base, level, ctx.mode, ctx.limits, root)?;
+    Ok(Item::Element(Tlv {
+        content: &input[header_len..eoc],
+        encoding: &input[..eoc + 2],
+        ..t
+    }))
+}
+
+/// The sizes, in frames, of the explicit stack of [`walk`]: the smallest of the three that holds
+/// `Limits::depth()` frames. The last is [`Limits::HARD_MAX_DEPTH`], so no input and no limit needs more.
+///
+/// A frame stands for one open constructed element, and an element deeper than `Limits::depth()` is refused
+/// by [`read_element`] before it can be pushed, so at most `depth() - root_level + 1` frames are open: the root
+/// frame, at level `root_level >= 1`, and one for each deeper level up to `depth()`.
+const FRAMES_SMALL: usize = 8;
+const FRAMES_MEDIUM: usize = 64;
+const FRAMES_LARGE: usize = Limits::HARD_MAX_DEPTH;
+
+// The default limits fit the medium stack, and nothing is deeper than the large one.
+const _: () = assert!(Limits::DEFAULT.max_depth <= FRAMES_MEDIUM);
+const _: () = assert!(FRAMES_SMALL < FRAMES_MEDIUM && FRAMES_MEDIUM < FRAMES_LARGE);
+
+/// One open constructed element of [`walk`]: 24 octets on a 64-bit target (two `usize` and two `bool`, padded),
+/// 12 on a 32-bit one. The stacks of 8, 64 and 512 frames are 192, 1,536 and 12,288 octets (96, 768 and 6,144
+/// on 32-bit), whatever the input.
+///
+/// The level is not stored: it is the root's level plus the frame's index in the stack.
+#[derive(Clone, Copy)]
+struct Frame {
+    /// The offset in the walked slice of the next octet to read.
+    pos: usize,
+    /// The end of the region that holds the children: the end of the contents of a definite element, and for an
+    /// indefinite one the end of the region it was read from (its end-of-contents octets lie before it).
+    end: usize,
+    /// True for the indefinite form: the region ends at its end-of-contents octets, and running out of input
+    /// first is `missing_eoc`.
+    indefinite: bool,
+    /// The `bounded` of [`Ctx`] for the items read in this region (see [`Ctx::bounded`]): always true inside a
+    /// definite element, inherited by an indefinite one from the region it lies in.
+    bounded: bool,
+}
+
+impl Frame {
+    const EMPTY: Self = Self {
+        pos: 0,
+        end: 0,
+        indefinite: false,
+        bounded: false,
+    };
+}
+
+/// Walk the tree below one open element in stream order, depth first, checking every element, without
+/// recursion: the open elements are the frames of an explicit stack of fixed size (8, 64 or 512 frames, by
+/// `limits`), so the stack this takes does not depend on the nesting of the input.
+///
+/// `data` is the slice the walk reads, `origin` the offset of `data[0]` in the top-level input, and `root_level`
+/// the nesting level of the element `root` stands for. A definite child met on the way is walked at once, as
+/// [`Tlv::validate`] does, so a fault inside it comes before any later fault. Returns, for an indefinite root,
+/// the offset in `data` of its end-of-contents octets, and for a definite one the end of its region.
+fn walk(
+    data: &[u8],
+    origin: usize,
+    root_level: usize,
+    mode: Mode,
+    limits: Limits,
+    root: Frame,
+) -> Result<usize, Error> {
+    let depth = limits.depth();
+    if depth <= FRAMES_SMALL {
+        walk_in::<FRAMES_SMALL>(data, origin, root_level, mode, limits, root)
+    } else if depth <= FRAMES_MEDIUM {
+        walk_in::<FRAMES_MEDIUM>(data, origin, root_level, mode, limits, root)
+    } else {
+        walk_in::<FRAMES_LARGE>(data, origin, root_level, mode, limits, root)
+    }
+}
+
+/// [`walk`] with a stack of `N` frames, `N >= limits.depth()`.
+///
+/// Never inlined: inlined into [`walk`], the three arrays would share one stack frame and add up.
+#[inline(never)]
+fn walk_in<const N: usize>(
+    data: &[u8],
+    origin: usize,
+    root_level: usize,
+    mode: Mode,
+    limits: Limits,
+    root: Frame,
+) -> Result<usize, Error> {
+    let mut stack = [Frame::EMPTY; N];
+    stack[0] = root;
+    let mut top = 0;
+    loop {
+        let f = stack[top];
+        let at = origin + f.pos;
+        if f.pos >= f.end {
+            // A definite region ends cleanly here; an indefinite one ran out before its end-of-contents octets.
+            if f.indefinite {
+                return Err(Error::new(ErrorClass::MissingEoc, at));
+            }
+            if top == 0 {
+                return Ok(f.pos);
+            }
+            top -= 1;
+            continue;
+        }
+        let ctx = Ctx {
+            mode,
+            limits,
+            bounded: f.bounded,
+        };
+        match read_element(
+            &data[f.pos..f.end],
+            ctx,
+            f.indefinite,
+            root_level + top + 1,
+            at,
+        )? {
+            Item::Eoc if f.indefinite => {
+                if top == 0 {
+                    return Ok(f.pos);
                 }
-                match next_item(rest, ctx, true, level + 1, base + pos)? {
-                    Item::Eoc => {
-                        return Ok(Item::Element(make(
-                            &input[header_len..pos],
-                            &input[..pos + 2],
-                        )));
+                // The element is closed: its parent resumes after the two end-of-contents octets.
+                top -= 1;
+                stack[top].pos = f.pos + 2;
+            }
+            // Unreachable: only an open indefinite element lets `read_element` return the octets as an Eoc.
+            Item::Eoc => return Err(Error::new(STRAY_EOC, at)),
+            Item::Element(t) => {
+                let child = if t.length == Length::Indefinite {
+                    // Its extent is known only at its end-of-contents octets, where the parent resumes.
+                    Frame {
+                        pos: f.pos + t.header.len(),
+                        end: f.end,
+                        indefinite: true,
+                        bounded: f.bounded,
                     }
-                    Item::Element(child) => {
-                        // An indefinite child was validated while it was read; a definite one is walked now
-                        // so that faults inside it come before any later fault.
-                        if child.length != Length::Indefinite {
-                            child.validate()?;
-                        }
-                        pos += child.encoding.len();
+                } else {
+                    stack[top].pos = f.pos + t.encoding.len();
+                    if !t.tag.constructed || t.content.is_empty() {
+                        continue;
                     }
-                }
+                    Frame {
+                        pos: f.pos + t.header.len(),
+                        end: f.pos + t.encoding.len(),
+                        indefinite: false,
+                        bounded: true,
+                    }
+                };
+                // Cannot fail: `N >= limits.depth()`, see `FRAMES_SMALL`.
+                let Some(slot) = stack.get_mut(top + 1) else {
+                    return Err(Error::new(ErrorClass::LimitExceeded, at));
+                };
+                *slot = child;
+                top += 1;
             }
         }
     }
@@ -260,7 +437,8 @@ impl<'a> Tlv<'a> {
         }
     }
 
-    /// Check every descendant, depth first, in stream order. Recursion is bounded by [`Limits`].
+    /// Check every descendant, depth first, in stream order. The walk is iterative: it uses a stack of fixed size
+    /// (see the module documentation), not one that grows with the nesting of the input.
     ///
     /// # Errors
     /// The first fault in stream order.
@@ -269,10 +447,30 @@ impl<'a> Tlv<'a> {
         if self.length == Length::Indefinite {
             return Ok(());
         }
-        for child in self.children() {
-            child?.validate()?;
+        // A primitive element has no children, whatever its contents (as in `children`).
+        let region = if self.tag.constructed {
+            self.content
+        } else {
+            &[]
+        };
+        if region.is_empty() {
+            return Ok(());
         }
-        Ok(())
+        let root = Frame {
+            pos: 0,
+            end: region.len(),
+            indefinite: false,
+            bounded: true,
+        };
+        walk(
+            region,
+            self.offset + self.header.len(),
+            self.level,
+            self.mode,
+            self.limits,
+            root,
+        )
+        .map(|_| ())
     }
 
     /// The identifier octets, decoded. X.690 §8.1.2.
@@ -514,3 +712,10 @@ pub fn write_eoc(out: &mut [u8]) -> Result<usize, WriteError> {
 pub const fn context(number: u64, constructed: bool) -> Tag {
     Tag::new(Class::ContextSpecific, constructed, number)
 }
+
+// The recursive reader this one replaced, kept as the oracle of a differential test (neither is compiled outside
+// tests).
+#[cfg(test)]
+mod differential;
+#[cfg(test)]
+mod oracle;

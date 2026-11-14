@@ -1,6 +1,9 @@
 //! SHA-256 (FIPS 180-4), test-only, to check each corpus file against the manifest.
 
+// The library is `no_std`; this file is also compiled inside it for the differential test of `src/tlv.rs`.
 use std::fmt::Write;
+#[allow(unused_imports)]
+use std::prelude::v1::*;
 
 const K: [u32; 64] = [
     0x428a_2f98,

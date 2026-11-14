@@ -37,48 +37,21 @@ use berkit::{
     Error, ErrorClass, Mode, bitstring, boolean, integer, null, octetstring, oid, real, time,
 };
 use cert_schema::CERTIFICATE;
-use common::model::{self, Input};
-use std::fs;
-use std::path::PathBuf;
+use common::inputs::{
+    LIMITS, Rng, corpus_inputs, crafted_length_inputs, mutate, nest_definite, nest_indefinite,
+    nesting_shapes, random_inputs, real_certificates,
+};
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::thread;
 use std::time::{Duration, Instant};
 
 /// How long one input may take before the watchdog calls it a hang.
 const WATCHDOG: Duration = Duration::from_secs(2);
-/// The stack of the sweep worker: room for the recursion at `HARD_MAX_DEPTH` in a debug build (measured at about
-/// 1.4 MiB for 512 indefinite levels; see `nesting_beyond_max_depth_is_refused_and_fits_a_small_stack`).
-const WORKER_STACK: usize = 4 * 1024 * 1024;
-/// A small stack, for the depth the default limits allow.
+/// The stack of the sweep worker. The reader does not recurse (its stack use is the same at every depth, see
+/// `nesting_beyond_max_depth_is_refused_and_fits_a_small_stack`), so the sweeps run on the small stack too.
+const WORKER_STACK: usize = SMALL_STACK;
+/// A small stack: what an embedded target or a 1 MiB Windows main thread leaves, less a good margin.
 const SMALL_STACK: usize = 256 * 1024;
-/// The default stack of a test thread.
-const TEST_STACK: usize = 2 * 1024 * 1024;
-
-// ------------------------------------------------------------------------------------------ generator
-
-/// xorshift64*: deterministic, tiny, not for anything but test inputs.
-struct Rng(u64);
-
-impl Rng {
-    fn new(seed: u64) -> Self {
-        Self(seed | 1)
-    }
-    fn next(&mut self) -> u64 {
-        let mut x = self.0;
-        x ^= x >> 12;
-        x ^= x << 25;
-        x ^= x >> 27;
-        self.0 = x;
-        x.wrapping_mul(0x2545_F491_4F6C_DD1D)
-    }
-    /// A value in `0..n` (`n > 0`).
-    fn below(&mut self, n: usize) -> usize {
-        (self.next() % n as u64) as usize
-    }
-    fn byte(&mut self) -> u8 {
-        (self.next() >> 24) as u8
-    }
-}
 
 // ------------------------------------------------------------------------------------------- watchdog
 
@@ -202,9 +175,9 @@ fn check_tlv(input: &[u8], t: &Tlv<'_>) {
         enc.as_ptr() as usize + hdr.len(),
         "contents follow the header"
     );
-    let eoc = if t.is_indefinite() { 2 } else { 0 };
+    let eoc_len = if t.is_indefinite() { 2 } else { 0 };
     assert_eq!(
-        hdr.len() + c.len() + eoc,
+        hdr.len() + c.len() + eoc_len,
         enc.len(),
         "header + contents (+ EOC) is the encoding"
     );
@@ -307,18 +280,6 @@ fn walk<'a>(input: &'a [u8], root: &Tlv<'a>, rng: &mut Rng, want: usize) -> (boo
     }
     (faulted, contents)
 }
-
-const LIMITS: [Limits; 3] = [
-    Limits::DEFAULT,
-    Limits {
-        max_depth: 4,
-        max_content_length: 16,
-    },
-    Limits {
-        max_depth: usize::MAX,
-        max_content_length: u64::MAX,
-    },
-];
 
 const STRING_TYPES: [StringType; 11] = [
     StringType::Numeric,
@@ -662,155 +623,6 @@ fn exercise(input: &[u8]) {
     typed_battery(input, Mode::Ber, &LIMITS[2]);
 }
 
-// ------------------------------------------------------------------------------------------- mutators
-
-fn push_len(w: &mut Vec<u8>, n: usize) {
-    if n < 128 {
-        w.push(n as u8);
-    } else {
-        let b = n.to_be_bytes();
-        let skip = b.iter().take_while(|&&x| x == 0).count();
-        w.push(0x80 | (8 - skip) as u8);
-        w.extend_from_slice(&b[skip..]);
-    }
-}
-
-/// The header positions of a tree read in BER: (offset, tag octets, length octets).
-fn headers(input: &[u8]) -> Vec<(usize, usize, usize)> {
-    let mut out = Vec::new();
-    let Ok((root, _)) = Tlv::parse(input, Mode::Ber, &Limits::DEFAULT) else {
-        return out;
-    };
-    let mut stack = vec![root.children()];
-    let mut seen = 0;
-    while let Some(it) = stack.last_mut() {
-        match it.next() {
-            Some(Ok(c)) => {
-                let h = c.header();
-                let tl = Tag::decode(h).map_or(1, |(_, n)| n);
-                out.push((c.offset(), tl, h.len() - tl));
-                seen += 1;
-                if c.is_constructed() && seen < 2000 {
-                    stack.push(c.children());
-                }
-            }
-            _ => {
-                stack.pop();
-            }
-        }
-    }
-    out
-}
-
-/// Replacement length octets: non-minimal, indefinite, reserved, huge.
-fn evil_length(rng: &mut Rng, true_len: usize) -> Vec<u8> {
-    match rng.below(14) {
-        0 => vec![0x81, true_len as u8],
-        1 => vec![0x82, (true_len >> 8) as u8, true_len as u8],
-        2 => vec![0x80],
-        3 => vec![0xFF],
-        4 => vec![0x84, 0xFF, 0xFF, 0xFF, 0xFF],
-        5 => vec![0x88, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-        6 => vec![0x88, 0x7F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-        7 => vec![0x89, 0x00, 0x01, 0, 0, 0, 0, 0, 0, 0],
-        8 => vec![0x81, 0x00],
-        9 => vec![0x7F],
-        10 => vec![0x83, 0x00, 0x00, (true_len as u8).wrapping_add(1)],
-        11 => vec![(true_len as u8).wrapping_sub(1) & 0x7F],
-        12 => {
-            let mut v = vec![0xFE];
-            v.extend((0..126).map(|_| rng.byte()));
-            v
-        }
-        _ => vec![0x80 | (1 + rng.below(9)) as u8],
-    }
-}
-
-/// One mutation of `base`.
-fn mutate(base: &[u8], rng: &mut Rng) -> Vec<u8> {
-    let mut v = base.to_vec();
-    let n = v.len();
-    match rng.below(8) {
-        0 if n > 0 => {
-            for _ in 0..=rng.below(4) {
-                let i = rng.below(n);
-                if rng.below(2) == 0 {
-                    v[i] ^= 1 << rng.below(8);
-                } else {
-                    v[i] = rng.byte();
-                }
-            }
-        }
-        1 => v.truncate(rng.below(n + 1)),
-        2 => {
-            let at = rng.below(n + 1);
-            let extra: Vec<u8> = (0..=rng.below(6)).map(|_| rng.byte()).collect();
-            v.splice(at..at, extra);
-        }
-        3 if n >= 2 => {
-            // Duplicate a header (identifier and length octets) at a random place.
-            let hdr = &base[..(2 + rng.below(4)).min(n)];
-            let at = rng.below(n + 1);
-            v.splice(at..at, hdr.iter().copied());
-        }
-        4 if n > 0 => {
-            // Duplicate a random slice.
-            let a = rng.below(n);
-            let b = (a + 1 + rng.below(n - a)).min(n);
-            let part = base[a..b].to_vec();
-            let at = rng.below(n + 1);
-            v.splice(at..at, part);
-        }
-        5..=7 => {
-            let hs = headers(base);
-            if hs.is_empty() {
-                if n >= 2 {
-                    let ev = evil_length(rng, n);
-                    v.splice(1..2, ev);
-                }
-            } else {
-                let (off, tl, ll) = hs[rng.below(hs.len())];
-                let ev = evil_length(rng, n);
-                v.splice(off + tl..off + tl + ll, ev);
-            }
-        }
-        _ => v.push(rng.byte()),
-    }
-    v
-}
-
-// ------------------------------------------------------------------------------------------- the data
-
-fn real_certificates() -> Vec<Vec<u8>> {
-    let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/data/real");
-    let mut names: Vec<_> = fs::read_dir(dir.clone())
-        .expect("data/real")
-        .filter_map(|e| e.ok()?.file_name().into_string().ok())
-        .filter(|n| {
-            PathBuf::from(n)
-                .extension()
-                .is_some_and(|x| x.eq_ignore_ascii_case("der"))
-        })
-        .collect();
-    names.sort();
-    names
-        .iter()
-        .map(|n| fs::read(dir.join(n)).expect("read"))
-        .collect()
-}
-
-fn corpus_inputs() -> Vec<Vec<u8>> {
-    let corpus = model::load().expect("corpus loads");
-    corpus
-        .cases
-        .into_iter()
-        .filter_map(|c| match c.input {
-            Input::Hex(h) => Some(h),
-            _ => None,
-        })
-        .collect()
-}
-
 fn sweep(label: &str, bases: &[Vec<u8>], seed: u64, per_base: usize) -> usize {
     let mut run = Runner::new(WATCHDOG, exercise);
     let mut rng = Rng::new(seed);
@@ -855,124 +667,11 @@ fn mutated_corpus_inputs_hold_the_invariants() {
 #[test]
 fn crafted_length_fields_hold_the_invariants() {
     let mut run = Runner::new(WATCHDOG, exercise);
-    let tags: [&[u8]; 8] = [
-        &[0x30],
-        &[0x04],
-        &[0x24],
-        &[0x02],
-        &[0x1F, 0x7F],
-        &[0xBF, 0x81, 0x00],
-        &[0x31],
-        &[0x00],
-    ];
-    let firsts = [
-        0x00, 0x05, 0x7F, 0x80, 0x81, 0x82, 0x83, 0x84, 0x88, 0x89, 0xFE, 0xFF,
-    ];
-    let tails: [&[u8]; 12] = [
-        &[],
-        &[0x00],
-        &[0x05],
-        &[0x00, 0x05],
-        &[0xFF],
-        &[0xFF, 0xFF],
-        &[0x7F, 0xFF, 0xFF, 0xFF],
-        &[0xFF; 8],
-        &[0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-        &[0x01, 0x00, 0x00, 0x00],
-        &[0x00; 8],
-        &[0x80; 4],
-    ];
-    let bodies: [&[u8]; 4] = [
-        &[],
-        &[0x02, 0x01, 0x05],
-        &[0x04, 0x00, 0x00, 0x00],
-        &[0x30, 0x80],
-    ];
-    let mut n = 0;
-    for tag in tags {
-        for first in firsts {
-            for tail in tails {
-                for body in bodies {
-                    let mut input = tag.to_vec();
-                    input.push(first);
-                    input.extend_from_slice(tail);
-                    input.extend_from_slice(body);
-                    run.run("length field", &input);
-                    n += 1;
-                }
-            }
-        }
+    let inputs = crafted_length_inputs();
+    for input in &inputs {
+        run.run("crafted length", input);
     }
-    // Every definite length around the true one, for a SEQUENCE of three octets.
-    for declared in 0..=130u8 {
-        let input = [0x30, declared, 0x02, 0x01, 0x05];
-        run.run("short length", &input);
-        let input = [0x30, 0x81, declared, 0x02, 0x01, 0x05];
-        run.run("long length", &input);
-        n += 2;
-    }
-    eprintln!("crafted length fields: {n} inputs");
-}
-
-/// `depth` levels of `tag` around `core`, definite lengths.
-fn nest_definite(tag: u8, depth: usize, core: &[u8]) -> Vec<u8> {
-    let mut v = core.to_vec();
-    for _ in 0..depth {
-        let mut w = vec![tag];
-        push_len(&mut w, v.len());
-        w.extend_from_slice(&v);
-        v = w;
-    }
-    v
-}
-
-/// `depth` levels of `tag` with the indefinite length around `core`, closed by `eocs` end-of-contents pairs.
-fn nest_indefinite(tag: u8, depth: usize, core: &[u8], eocs: usize) -> Vec<u8> {
-    let mut v = Vec::new();
-    for _ in 0..depth {
-        v.extend_from_slice(&[tag, 0x80]);
-    }
-    v.extend_from_slice(core);
-    for _ in 0..eocs.min(depth) {
-        v.extend_from_slice(&[0, 0]);
-    }
-    v
-}
-
-const DEPTHS: &[usize] = &[1, 2, 3, 15, 16, 17, 63, 64, 65, 66, 256, 511, 512, 513];
-
-fn nesting_shapes() -> Vec<Vec<u8>> {
-    let int = [0x02, 0x01, 0x05];
-    let mut out = Vec::new();
-    for &d in DEPTHS {
-        for tag in [0x30u8, 0xA0, 0x24] {
-            out.push(nest_definite(tag, d, &int));
-            out.push(nest_definite(tag, d, &[]));
-            out.push(nest_indefinite(tag, d, &int, d)); // well formed
-            out.push(nest_indefinite(tag, d, &int, 0)); // no EOC at all
-            out.push(nest_indefinite(tag, d, &int, d / 2)); // half of them
-            out.push(nest_indefinite(tag, d, &[], 0));
-            out.push(nest_indefinite(tag, d, &[0x04, 0x01, 0x41], d)); // constructed strings of one segment
-            out.push(nest_indefinite(tag, d, &[0x03, 0x02, 0x00, 0x41], d));
-        }
-        // Alternating definite and indefinite levels: a definite SEQUENCE inside an indefinite one, and so on.
-        let mut v = int.to_vec();
-        for i in 0..d {
-            if i % 2 == 0 {
-                let mut w = vec![0x30];
-                push_len(&mut w, v.len());
-                w.extend_from_slice(&v);
-                v = w;
-            } else {
-                let mut w = vec![0x30, 0x80];
-                w.extend_from_slice(&v);
-                w.extend_from_slice(&[0, 0]);
-                v = w;
-            }
-        }
-        out.push(v);
-    }
-    out
+    eprintln!("crafted length fields: {} inputs", inputs.len());
 }
 
 #[test]
@@ -997,28 +696,11 @@ fn crafted_nesting_shapes_hold_the_invariants() {
 #[test]
 fn random_bytes_hold_the_invariants() {
     let mut run = Runner::new(WATCHDOG, exercise);
-    let mut rng = Rng::new(0xDEAD_BEEF_0BAD_F00D);
-    // Octets that are mostly structure: identifiers, lengths, EOC and a few arbitrary ones.
-    let pool = [
-        0x30u8, 0x31, 0x02, 0x04, 0x24, 0x03, 0x23, 0x06, 0x0C, 0x17, 0x18, 0x80, 0x00, 0x00, 0x01,
-        0x05, 0x81, 0x82, 0xFF, 0x1F, 0x7F, 0xA0, 0xBF, 0x09, 0x0A,
-    ];
-    let mut n = 0;
-    for _ in 0..4000 {
-        let len = rng.below(48);
-        let input: Vec<u8> = (0..len)
-            .map(|_| {
-                if rng.below(4) == 0 {
-                    rng.byte()
-                } else {
-                    pool[rng.below(pool.len())]
-                }
-            })
-            .collect();
-        run.run("random", &input);
-        n += 1;
+    let inputs = random_inputs(4000, 0xDEAD_BEEF_0BAD_F00D);
+    for input in &inputs {
+        run.run("random", input);
     }
-    eprintln!("random: {n} inputs");
+    eprintln!("random: {} inputs", inputs.len());
 }
 
 // ------------------------------------------------------------------------------------------ watchdog
@@ -1058,7 +740,7 @@ type Shape = (&'static str, fn(usize) -> Vec<u8>, bool, bool);
 fn check_depths(limits: &Limits, depths: &[usize]) {
     let int = [0x02, 0x01, 0x05];
     let bound = limits.max_depth.min(Limits::HARD_MAX_DEPTH);
-    let shapes: [Shape; 3] = [
+    let shapes: [Shape; 4] = [
         (
             "definite",
             |d| nest_definite(0x30, d, &[0x02, 0x01, 0x05]),
@@ -1068,6 +750,12 @@ fn check_depths(limits: &Limits, depths: &[usize]) {
         (
             "indefinite",
             |d| nest_indefinite(0x30, d, &[0x02, 0x01, 0x05], d),
+            true,
+            false,
+        ),
+        (
+            "indefinite A0 around a BIT STRING",
+            |d| nest_indefinite(0xA0, d, &[0x03, 0x02, 0x00, 0x41], d),
             true,
             false,
         ),
@@ -1133,6 +821,16 @@ fn stack_child() {
     }
     // 256 KiB hold the default limit of 64 levels, and a refusal at 65 or far beyond, in a debug build.
     on_stack(SMALL_STACK, || {
+        // The input the recursive reader overflowed a 256 KiB debug stack on (123 levels): `a0 80` x 123, the
+        // BIT STRING `03 02 00 41`, `00 00` x 123, with no depth limit asked for.
+        let unlimited = Limits {
+            max_depth: usize::MAX,
+            max_content_length: u64::MAX,
+        };
+        let old_input = nest_indefinite(0xA0, 123, &[0x03, 0x02, 0x00, 0x41], 123);
+        assert_eq!(old_input.len(), 123 * 4 + 4);
+        let t = Tlv::parse_exact(&old_input, Mode::Ber, &unlimited).expect("accepted");
+        assert!(t.validate().is_ok());
         check_depths(
             &Limits::DEFAULT,
             &[1, 2, 62, 63, 64, 65, 100, 513, 4000, 100_000],
@@ -1143,8 +841,9 @@ fn stack_child() {
         };
         check_depths(&tight, &[1, 2, 3, 4, 5, 6, 1000]);
     });
-    // On a 2 MiB test thread the hard bound holds when the caller asks for no limit at all.
-    on_stack(TEST_STACK, || {
+    // The hard bound holds on the same 256 KiB stack when the caller asks for no limit at all: 512 levels are
+    // accepted, 513 are `limit_exceeded`, and nothing deeper costs more stack.
+    on_stack(SMALL_STACK, || {
         let unlimited = Limits {
             max_depth: usize::MAX,
             max_content_length: u64::MAX,
@@ -1154,18 +853,28 @@ fn stack_child() {
             &unlimited,
             &[h - 2, h - 1, h, h + 1, 2 * h, 10_000, 100_000],
         );
+        // The deepest input accepted: `h - 1` constructed levels around the INTEGER, h levels in all.
+        let deepest = nest_indefinite(0xA0, h - 1, &[0x03, 0x02, 0x00, 0x41], h - 1);
+        let t = Tlv::parse_exact(&deepest, Mode::Ber, &unlimited).expect("512 levels are accepted");
+        assert!(t.validate().is_ok());
+        let one_more = nest_indefinite(0xA0, h, &[0x03, 0x02, 0x00, 0x41], h);
+        let e = Tlv::parse_exact(&one_more, Mode::Ber, &unlimited).unwrap_err();
+        assert_eq!(e.class, ErrorClass::LimitExceeded);
+        let definite = nest_definite(0xA0, h, &[0x03, 0x02, 0x00, 0x41]);
+        let t = Tlv::parse_exact(&definite, Mode::Ber, &unlimited);
+        assert_eq!(t.unwrap_err().class, ErrorClass::LimitExceeded);
     });
 }
 
-/// Nesting beyond `max_depth` is `limit_exceeded`, and the recursion bound holds on a small stack (256 KiB for
-/// the default limit, the 2 MiB test default for `Limits::HARD_MAX_DEPTH`). A stack overflow aborts the
-/// whole process, so the checks run in a child process (this test binary again) and the parent reports its
-/// exit status as a failure of this test.
+/// Nesting beyond `max_depth` is `limit_exceeded`, and the stack the reader needs does not grow with the depth:
+/// the default limit (64 levels) and `Limits::HARD_MAX_DEPTH` (512 levels, with no limit asked for) both run on
+/// a 256 KiB stack, in a debug build. A stack overflow aborts the whole process, so the checks run in a child
+/// process (this test binary again) and the parent reports its exit status as a failure of this test.
 ///
-/// FINDING, measured on this machine: `HARD_MAX_DEPTH` (512) does NOT fit 256 KiB. The reader recurses once
-/// per level, about 2.7 KiB a level in a debug build (512 levels of indefinite length needed between 1.3 and
-/// 1.4 MiB) and about 0.4 KiB in a release build (512 levels need more than 192 KiB). The bound is real, but
-/// "stack-safety" holds only for stacks of that size.
+/// History: the reader used to recurse once per level, about 2.7 KiB a level in a debug build (512 levels of
+/// indefinite length needed between 1.3 and 1.4 MiB, 123 levels of `a0 80` overflowed 256 KiB) and about 0.4
+/// KiB in a release build. It now walks the tree with an explicit stack of `HARD_MAX_DEPTH` small frames
+/// (`src/tlv.rs`, `walk`), and this test is what fails if a recursion per level comes back.
 #[test]
 fn nesting_beyond_max_depth_is_refused_and_fits_a_small_stack() {
     use std::io::Read;

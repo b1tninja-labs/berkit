@@ -4,7 +4,10 @@
 //! as JSON numbers and the manifest writes the large limits as strings), strings take the usual escapes
 //! including `\u` surrogate pairs.
 
+// The library is `no_std`; this file is also compiled inside it for the differential test of `src/tlv.rs`.
 use std::fmt;
+#[allow(unused_imports)]
+use std::prelude::v1::*;
 
 /// A parsed JSON value.
 #[derive(Clone, Debug, PartialEq, Eq)]
