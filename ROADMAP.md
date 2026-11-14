@@ -28,7 +28,7 @@ Each module's rows are in `crates/berkit/roadmap/<module>.md`. Tests are the int
 
 | Module | Source | Roadmap | `[ok]` | `[unread]` | `[open]` | Tests |
 |---|---|---|---|---|---|---|
-| framing (`tag`, `length`, `tlv`) | X.690 §8.1, §10.1 | `framing.md` | 1 | 26 | 10 | 38 |
+| framing (`tag`, `length`, `tlv`) | X.690 §8.1, §10.1 | `framing.md` | 23 | 4 | 10 | 38 |
 | numeric (`boolean`, `integer`, `null`, `real`) | X.690 §8.2 to §8.8, §11.1, §11.3 | `numeric.md` | 30 | 2 | 4 | 41 |
 | `oid` | X.690 §8.19 to §8.22 | `oid.md` | 11 | 2 | 3 | 27 |
 | `bitstring`, `octetstring` | X.690 §8.6, §8.7, §10.2, §11.2 | `bitoctet.md` | 16 | 0 | 8 | 29 |
@@ -39,7 +39,7 @@ Each module's rows are in `crates/berkit/roadmap/<module>.md`. Tests are the int
 
 | Status | Obligation | Anchor | Test |
 |---|---|---|---|
-| [unread] | The 26 framing rows rest on the research notes, not on a clause read at implementation time | `docs/design/framing.md` | the framing agent could not read X.690: the `itulib` index failed with "no such table: meta". Re-read each clause through the primarysource server and flip the rows |
+| [unread] | 22 of the 26 framing rows were re-read from X.690 on 2026-11-13 and are now `[ok]`; four are not: F-16 (Figure 4 is an image), F-17 (a POLICY), F-44 (its named test did not fail under a breakage) and stream order (its anchor is not X.690). One row text was wrong and is corrected: the high-tag leading octet is `xxx11111` | `crates/berkit/roadmap/framing.md`, section "Clause reading" | clauses read through `primarysource itu read`; each flipped row has a fresh breakage recorded there |
 | [ok] | The corpus runs against the code: 1179 cases, 2355 runs, all agree, with a known-disagreement list that is empty | `corpus/` 0.2.0 | `tests/corpus.rs::corpus_agrees_with_the_code_except_the_known_list`; breaking INTEGER minimality produced 7 disagreements, DER indefinite length 20, the PrintableString alphabet 183, the OID first-arc decode 23, REAL minus zero 1 |
 | [open] | Agreement is code against corpus, not either against the standard: the corpus expectations are an author's reading of the clauses, written from the same research notes the code was built from, and checked by a Python reference decoder that is not independent of them | none | an independent check (a second implementation written without the notes, or a real-certificate sample) is not done |
 | [ok] | 40 real X.509 CA certificates (RSA 1024 to 4096, EC P-256/384/521, one v1) are read by berkit in DER and BER, and its tree equals an independent Python walker's on 2696 nodes; 475 mutations (padded or indefinite lengths, trailing byte, truncation, padded serial, DEFAULT written out, SET OF order) get the class the walker predicts; `cryptography` agrees on version, serial, algorithm OIDs and validity for all 40 | X.690 §8.1.3.5, §10.1, §11.5, §11.6; RFC 5280 §4.1 (schema written from memory, not yet checked against the RFC) | `crates/berkit/tests/real_der.rs`; it found one gap, a BOOLEAN DEFAULT written with its default was accepted in DER, fixed by `Presence::DefaultBool` and re-checked here by disabling the fix, which fails the test. Limits: the walker and the mutations share one author's reading; no outer length forms other than `82` on this machine; no SET (§10.3) in certificates; no ANY or CHOICE in the typed layer |
