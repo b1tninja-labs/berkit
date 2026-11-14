@@ -4,7 +4,7 @@
 
 This matrix is rebuilt from the `Status | Obligation | Anchor | Test` tables of `ROADMAP.md` and the module fragments under `crates/*/roadmap/`. Nothing in it is written by hand: each cell is copied from a ROADMAP row, and the only computed things are the counts and the split of an Anchor cell into a document and clauses. A row that cites two clauses appears under both. Status words are the ROADMAP's: `[ok]` the named test exists, passes, and failed when the code was deliberately broken; `[unread]` the test passes but the anchor could not be read cleanly; `[open]` not done.
 
-Rows read: 194. Placed under a clause: 152. Not placed (listed under Unanchored): 42.
+Rows read: 196. Placed under a clause: 152. Not placed (listed under Unanchored): 44.
 
 ## Summary by module
 
@@ -16,9 +16,9 @@ Rows read: 194. Placed under a clause: 152. Not placed (listed under Unanchored)
 | numeric | 30 | 2 | 4 | 36 | 36 | 30 | 6 |
 | oid | 11 | 2 | 3 | 16 | 22 | 15 | 1 |
 | strtime | 31 | 3 | 14 | 48 | 38 | 48 | 0 |
-| (across the modules) | 4 | 1 | 5 | 10 | 5 | 2 | 8 |
+| (across the modules) | 5 | 1 | 6 | 12 | 8 | 2 | 10 |
 | (policy decisions) | 0 | 0 | 10 | 10 | 0 | 5 | 5 |
-| **Total** | 126 | 12 | 56 | 194 | 170 | 152 | 42 |
+| **Total** | 127 | 12 | 57 | 196 | 173 | 152 | 44 |
 
 `Test names cited` counts the distinct test names that appear in the Test cells of the module's rows. It is not a count of tests in the code: a test no row names is not counted, and a name in a Test cell that no longer exists in the code is.
 
@@ -316,7 +316,7 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 
 ## Unanchored
 
-42 rows have no recognisable clause in their Anchor cell. They are listed in full with the Anchor as written and the reason.
+44 rows have no recognisable clause in their Anchor cell. They are listed in full with the Anchor as written and the reason.
 
 | Module | Status | What the code does | Anchor as written | Test | Reason |
 |---|---|---|---|---|---|
@@ -330,6 +330,8 @@ Grouped by standard document, then clause. The clause cell shows what follows th
 | (across the modules) | `[open]` | Agreement is code against corpus, not either against the standard: the corpus expectations are an author's reading of the clauses, written from the same research notes the code was built from, and checked by a Python reference decoder that is not independent of them | none | an independent check (a second implementation written without the notes, or a real-certificate sample) is not done | no anchor |
 | (across the modules) | `[ok]` | The corpus states decoded typed values (format 1.2): 248 cases pin OID, INTEGER, ENUMERATED, BOOLEAN, NULL, OCTET STRING, BIT STRING, string, UTCTime, GeneralizedTime and REAL values, each constructed by hand from the clause. The OID first-arc decode break that no case caught before now fails the corpus test, and an independent decode of all 111 OID, INTEGER and ENUMERATED values found no mismatch | `corpus/format.md` revision 1.2 | `tests/corpus.rs`; eight breaks by the agent and two by me (OID first arc, REAL minus zero) all fail it; one coverage hole (constructed BIT STRING pad bits) was found and closed | refers to the repository's own notes |
 | (across the modules) | `[open]` | The typed layer returns no values and has no encoder: a caller decodes the content itself after `typed::validate`, and `encode_typed` is still test code | none | decide whether a value-returning, still allocation-free API is wanted | no anchor |
+| (across the modules) | `[ok]` | Robustness: no input makes the library panic, return an error offset past the slice it was given, return a parsed element that is not a sub-slice of its input (header + contents, plus the EOC octets, is the encoding), disagree between `validate` and a walk of `children()`, or run for more than 2 seconds. Swept deterministically (fixed seeds, a std-only xorshift): 40 real certificates and every hex input of the corpus (mutated by flips, truncation, insertion, header and slice duplication, length corruption), crafted length fields, crafted nesting at and beyond `HARD_MAX_DEPTH` (definite, indefinite, no EOC, alternating), random bytes; 14,950 inputs, each through `Tlv::parse` and `parse_exact` in both modes under three limit sets, `validate`, `children()`, `Leaves`, `typed::validate` against the Certificate and a dozen other schemas, and every content function in both modes. No panic, hang or unbounded offset was found | `crates/berkit/tests/robustness.rs` | `crates/berkit/tests/robustness.rs`: five sweep tests and one nesting and stack test, plus two that prove the harness (a watchdog on a spinning function and a panicking function). Breaks, each failing a named test: `Tlv.encoding` equal to the contents slice, children never advancing (the hang: the watchdog reports `HANG` for the input in five tests), an unchecked index in the length decoder (`30 81`), error offsets past the input in `null::decode` and in the reader, `validate` not recursing, a header one octet short, the nesting bound off by one and the hard bound removed. Limits: the sweeps run on a 4 MiB stack; the inputs are one author's mutations, not a coverage-guided fuzzer | no recognisable clause |
+| (across the modules) | `[open]` | The recursion bound is not a stack bound: the reader recurses once per level, `Limits::HARD_MAX_DEPTH` is 512, and a level costs about 2.7 KiB of stack in a debug build and about 0.4 KiB in release (measured: 512 indefinite levels need 1.3 to 1.4 MiB in debug and between 192 and 256 KiB in release; 123 levels of `a0 80` with the end-of-contents octets, no depth limit asked for, overflow a 256 KiB debug stack). It fits the 2 MiB test default and the default limit of 64 fits 256 KiB, but not a small embedded or 1 MiB Windows stack | none | an iterative reader (an explicit stack of fixed size) or a documented stack figure per level; `robustness.rs` asserts the 256 KiB / 64 level and 2 MiB / 512 level cases | no anchor |
 | (across the modules) | `[open]` | Reference material is missing: X.660 (OID arcs), ISO 6093 (REAL decimal), ISO/IEC 10646 (UTF-8, BMP and UCS-4 rules), ISO 8601 (time), the ISO register (Teletex, Videotex, Graphic, General) | requested from the primarysource coordinator | those rules stay `[unread]` | no recognisable clause |
 | (across the modules) | `[open]` | The crate builds on Rust 1.85, on bare-metal `no_std` targets and on 32-bit | `docs/msrv.md` | measured 2026-11-13: tests and clippy pass on 1.85.0, all tests pass on `i686-pc-windows-msvc`, the library builds for `thumbv7em-none-eabi` and `thumbv6m-none-eabi`; build only, nothing was run on a target, and the CI jobs have not run yet | refers to the repository's own notes |
 | (across the modules) | `[open]` | berkit is registered in the portfolio and has a remote | `PORTFOLIO.md` | not done | refers to the repository's own notes |
