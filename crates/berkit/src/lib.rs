@@ -29,6 +29,14 @@
 
 #![no_std]
 
+// The tests may use `std`: the differential test of `tlv` reads the corpus and the real certificates, and
+// includes the test helpers of `tests/common`, which name the crate as `berkit`.
+#[cfg(test)]
+#[macro_use]
+extern crate std;
+#[cfg(test)]
+extern crate self as berkit;
+
 pub mod bitstring;
 pub mod boolean;
 pub mod error;

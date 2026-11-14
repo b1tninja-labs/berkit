@@ -2,6 +2,7 @@
 //!
 //! Files are read as BYTES and never normalised, so the manifest's sha256 values hold.
 
+// The library is `no_std`; this file is also compiled inside it for the differential test of `src/tlv.rs`.
 use super::json::{self, Json};
 use super::sha256::sha256_hex;
 use berkit::ErrorClass;
@@ -10,6 +11,8 @@ use berkit::tag::{Class, Tag};
 use berkit::tlv::{self, Tlv};
 use berkit::{Error, Mode};
 use std::path::{Path, PathBuf};
+#[allow(unused_imports)]
+use std::prelude::v1::*;
 
 // ---------------------------------------------------------------- tree
 
