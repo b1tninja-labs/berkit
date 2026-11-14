@@ -11,7 +11,7 @@ standard: ITU-T X.690 (02/2021) and X.680 (02/2021).
   "not found in X.690" is not a rule.
 - Read the standard itself when a note is unclear: the `itulib` MCP tools (`itu_read`, `itu_search`) serve
   X.690 and X.680 by clause. Never state a rule from memory.
-- `a sibling directory of the workspace` is a Python implementation. It is NOT a reference and nothing may be copied from it:
+- `asn1core` (a sibling Python project in the author's workspace) is a Python implementation. It is NOT a reference and nothing may be copied from it:
   `docs/design/hazards/` records what it got wrong and what ideas are worth keeping.
 - Where reference material is missing (X.660, ISO 6093, ISO/IEC 10646, ISO 8601), do not guess: mark the rule
   `[unread]`, say what would settle it, and tell the coordinator so the primarysource sessions can add it.

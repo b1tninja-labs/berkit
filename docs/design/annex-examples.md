@@ -1,6 +1,6 @@
 # Worked examples printed in X.690 (02/2021) | ISO/IEC 8825-1:2021, with Erratum 1 (09/2021)
 
-Source: `the X.690 PDF fetched by primarysource`, extracted with
+Source: the X.690 (02/2021) PDF fetched by primarysource, extracted with
 `pdftotext -raw` into `x690.txt` in this directory. Citations are `X.690 (02/2021) §n`.
 Quotes are not used; the standard's text is paraphrased. Hex is lowercase; the standard
 prints it as `NN16` pairs or `NN` pairs.

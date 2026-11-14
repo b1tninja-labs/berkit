@@ -6,7 +6,7 @@ re-read from X.690; the only classification so far is a design question, not a c
 was restored from a copy kept outside the repository and verified with `diff` and `git status`; `cargo clean -p berkit`
 ran between runs.
 
-Update 2026-11-13: clause reading works through `python -m primarysource.cli itu read "X.690§8.1.3.5"` (run from `a sibling directory of the workspace` with `PYTHONUTF8=1`); the MCP `itulib` tools still fail. The framing clauses were re-read that way (see `framing.md`). The decoded-value cases below were not: their clauses are still unread.
+Update 2026-11-13: clause reading works through `python -m primarysource.cli itu read "X.690§8.1.3.5"` (run from the primarysource checkout with `PYTHONUTF8=1`); the MCP `itulib` tools still fail. The framing clauses were re-read that way (see `framing.md`). The decoded-value cases below were not: their clauses are still unread.
 
 | Status | Obligation | Anchor | Test |
 |---|---|---|---|

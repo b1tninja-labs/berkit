@@ -1,6 +1,6 @@
 # BER/DER framing layer: obligations and test vectors
 
-Sources: Rec. ITU-T X.690 (02/2021) | ISO/IEC 8825-1:2021 and its Erratum 1 (09/2021); Rec. ITU-T X.680 (02/2021) clause 8 and Table 1 (read through `itulib`, cross-checked against `pdftotext -raw` of the PDFs in `the X.690 PDF fetched by primarysource`). 2008 text: X.690 (11/2008) base text, without Corrigenda 1 and 2. No implementation was read. Citations use clause and lettered item; `¶n` is used only where `itu_read` showed the sentence index (verified: 7.3 ¶2, 8.1.3.5 ¶2/¶4/¶5, 8.1.5 ¶1/¶2/¶3, 8.1.2.4.2 ¶1, 10.1 ¶1).
+Sources: Rec. ITU-T X.690 (02/2021) | ISO/IEC 8825-1:2021 and its Erratum 1 (09/2021); Rec. ITU-T X.680 (02/2021) clause 8 and Table 1 (read through `itulib`, cross-checked against `pdftotext -raw` of the X.690 and X.680 (02/2021) PDFs fetched by primarysource). 2008 text: X.690 (11/2008) base text, without Corrigenda 1 and 2. No implementation was read. Citations use clause and lettered item; `¶n` is used only where `itu_read` showed the sentence index (verified: 7.3 ¶2, 8.1.3.5 ¶2/¶4/¶5, 8.1.5 ¶1/¶2/¶3, 8.1.2.4.2 ¶1, 10.1 ¶1).
 
 Notation. Bits are numbered 8 (MSB) to 1 (X.690 6.2). Class letters U/A/C/P = universal/application/context-specific/private (8.1.2.2 Table 1). A vector result `OK(class,P|C,number,length)` describes the outermost TLV only; `indef` = indefinite length. "Derived" means the rule follows from two cited sentences but no single sentence says "reject"; the standard contains no receiver-side error rules at all (see section 6).
 
