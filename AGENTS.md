@@ -37,6 +37,9 @@ All four must pass for your package before a change is done.
     cargo test
     cargo doc --no-deps
 
+`docs/matrix.md` is generated from the ROADMAP tables: after changing a ROADMAP row run `python tools/matrix.py`,
+and `python tools/matrix.py --check` exits 1 when the file is stale. Standard library only; do not edit the matrix by hand.
+
 ## Invariants
 
 - `unsafe` is forbidden by the lint table; do not relax a lint to make something compile.
