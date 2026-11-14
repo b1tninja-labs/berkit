@@ -17,5 +17,8 @@ Measured locally on Windows, with stable 1.99.0 as the development toolchain:
 
 The bare-metal result is a build only. Nothing was run on a target, so it shows that the library compiles
 without `std` or allocation for those architectures, not that it behaves correctly there. The CI jobs
-(`msrv` and `no_std` in `.github/workflows/ci.yml`) repeat the 1.85 tests and the two target builds; they
-have not run yet.
+(`msrv` and `no_std` in `.github/workflows/ci.yml`) repeat the 1.85 tests and the two target builds. They ran
+once on GitHub Actions, run 43543070623 on `main` on 2026-11-14 (`ubuntu-latest`): `msrv`,
+`no_std (thumbv7em-none-eabi)` and `no_std (thumbv6m-none-eabi)` all concluded success, as did `check`. That shows the
+jobs pass on a Linux runner; it does not show that a deliberate break fails them, and CI does not run clippy on 1.85
+or the 32-bit target, so those two results remain the by-hand measurements above.
