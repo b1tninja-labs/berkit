@@ -239,7 +239,7 @@ Method: `itu_compare` on each clause (it reports only the clause heading for cla
 | E3 | 08/2015 vs 02/2021 for the same clauses | identical | identical | none |
 
 X.690 Amendment 2 (06/2006), "Time type support", to the 07/2002 edition is registered in `itu_info` but its text is not in the corpus and the 2002 edition is not
-either; thus what 2002 said about UTCTime/GeneralizedTime cannot be compared. X.680 only exists as 02/2021 in the corpus (`the fetched corpus`), so the X.680 2008 vs 2021 comparison
+either; thus what 2002 said about UTCTime/GeneralizedTime cannot be compared. X.680 only exists as 02/2021 in the fetched corpus, so the X.680 2008 vs 2021 comparison
 the task requested CANNOT be done with the available sources. X.680 §46 NOTE 1 states the time-type text was reworded after earlier editions but "the technical content is unchanged from the first version"; that statement is the only edition evidence available for §46 (not verified against 2008). Differences that change an encoding or validity rule: E1 only, and it changes no octet.
 
 ---------------------------------------------------------------------------------------------------------------------

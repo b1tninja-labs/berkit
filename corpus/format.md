@@ -181,7 +181,7 @@ case must carry `type`.
   a retracted case keeps its id in `cases/retired.json` with a reason, never reused. An id is never reissued for a
   different case, even one in another file or one that was never released.
 - Two implementations (Rust crate, Python package) depend on it by relative path inside the same
-  workspace, e.g. `../ber-corpus` (workspace siblings, as the other projects under `D:\code`), or
+  workspace, e.g. `../ber-corpus` (sibling directories of one workspace), or
   a git submodule at `tests/corpus` pinned to a tag. Each test harness reads `corpus.json`, refuses to run
   if `corpus_version` major differs from the one it was written for, and checks each file's sha256 so
   a silent edit fails loudly. No generated copy of the corpus is checked into either implementation.
