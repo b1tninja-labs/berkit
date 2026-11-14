@@ -27,8 +27,8 @@
 //!   `bad_contents`, not `truncated`: the corpus defines `truncated` as the input ending inside the
 //!   identifier, length or declared contents, and here the declared contents are complete.
 //! * POLICY: the encoder refuses a first arc other than 0, 1 or 2, and a second arc above 39 when the first
-//!   is 0 or 1. The rule is a NOTE in X.690 §8.19.4 and is stated by X.660, which is not in the corpus:
-//!   `[unread]`. The decoder applies the split of §8.19.4 and accepts any value.
+//!   is 0 or 1. The rule is X.660 §7.6 ¶1 (a NOTE in X.690 §8.19.4 repeats it). The decoder applies the
+//!   split of §8.19.4 and accepts any value.
 
 use core::fmt;
 
@@ -326,9 +326,9 @@ pub enum EncodeError {
     BufferTooSmall,
     /// An OBJECT IDENTIFIER needs two arcs (X.690 §8.19.4) and a RELATIVE-OID one (§8.20.3).
     TooFewArcs,
-    /// First arc not 0, 1 or 2. `[unread]`: a NOTE in X.690 §8.19.4, the rule is in X.660.
+    /// First arc not 0, 1 or 2. X.660 §7.6 ¶1 a); a NOTE in X.690 §8.19.4 repeats it.
     FirstArcOutOfRange,
-    /// Second arc above 39 under first arc 0 or 1. `[unread]`: as above.
+    /// Second arc above 39 under first arc 0 or 1. X.660 §7.6 ¶1 b).
     SecondArcOutOfRange,
     /// The text is not valid contents of an OID-IRI or RELATIVE-OID-IRI (see [`OidIri::decode`]).
     InvalidIri,
@@ -465,7 +465,7 @@ fn encode_list<A: ArcSource>(
 /// # Errors
 ///
 /// [`EncodeError::TooFewArcs`] below two arcs, [`EncodeError::FirstArcOutOfRange`] and
-/// [`EncodeError::SecondArcOutOfRange`] (POLICY, `[unread]` X.660), [`EncodeError::BufferTooSmall`].
+/// [`EncodeError::SecondArcOutOfRange`] (X.660 §7.6 ¶1), [`EncodeError::BufferTooSmall`].
 pub fn encode_object_identifier_u64(arcs: &[u64], out: &mut [u8]) -> Result<usize, EncodeError> {
     encode_list(arcs, false, out)
 }
@@ -520,9 +520,29 @@ pub fn encode_relative_oid_be(arcs: &[&[u8]], out: &mut [u8]) -> Result<usize, E
 // OID-IRI and RELATIVE-OID-IRI
 // --------------------------------------------------------------------------------------------------------
 
-/// X.680 §12.1.6 white-space characters in the ASCII range.
-const fn is_notation_whitespace(c: char) -> bool {
-    matches!(c, ' ' | '\t' | '\n' | '\u{0B}' | '\u{0C}' | '\r')
+/// Whether `c` is in the character repertoire of a non-integer Unicode label. X.660 §7.5.2.
+///
+/// ASCII admits only HYPHEN-MINUS, FULL STOP, LOW LINE, TILDE, digits and letters; above that U+00A0 to
+/// U+DFFE, U+F900 to U+FDCF, U+FDF0 to U+FFEF, the last two code points of no plane from 1 to 13 excluded, and
+/// U+E1000 to U+EFFFD. The "(This position shall not be used)" exclusion of §7.5.3 needs ISO/IEC 10646
+/// and is not applied.
+const fn is_label_char(c: char) -> bool {
+    let v = c as u32;
+    match v {
+        0x2D
+        | 0x2E
+        | 0x5F
+        | 0x7E
+        | 0x30..=0x39
+        | 0x41..=0x5A
+        | 0x61..=0x7A
+        | 0xA0..=0xDFFE
+        | 0xF900..=0xFDCF
+        | 0xFDF0..=0xFFEF
+        | 0xE1000..=0xEFFFD => true,
+        0x1_0000..=0xD_FFFF => v & 0xFFFF <= 0xFFFD,
+        _ => false,
+    }
 }
 
 /// Checks the contents of an IRI value and returns them as text. `absolute` selects X.680 §34.3 (starts with
@@ -542,10 +562,9 @@ fn validate_iri(content: &[u8], absolute: bool) -> Result<&str, Error> {
         if label.is_empty() {
             return Err(Error::new(ErrorClass::BadContents, pos));
         }
-        if let Some((i, _)) = label
-            .char_indices()
-            .find(|&(_, c)| is_notation_whitespace(c))
-        {
+        // X.660 §7.5.2 (X.680 §12.27 ¶1): every character of a label is in the label repertoire. This also
+        // refuses the ASCII white-space the notation of X.680 §12.1.6 would skip.
+        if let Some((i, _)) = label.char_indices().find(|&(_, c)| !is_label_char(c)) {
             return Err(Error::new(ErrorClass::BadContents, pos + i));
         }
         // X.680 §12.26 ¶2 and §12.27 ¶2: an all-digit label is an integer label, which has no leading zero.
@@ -582,11 +601,13 @@ impl<'a> OidIri<'a> {
     /// The contents are the UTF-8 of the lexical items of `FirstArcIdentifier SubsequentArcIdentifier`
     /// (§8.21.2 ¶1): a `/` then a label, repeated, with no quotation marks (`XMLIRIValue`). Checked: well-formed
     /// UTF-8 (the shortest form, §8.21.2 ¶2; Rust's decoder also refuses surrogates and values above
-    /// U+10FFFF); the leading `/`; no empty label; no ASCII white-space (POLICY, derived from "no
-    /// white-space" in §8.21.2 ¶1 and X.680 §12.27 admitting only NON-BREAKING-SPACE); an all-digit label has
+    /// U+10FFFF); the leading `/`; no empty label; every character in the label repertoire of
+    /// X.660 §7.5.2 (so no ASCII white-space, no control character, no private-use or noncharacter code point);
+    /// an all-digit label has
     /// no leading zero (X.680 §12.26 ¶2, §12.27 ¶2). Empty contents are refused (POLICY, derived: the
-    /// grammar needs at least one arc). The character rules for non-integer labels are in X.660 §7.5, which
-    /// is not in the corpus (`[unread]`), so they are not checked.
+    /// grammar needs at least one arc). The one rule of X.660 §7.5.3 not checked is the exclusion of ISO/IEC 10646
+    /// positions marked "(This position shall not be used)", which needs 10646 (`[unread]`); the NOTE there
+    /// invites tolerance.
     ///
     /// # Errors
     ///

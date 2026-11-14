@@ -442,9 +442,69 @@ fn oid_iri_contents() {
     let mut b = [0u8; 16];
     let n = OidIri::encode("/2/999", &mut b).unwrap();
     assert_eq!(&b[..n], [0x2F, 0x32, 0x2F, 0x39, 0x39, 0x39]);
-    // Non-integer labels are accepted as text; their character rules (X.660) are unread.
+    // Non-integer labels are accepted as text; their character repertoire is X.660 §7.5.2 (see `non_integer_label_repertoire`).
     let iri = OidIri::decode(b"/ASN.1/Basic-Encoding", Mode::Ber).unwrap();
     assert_eq!(iri.arcs().collect::<Vec<_>>(), ["ASN.1", "Basic-Encoding"]);
+}
+
+#[test]
+fn non_integer_label_repertoire() {
+    // constructed from X.660 §7.5.2: the ASCII characters allowed are - . _ ~ digits and letters; above ASCII
+    // U+00A0 to U+DFFE, U+F900 to U+FDCF, U+FDF0 to U+FFEF, planes 1 to 13 up to U+xFFFD, U+E1000 to U+EFFFD.
+    let ok = [
+        "/a-b.c_d~E9",
+        "/\u{A0}",
+        "/\u{D7FF}",
+        "/\u{F900}",
+        "/\u{FDCF}",
+        "/\u{FDF0}",
+        "/\u{FFEF}",
+        "/\u{10000}",
+        "/\u{1FFFD}",
+        "/\u{DFFFD}",
+        "/\u{E1000}",
+        "/\u{EFFFD}",
+    ];
+    let bad = [
+        "/a!b",
+        "/a+b",
+        "/a:b",
+        "/a\u{7F}",
+        "/a\u{1}",
+        "/a\u{9F}",
+        "/a\u{E000}",
+        "/a\u{F8FF}",
+        "/a\u{FDD0}",
+        "/a\u{FDEF}",
+        "/a\u{FFF0}",
+        "/a\u{FFFE}",
+        "/a\u{FFFF}",
+        "/a\u{1FFFE}",
+        "/a\u{DFFFF}",
+        "/a\u{E0001}",
+        "/a\u{E0FFF}",
+        "/a\u{F0000}",
+        "/a\u{10FFFD}",
+    ];
+    for mode in MODES {
+        for s in ok {
+            assert!(OidIri::decode(s.as_bytes(), mode).is_ok(), "{s:?}");
+        }
+        for s in bad {
+            assert_eq!(
+                err_class(OidIri::decode(s.as_bytes(), mode)),
+                ErrorClass::BadContents,
+                "{s:?}"
+            );
+        }
+        assert!(RelativeOidIri::decode("\u{E9}t\u{E9}/3".as_bytes(), mode).is_ok());
+        assert!(RelativeOidIri::decode("a\u{FFFF}/3".as_bytes(), mode).is_err());
+    }
+    let mut b = [0u8; 16];
+    assert_eq!(
+        OidIri::encode("/a\u{E000}", &mut b),
+        Err(EncodeError::InvalidIri)
+    );
 }
 
 #[test]

@@ -75,7 +75,7 @@ as read on that date and re-read each clause myself.
 | `len-indefinite` (primitive case) | §8.1.3.2 a, §7.1 gives no licence to accept | §8.1.3.2 ¶1 a; §7.1 ¶1; §7.3 ¶2 | **Resolved** by inference (§7.1 itself says only "clauses 8 to 12"; the argument really rests on §7.3 ¶2) |
 | `int-nonmin` | §8.3.2 forbids; "1 in BER" | §8.3.2 ¶1-2 | **Clause resolved, BER claim contradicted**: not valid BER |
 | `bool-nonzero` | §8.2.2 any non-zero (sender's option); §11.1 DER all ones | §8.2.2 ¶3; §11.1 ¶1 | **Resolved**, agrees |
-| `oid-first-arc-high` | §8.19.4: `7F` is 2.47 | §8.19.4 ¶1-3 | **Resolved**, agrees; exact arc limits are X.660 (not read) |
+| `oid-first-arc-high` | §8.19.4: `7F` is 2.47 | §8.19.4 ¶1-3 | **Resolved**, agrees; the arc limits are X.660 §7.6 ¶1 (read 2026-11-13) |
 | `setof-unsorted` | §11.6, plain sort is equivalent | §11.6 ¶1-2 | **Resolved**, agrees for SET OF. Does not cover SET (§10.3), which the code conflates |
 | `time-leap-second` | X.680 §47.3: UTCTime ss is 00-59 | X.680 §47.3 ¶2 | **Resolved for UTCTime**. GeneralizedTime still **open** |
 | `printable-charset` | X.680 §41.4 Table 10, 74 chars | X.680 §41.4 ¶2-5 | **Resolved**, agrees (26+26+10+1+11) |
@@ -85,8 +85,7 @@ Other VECTORS claims I re-checked: `bits-unused-nonzero` (§11.2.1, agrees); `oi
 row); `time-not-zulu` (X.680 §47.3 ¶2 b, c and §11.8.1-2: agrees); `dn-attribute-tag-numbers`, `dn-teletex-ambiguity`,
 `unrestricted-string-value` (Table 1 and Table 8: agree); `numeric-charset` (Table 9: agrees); `time-invalid-calendar`
 (§47.3 states only DD 01-31; the calendar rule is inference); `len-undefined-high` (**contradicted**, see 1.10);
-`tag-a-9999` arithmetic (9999 = 78*128 + 15: agrees with §8.1.2.4.2). Still open: the exact first/second arc rule (X.660),
-GeneralizedTime seconds 60 (ISO 8601), constructed time types under DER (§10.2 does not name them).
+`tag-a-9999` arithmetic (9999 = 78*128 + 15: agrees with §8.1.2.4.2). Still open: GeneralizedTime seconds 60 (ISO 8601), constructed time types under DER (§10.2 does not name them).
 
 ## 4. What the standard requires that asn1core does not cover
 

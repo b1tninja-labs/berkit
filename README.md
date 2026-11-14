@@ -23,7 +23,7 @@ This is a young library, not a vetted one. What is and is not established:
   independent of them. The independent checks are 40 real X.509 CA certificates, whose trees berkit reads
   identically to a separate Python reference walker (`crates/berkit/tests/data/real/`), and the primary-source
   clause readings recorded in the roadmap fragments.
-- **Unread references.** Rules that depend on X.660 (OID arcs), ISO 6093 (decimal REAL), ISO/IEC 10646 (UTF-8,
+- **Unread references.** Rules that depend on ISO 6093 (decimal REAL), ISO/IEC 10646 (UTF-8,
   BMP and UCS-4 rules), ISO 8601 (time) and the ISO register (Teletex, Videotex, Graphic and General string
   alphabets) are marked `[unread]` or `[open]`, not guessed.
 - **Not covered yet.** The typed layer validates against a caller-built schema but returns no values and
