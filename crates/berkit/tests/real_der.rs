@@ -115,6 +115,9 @@ const TBS: Schema<'static> = Schema::Sequence(Some(&[
         inner: &Schema::SequenceOf(&EXTENSION),
     }),
 ]));
+// Checked against RFC 5280 section 4.1 and Appendix A.1 (module `EXPLICIT TAGS`, so `[0]` and `[3]` are explicit,
+// and `[1]` and `[2]` say IMPLICIT): field order, tags, optionality and the two DEFAULTs match. What the typed layer
+// cannot say (ANY, CHOICE, SIZE (1..MAX), version-dependent fields) is tested by hand below.
 const CERTIFICATE: Schema<'static> =
     Schema::Sequence(Some(&[req(TBS), req(ALGORITHM), req(BIT_STRING)]));
 
@@ -174,12 +177,11 @@ fn validity_times_are_utc_or_generalized() {
         let root = Tlv::parse_exact(&der, Mode::Der, &Limits::DEFAULT).unwrap();
         let tbs = root.children().next().unwrap().unwrap();
         let mut kids: Vec<Tlv<'_>> = tbs.children().map(Result::unwrap).collect();
-        let validity = if kids[0].tag().class == Class::ContextSpecific {
+        if kids[0].tag().class == Class::ContextSpecific && kids[0].tag().number == 0 {
             kids.remove(0);
-            kids[3]
-        } else {
-            kids[3]
-        };
+        }
+        // serialNumber, signature, issuer, validity (RFC 5280 section 4.1).
+        let validity = kids[3];
         let times: Vec<Tlv<'_>> = validity.children().map(Result::unwrap).collect();
         assert_eq!(times.len(), 2, "{name}");
         for t in times {
@@ -195,6 +197,138 @@ fn validity_times_are_utc_or_generalized() {
                 .unwrap_or_else(|e| panic!("{name}: {e}"));
         }
     }
+}
+
+/// The root, the version value and the `TBSCertificate` children after the `[0]` version, which start at
+/// `serialNumber` (RFC 5280 section 4.1, `version [0] EXPLICIT Version DEFAULT v1`).
+fn tbs_fields(der: &[u8]) -> (Tlv<'_>, i128, Vec<Tlv<'_>>) {
+    let root = Tlv::parse_exact(der, Mode::Der, &Limits::DEFAULT).unwrap();
+    let tbs = root.children().next().unwrap().unwrap();
+    let mut kids: Vec<Tlv<'_>> = tbs.children().map(Result::unwrap).collect();
+    let mut version = 0;
+    if kids[0].tag().class == Class::ContextSpecific && kids[0].tag().number == 0 {
+        let v = kids.remove(0).children().next().unwrap().unwrap();
+        version = i128::from(*v.content().last().unwrap());
+    }
+    (root, version, kids)
+}
+
+// What the typed layer cannot say about RFC 5280 section 4.1, checked here by hand (the schema above has no ANY,
+// no CHOICE and no SIZE):
+//  * AlgorithmIdentifier ::= SEQUENCE { algorithm OBJECT IDENTIFIER, parameters ANY ... OPTIONAL } (4.1.1.2):
+//    the first component is an OID, there are at most two, and signatureAlgorithm MUST equal tbsCertificate's
+//    signature field.
+//  * AttributeTypeAndValue ::= SEQUENCE { type OBJECT IDENTIFIER, value ANY }, RelativeDistinguishedName ::= SET
+//    SIZE (1..MAX), and the issuer MUST be a non-empty DN (4.1.2.4).
+//  * Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension (4.1) and, per the ASN.1 comments, extensions only in a
+//    v3 certificate, unique identifiers only in v2 or v3 (4.1.2.8, 4.1.2.9).
+#[test]
+fn what_the_schema_cannot_say_holds_in_every_certificate() {
+    for (name, der) in certs() {
+        let (root, version, kids) = tbs_fields(&der);
+        let outer: Vec<Tlv<'_>> = root.children().map(Result::unwrap).collect();
+        // kids: serialNumber, signature, issuer, validity, subject, subjectPublicKeyInfo, then the optional tail.
+        let spki: Vec<Tlv<'_>> = kids[5].children().map(Result::unwrap).collect();
+        for (what, alg) in [
+            ("tbsCertificate.signature", kids[1]),
+            ("signatureAlgorithm", outer[1]),
+            ("subjectPublicKeyInfo.algorithm", spki[0]),
+        ] {
+            let parts: Vec<Tlv<'_>> = alg.children().map(Result::unwrap).collect();
+            assert!(
+                (1..=2).contains(&parts.len()) && parts[0].tag().number == 6,
+                "{name}: {what} is not SEQUENCE {{ OID, parameters OPTIONAL }}"
+            );
+        }
+        assert_eq!(
+            kids[1].encoding(),
+            outer[1].encoding(),
+            "{name}: signatureAlgorithm differs from tbsCertificate.signature (RFC 5280 section 4.1.1.2)"
+        );
+        for (what, dn) in [("issuer", kids[2]), ("subject", kids[4])] {
+            let rdns: Vec<Tlv<'_>> = dn.children().map(Result::unwrap).collect();
+            if what == "issuer" {
+                assert!(
+                    !rdns.is_empty(),
+                    "{name}: issuer is empty (section 4.1.2.4)"
+                );
+            }
+            for rdn in rdns {
+                let atvs: Vec<Tlv<'_>> = rdn.children().map(Result::unwrap).collect();
+                assert!(!atvs.is_empty(), "{name}: {what} has an empty RDN");
+                for atv in atvs {
+                    let parts: Vec<Tlv<'_>> = atv.children().map(Result::unwrap).collect();
+                    assert!(
+                        parts.len() == 2 && parts[0].tag().number == 6,
+                        "{name}: {what} AttributeTypeAndValue is not {{ OID, value }}"
+                    );
+                }
+            }
+        }
+        for t in &kids[6..] {
+            match t.tag().number {
+                1 | 2 => assert!(
+                    version >= 1,
+                    "{name}: unique identifier in a v1 certificate"
+                ),
+                3 => {
+                    assert_eq!(
+                        version, 2,
+                        "{name}: extensions in a certificate that is not v3"
+                    );
+                    let list = t.children().next().unwrap().unwrap();
+                    assert!(list.children().count() >= 1, "{name}: empty Extensions");
+                }
+                n => panic!("{name}: unexpected TBSCertificate field [{n}]"),
+            }
+        }
+    }
+}
+
+// RFC 5280 section 4.1.2.5.1 and 4.1.2.5.2: UTCTime is YYMMDDHHMMSSZ, GeneralizedTime is YYYYMMDDHHMMSSZ without
+// fractional seconds, and dates through 2049 MUST be UTCTime, 2050 and later MUST be GeneralizedTime. A UTCTime
+// reads as 19YY from 50 and 20YY below it, so it cannot express 2050 on its own; the check that remains is that
+// a GeneralizedTime is not used for a year the profile reserves for UTCTime.
+#[test]
+fn validity_times_follow_the_profile_encoding_rules() {
+    let mut early: Vec<String> = Vec::new();
+    for (name, der) in certs() {
+        let (_, _, kids) = tbs_fields(&der);
+        for t in kids[3].children().map(Result::unwrap) {
+            let text = std::str::from_utf8(t.content()).expect("ASCII time");
+            match t.tag().number {
+                23 => {
+                    assert!(
+                        text.len() == 13
+                            && text.ends_with('Z')
+                            && text[..12].bytes().all(|b| b.is_ascii_digit()),
+                        "{name}: UTCTime {text} is not YYMMDDHHMMSSZ"
+                    );
+                }
+                24 => {
+                    assert!(
+                        text.len() == 15
+                            && text.ends_with('Z')
+                            && text[..14].bytes().all(|b| b.is_ascii_digit()),
+                        "{name}: GeneralizedTime {text} is not YYYYMMDDHHMMSSZ"
+                    );
+                    let year: u32 = text[..4].parse().unwrap();
+                    if year < 2050 {
+                        early.push(format!("{name}: {text}"));
+                    }
+                }
+                n => panic!("{name}: validity time has tag {n}"),
+            }
+        }
+    }
+    // Certificates that break the MUST on the CA's side (the profile binds the CA, not the reader): a
+    // GeneralizedTime for a date before 2050. Listed so that a new one fails the test and a vanished one does too.
+    // 23.der is Certum Trusted Network CA 2 (notBefore 2011, notAfter 2046, both GeneralizedTime).
+    assert_eq!(
+        early,
+        ["23.der: 20111006083956Z", "23.der: 20461006083956Z"],
+        "certificates using GeneralizedTime before 2050"
+    );
 }
 
 #[test]
